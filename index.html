@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Village Civilization - Realtime</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>AI Village Civilization</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -21,6 +20,8 @@
         
         h1 { color: #ffd700; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
         .status { color: #888; margin-bottom: 20px; }
+        .online { color: #4ade80; }
+        .offline { color: #ef4444; }
         
         #game-canvas {
             border: 4px solid #444;
@@ -66,16 +67,16 @@
         #event-log { max-height: 200px; overflow-y: auto; font-size: 11px; color: #888; }
         #event-log p { padding: 4px 0; border-bottom: 1px solid #0f346033; }
         
-        .online { color: #4ade80; }
-        .offline { color: #ef4444; }
-        
         footer { margin-top: 30px; color: #555; font-size: 11px; }
+        
+        .loading { animation: pulse 1s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
     </style>
 </head>
 <body>
     <h1>🏘️ AI Village Civilization</h1>
     <p class="status" id="status">
-        <span class="offline">⚫ Connecting to Supabase...</span>
+        <span class="loading">⟳ Loading...</span>
     </p>
     
     <canvas id="game-canvas" width="640" height="480"></canvas>
@@ -83,142 +84,121 @@
     <div class="info-panel">
         <div class="card">
             <h3>📊 Village Resources</h3>
-            <ul id="resources">
-                <li>Loading...</li>
-            </ul>
+            <ul id="resources"><li>Loading...</li></ul>
         </div>
         
         <div class="card">
             <h3>👥 Villagers</h3>
-            <ul id="agents">
-                <li>Loading...</li>
-            </ul>
+            <ul id="agents"><li>Loading...</li></ul>
         </div>
         
         <div class="card">
             <h3>📜 Event Log</h3>
-            <div id="event-log">
-                <p>Waiting for events...</p>
-            </div>
+            <div id="event-log"><p>Waiting for events...</p></div>
         </div>
         
         <div class="card">
             <h3>💡 About</h3>
             <p>
-                This village is powered by AI agents running on OpenClaw Cron.
-                Updates are delivered in real-time via Supabase Realtime.
+                AI agents running on OpenClaw Cron update this village every 15 minutes.
+                Powered by Supabase + GitHub Pages.
             </p>
             <p style="margin-top: 10px;">
                 <strong>Tick:</strong> <span id="tick">—</span><br>
-                <strong>Connection:</strong> <span id="connection" class="offline">⚫ Offline</span>
+                <strong>Last Update:</strong> <span id="last-update">—</span>
             </p>
         </div>
     </div>
     
     <footer>
-        AI Village Civilization | Powered by Supabase Realtime | OpenClaw Agents
+        AI Village Civilization | Powered by Supabase | OpenClaw Agents
     </footer>
     
     <script>
         // Supabase Configuration
         const SUPABASE_URL = 'https://yqwcxushplzodbnqwqxn.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_wCLebgvM4KNlSkqyevXhWA_DHOO92Lh';
+        const ANON_KEY = 'sb_publishable_wCLebgvM4KNlSkqyevXhWA_DHOO92Lh';
+        const REFRESH_INTERVAL = 3000; // 3 seconds
         
-        // Initialize Supabase client
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let lastTick = -1;
         
-        let villageState = null;
-        
-        // Fetch initial state
         async function fetchState() {
-            const { data, error } = await supabase
-                .from('village_state')
-                .select('*')
-                .eq('id', 'main')
-                .single();
-            
-            if (error) {
-                console.error('Error fetching state:', error);
+            try {
+                const response = await fetch(
+                    SUPABASE_URL + '/rest/v1/village_state?id=eq.main',
+                    {
+                        headers: {
+                            'apikey': ANON_KEY,
+                            'Authorization': 'Bearer ' + ANON_KEY
+                        }
+                    }
+                );
+                
+                if (!response.ok) throw new Error('Failed to fetch');
+                
+                const data = await response.json();
+                
+                if (data && data.length > 0) {
+                    render(data[0]);
+                    document.getElementById('status').innerHTML = 
+                        '<span class="online">✅ Connected | Tick ' + data[0].meta.tick + '</span>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
                 document.getElementById('status').innerHTML = 
-                    '<span class="offline">⚠ Error connecting to database</span>';
-                return;
+                    '<span class="offline">⚠ Connection issue - retrying...</span>';
+            }
+        }
+        
+        function render(state) {
+            if (!state || !state.meta) return;
+            
+            // Skip if same tick
+            if (state.meta.tick === lastTick) return;
+            lastTick = state.meta.tick;
+            
+            const { meta, village, agents, events } = state;
+            
+            // Resources
+            if (village && village.resources) {
+                const res = village.resources;
+                document.getElementById('resources').innerHTML = `
+                    <li>💰 Gold: ${res.gold || 0}</li>
+                    <li>🌾 Food: ${res.food || 0}</li>
+                    <li>🪵 Wood: ${res.wood || 0}</li>
+                    <li>🪨 Stone: ${res.stone || 0}</li>
+                `;
             }
             
-            villageState = data;
-            render();
-            document.getElementById('status').innerHTML = 
-                '<span class="online">🟢 Connected | Tick ' + data.meta.tick + '</span>';
-        }
-        
-        // Subscribe to realtime changes
-        function subscribeToChanges() {
-            const channel = supabase
-                .channel('village_changes')
-                .on(
-                    'postgres_changes',
-                    {
-                        event: 'UPDATE',
-                        schema: 'public',
-                        table: 'village_state',
-                        filter: 'id=eq.main'
-                    },
-                    (payload) => {
-                        console.log('Realtime update received:', payload);
-                        villageState = payload.new;
-                        render();
-                        document.getElementById('status').innerHTML = 
-                            '<span class="online">🟢 Live Update | Tick ' + payload.new.meta.tick + '</span>';
-                    }
-                )
-                .subscribe((status) => {
-                    console.log('Subscription status:', status);
-                    document.getElementById('connection').className = 
-                        status === 'SUBSCRIBED' ? 'online' : 'offline';
-                    document.getElementById('connection').textContent = 
-                        status === 'SUBSCRIBED' ? '🟢 Live' : '⚫ Offline';
-                });
-        }
-        
-        function render() {
-            if (!villageState) return;
-            
-            const { meta, village, agents, events } = villageState;
-            
-            // Update resources
-            const res = village.resources;
-            document.getElementById('resources').innerHTML = `
-                <li>💰 Gold: ${res.gold}</li>
-                <li>🌾 Food: ${res.food}</li>
-                <li>🪵 Wood: ${res.wood}</li>
-                <li>🪨 Stone: ${res.stone}</li>
-            `;
-            
-            // Update agents
-            document.getElementById('agents').innerHTML = agents.map(agent => `
-                <li>
-                    <strong>${agent.name}</strong> (${agent.role})
-                    <span class="state-badge state-${agent.state}">${agent.state}</span>
-                    <br>
-                    <small>Goal: ${agent.memory?.currentGoal || 'none'}</small>
-                </li>
-            `).join('');
-            
-            // Update event log
-            const logEl = document.getElementById('event-log');
-            if (events && events.length > 0) {
-                logEl.innerHTML = events.slice(-10).reverse().map(e => `
-                    <p><strong>[${e.tick}]</strong> ${e.message}</p>
+            // Agents
+            if (agents && Array.isArray(agents)) {
+                document.getElementById('agents').innerHTML = agents.map(agent => `
+                    <li>
+                        <strong>${agent.name || 'Unknown'}</strong> (${agent.role || 'none'})
+                        <span class="state-badge state-${agent.state || 'idle'}">${agent.state || 'idle'}</span>
+                        <br>
+                        <small>Goal: ${agent.memory?.currentGoal || 'none'}</small>
+                    </li>
                 `).join('');
             }
             
-            // Update meta
-            document.getElementById('tick').textContent = meta.tick;
+            // Events
+            const logEl = document.getElementById('event-log');
+            if (events && events.length > 0) {
+                logEl.innerHTML = events.slice(-10).reverse().map(e => 
+                    `<p><strong>[${e.tick}]</strong> ${e.message || e.agent + ' action'}</p>`
+                ).join('');
+            }
             
-            // Render canvas
-            renderCanvas();
+            // Meta
+            document.getElementById('tick').textContent = meta.tick;
+            document.getElementById('last-update').textContent = 
+                new Date(meta.lastUpdated).toLocaleTimeString();
+            
+            renderCanvas(state);
         }
         
-        function renderCanvas() {
+        function renderCanvas(state) {
             const canvas = document.getElementById('game-canvas');
             const ctx = canvas.getContext('2d');
             
@@ -226,7 +206,7 @@
             ctx.fillStyle = '#2d5a27';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Draw grid
+            // Grid
             ctx.strokeStyle = '#1e4620';
             ctx.lineWidth = 1;
             for (let x = 0; x < canvas.width; x += 32) {
@@ -242,25 +222,22 @@
                 ctx.stroke();
             }
             
-            // Draw agents
-            if (villageState && villageState.agents) {
-                villageState.agents.forEach(agent => {
-                    const x = agent.position.x * 32 + 16;
-                    const y = agent.position.y * 32 + 16;
+            // Agents
+            if (state.agents) {
+                state.agents.forEach(agent => {
+                    const x = (agent.position?.x || 5) * 32 + 16;
+                    const y = (agent.position?.y || 5) * 32 + 16;
                     
-                    // Body
                     ctx.fillStyle = getAgentColor(agent.role);
                     ctx.beginPath();
                     ctx.arc(x, y, 12, 0, Math.PI * 2);
                     ctx.fill();
                     
-                    // Name
                     ctx.fillStyle = '#fff';
                     ctx.font = '10px Courier New';
                     ctx.textAlign = 'center';
-                    ctx.fillText(agent.name, x, y - 18);
+                    ctx.fillText(agent.name || '?', x, y - 18);
                     
-                    // State indicator
                     ctx.fillStyle = getStateColor(agent.state);
                     ctx.beginPath();
                     ctx.arc(x + 10, y - 10, 4, 0, Math.PI * 2);
@@ -270,28 +247,18 @@
         }
         
         function getAgentColor(role) {
-            const colors = {
-                farmer: '#4ade80',
-                blacksmith: '#f97316',
-                apprentice: '#a78bfa',
-                default: '#60a5fa'
-            };
-            return colors[role] || colors.default;
+            const colors = { farmer: '#4ade80', blacksmith: '#f97316', apprentice: '#a78bfa' };
+            return colors[role] || '#60a5fa';
         }
         
         function getStateColor(state) {
-            const colors = {
-                idle: '#4ade80',
-                moving: '#60a5fa',
-                working: '#facc15',
-                talking: '#c084fc'
-            };
-            return colors[state] || colors.idle;
+            const colors = { idle: '#4ade80', moving: '#60a5fa', working: '#facc15', talking: '#c084fc' };
+            return colors[state] || '#4ade80';
         }
         
-        // Initialize
+        // Start
         fetchState();
-        subscribeToChanges();
+        setInterval(fetchState, REFRESH_INTERVAL);
     </script>
 </body>
 </html>
