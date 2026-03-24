@@ -1,17 +1,17 @@
 {
   "meta": {
     "version": "1.0.0",
-    "lastUpdated": "2026-03-24T11:54:00.000000+00:00",
-    "tick": 26,
+    "lastUpdated": "2026-03-24T12:20:20.505671+00:00",
+    "tick": 27,
     "tickIntervalSeconds": 900
   },
   "village": {
     "name": "AI Village",
     "population": 3,
     "resources": {
-      "gold": 368,
+      "gold": 406,
       "food": 100,
-      "wood": 18,
+      "wood": 20,
       "stone": 32
     }
   },
@@ -27,11 +27,15 @@
         "agreeableness": 0.9,
         "neuroticism": 0.2
       },
-      "position": { "x": 5, "y": 4 },
-      "state": "foraging",
+      "position": {
+        "x": 5,
+        "y": 5
+      },
+      "state": "farming",
       "inventory": [],
       "memory": {
         "observations": [
+          "Foraged wood from forest (+8 wood)",
           "Village gold crossed 350 milestone! Community celebration warranted",
           "Wood reserves at 18 — slightly concerning but sustainable zone helping",
           "Village granary stable at 100 food — harvest rotation working",
@@ -42,7 +46,7 @@
           "Wood supply requires continued attention despite recovery progress",
           "Balance between foraging and farm rest proves village wisdom"
         ],
-        "currentGoal": "maintaining sustainable wood supply while celebrating village milestone"
+        "currentGoal": "preparing fields for next harvest cycle"
       }
     },
     {
@@ -56,11 +60,15 @@
         "agreeableness": 0.6,
         "neuroticism": 0.4
       },
-      "position": { "x": 10, "y": 8 },
-      "state": "crafting",
+      "position": {
+        "x": 11,
+        "y": 8
+      },
+      "state": "resting",
       "inventory": [],
       "memory": {
         "observations": [
+          "Crafted hybrid stone-tools at forge (+18 gold)",
           "Village gold at 368 — crossed 350 milestone! New chapter begins",
           "Wood reserves at 18 — forge supply manageable but watch closely",
           "Stone at 32 — opportunity for stone-tool hybrid crafts",
@@ -71,7 +79,7 @@
           "Stone crafting could open new revenue stream alongside tools",
           "Forge sustainability depends on continued wood supply collaboration"
         ],
-        "currentGoal": "crafting tools while exploring stone-tool hybrid designs for diversification"
+        "currentGoal": "resting before next gathering run"
       }
     },
     {
@@ -85,15 +93,31 @@
         "agreeableness": 0.7,
         "neuroticism": 0.3
       },
-      "position": { "x": 8, "y": 4 },
-      "state": "trading",
+      "position": {
+        "x": 8,
+        "y": 3
+      },
+      "state": "studying",
       "inventory": [
-        { "name": "jade amulet", "type": "artifact", "donated": true },
-        { "name": "carved stone tablet", "type": "artifact", "donated": false },
-        { "name": "vision water", "type": "consumable", "donated": false }
+        {
+          "name": "jade amulet",
+          "type": "artifact",
+          "donated": true
+        },
+        {
+          "name": "carved stone tablet",
+          "type": "artifact",
+          "donated": false
+        },
+        {
+          "name": "vision water",
+          "type": "consumable",
+          "donated": false
+        }
       ],
       "memory": {
         "observations": [
+          "Sold remedies to traveling merchants (+20 gold)",
           "Village gold at 368 — remedy trade key to crossing 350 milestone",
           "Merchants specifically asking for 'Remedy of the Northern Spring' by name",
           "Northern Cliffs quarry could provide tradeable stone materials",
@@ -104,11 +128,28 @@
           "Building reputation takes time but pays compound dividends",
           "Stone trade could complement remedy revenue nicely"
         ],
-        "currentGoal": "expanding remedy production to meet growing merchant demand"
+        "currentGoal": "studying ancient remedy texts for improved formulas"
       }
     }
   ],
   "events": [
+    {
+      "tick": 27,
+      "timestamp": "2026-03-24T12:20:20.505671+00:00",
+      "type": "tick",
+      "summary": "Tick 27: Village Gold 406 🎉 — Alice forages (+8w), Bob crafts hybrid tools (+18g), Carol remedy trade (+20g) — 350 milestone sustained!",
+      "agents": {
+        "alice": "foraging (+8 wood)",
+        "bob": "crafting (+18 gold)",
+        "carol": "trading (+20 gold)"
+      },
+      "resourceDelta": {
+        "gold": 36,
+        "wood": 4,
+        "food": 100,
+        "stone": 32
+      }
+    },
     {
       "id": "evt_26_alice",
       "tick": 26,
