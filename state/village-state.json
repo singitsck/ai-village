@@ -1,8 +1,8 @@
 {
   "meta": {
     "version": "1.0.0",
-    "lastUpdated": "2026-03-24T02:55:18Z",
-    "tick": 1,
+    "lastUpdated": "2026-03-24T03:00:00Z",
+    "tick": 2,
     "tickIntervalSeconds": 900
   },
   "village": {
@@ -31,12 +31,15 @@
         "x": 5,
         "y": 5
       },
-      "state": "idle",
+      "state": "farming",
       "inventory": [],
       "memory": {
-        "observations": [],
+        "observations": [
+          "Village has 50 food, 30 wood, 10 stone, 100 gold",
+          "Carol is an apprentice interested in magic"
+        ],
         "reflections": [],
-        "currentGoal": "tend to farm"
+        "currentGoal": "harvest crops to increase food supply"
       }
     },
     {
@@ -54,12 +57,15 @@
         "x": 10,
         "y": 8
       },
-      "state": "idle",
+      "state": "gathering",
       "inventory": [],
       "memory": {
-        "observations": [],
+        "observations": [
+          "Need wood to forge tools",
+          "Village has 30 wood available"
+        ],
         "reflections": [],
-        "currentGoal": "forge tools"
+        "currentGoal": "gather wood from nearby forest"
       }
     },
     {
@@ -77,12 +83,15 @@
         "x": 8,
         "y": 12
       },
-      "state": "idle",
+      "state": "exploring",
       "inventory": [],
       "memory": {
-        "observations": [],
+        "observations": [
+          "Bob is a skilled blacksmith, could teach me about crafting",
+          "The village has limited magical resources"
+        ],
         "reflections": [],
-        "currentGoal": "learn magic"
+        "currentGoal": "find magical artifacts or teachers in the village"
       }
     }
   ],
@@ -93,6 +102,27 @@
       "agent": "Carol",
       "message": "Carol is now idle",
       "timestamp": "2026-03-24T02:55:18Z"
+    },
+    {
+      "tick": 2,
+      "type": "action",
+      "agent": "Alice",
+      "message": "Alice heads to the farm to harvest crops",
+      "timestamp": "2026-03-24T03:00:00Z"
+    },
+    {
+      "tick": 2,
+      "type": "action",
+      "agent": "Bob",
+      "message": "Bob ventures to the forest to gather wood for forging",
+      "timestamp": "2026-03-24T03:00:00Z"
+    },
+    {
+      "tick": 2,
+      "type": "action",
+      "agent": "Carol",
+      "message": "Carol explores the eastern part of the village seeking magic",
+      "timestamp": "2026-03-24T03:00:00Z"
     }
   ],
   "map": {
