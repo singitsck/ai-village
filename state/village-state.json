@@ -1,17 +1,17 @@
 {
   "meta": {
     "version": "1.0.0",
-    "lastUpdated": "2026-03-24T10:15:00.000000+00:00",
-    "tick": 23,
+    "lastUpdated": "2026-03-24T10:53:00.000000+00:00",
+    "tick": 24,
     "tickIntervalSeconds": 900
   },
   "village": {
     "name": "AI Village",
     "population": 3,
     "resources": {
-      "gold": 284,
+      "gold": 312,
       "food": 100,
-      "wood": 25,
+      "wood": 18,
       "stone": 32
     }
   },
@@ -27,21 +27,22 @@
         "agreeableness": 0.9,
         "neuroticism": 0.2
       },
-      "position": { "x": 6, "y": 6 },
-      "state": "harvesting",
+      "position": { "x": 5, "y": 4 },
+      "state": "foraging",
       "inventory": [],
       "memory": {
         "observations": [
-          "Village prosperity at peak — food 100, gold 284, thriving community",
-          "Community gathering mission with Bob was successful — wood reserves restored",
-          "Village granary full at 100 food — fields well-deserving of rest"
+          "Village gold at 312 — unprecedented prosperity continues",
+          "Wood reserves dropped to 18 — approaching sustainability concern",
+          "Village granary full at 100 food — fields well-deserving of rest",
+          "Bob expressed concern about forge wood supply — community spirit needed"
         ],
         "reflections": [
           "Community strength shines when pillars work together",
-          "With wood restored, Bob can return to forging",
-          "Fields are ready for next harvest cycle"
+          "With fields resting, I can help restore wood for the forge",
+          "Helping Bob today strengthens village tomorrow"
         ],
-        "currentGoal": "harvesting from flourishing fields to maintain abundance"
+        "currentGoal": "gathering wood to support village forge operations"
       }
     },
     {
@@ -60,17 +61,17 @@
       "inventory": [],
       "memory": {
         "observations": [
-          "Village gold at 284 — forge productivity at new records",
-          "Wood reserves at 25 — sustainable for current forge demand",
-          "Alice's help on gathering expedition was invaluable — village community strengthened",
-          "Village gold at 272 — medicine pillar emerging alongside craft"
+          "Village gold at 312 — forge productivity sustaining village prosperity",
+          "Wood reserves at 18 — sustainable for today, concerning for tomorrow",
+          "Alice offered to help gather wood — community pillar strengthening",
+          "Carol's remedy trade attracting merchant caravans"
         ],
         "reflections": [
-          "With 34 wood, sustainable craft production continues",
-          "Village gold approaching 300 — unprecedented prosperity",
-          "Forge remains village prosperity engine"
+          "Forge productivity at peak — but wood supply needs attention",
+          "With Alice's help, wood reserves can recover sustainably",
+          "Village gold approaching 350 — craft pillar remains vital"
         ],
-        "currentGoal": "crafting quality tools for village trade"
+        "currentGoal": "crafting quality tools while wood supply recovers"
       }
     },
     {
@@ -84,8 +85,8 @@
         "agreeableness": 0.7,
         "neuroticism": 0.3
       },
-      "position": { "x": 7, "y": 7 },
-      "state": "studying",
+      "position": { "x": 8, "y": 4 },
+      "state": "trading",
       "inventory": [
         { "name": "jade amulet", "type": "artifact", "donated": true },
         { "name": "carved stone tablet", "type": "artifact", "donated": false },
@@ -93,46 +94,47 @@
       ],
       "memory": {
         "observations": [
-          "Remedy documentation complete — traders showing strong interest",
-          "Hidden Spring remedy attracting merchant attention",
-          "Village medicine pillar emerging alongside food, craft, wisdom"
+          "First merchant caravan arrived seeking remedies — village medicine gaining reputation",
+          "Remedy of the Northern Spring now valued at 16 gold per batch",
+          "Alice gathering wood while I negotiate — community collaboration flourishing",
+          "Northern Cliffs quarry site could supply stone for future trade"
         ],
         "reflections": [
-          "A fourth pillar is born — medicine joins food, craft, and wisdom",
-          "Documentation opens door to village remedy trade",
-          "Village prosperity grows with each new pillar"
+          "Medicine pillar now fifth pillar of village economy",
+          "Merchants returning — sustainable remedy supply chain needed",
+          "Village prosperity at all-time high — gold 312, four pillars thriving"
         ],
-        "currentGoal": "finalizing remedy documentation for trader outreach"
+        "currentGoal": "securing first bulk remedy trade deal with arriving merchants"
       }
     }
   ],
   "events": [
     {
-      "id": "evt_23_alice",
-      "tick": 23,
+      "id": "evt_24_alice",
+      "tick": 24,
       "type": "action",
       "agent": "alice",
-      "description": "Alice harvests from flourishing fields (+8 food, capped at 100) — granary remains full and abundant"
+      "description": "Alice ventures to forest edge to gather wood — community spirit drives her to support the forge (+7 wood) — sustainable gathering preserves ecosystem"
     },
     {
-      "id": "evt_23_bob",
-      "tick": 23,
+      "id": "evt_24_bob",
+      "tick": 24,
       "type": "action",
       "agent": "bob",
-      "description": "Bob fires up the forge with sustainable wood supply — crafts 3 quality tools (+12 gold) — village gold approaching 300!"
+      "description": "Bob fires forge with gratitude for Alice's wood gathering — crafts 4 quality tools (+16 gold) — village gold smashes through 300!"
     },
     {
-      "id": "evt_23_carol",
-      "tick": 23,
+      "id": "evt_24_carol",
+      "tick": 24,
       "type": "action",
       "agent": "carol",
-      "description": "Carol completes remedy documentation and presents to traders — 'Remedy of the Northern Spring' officially listed (+8 gold)"
+      "description": "Carol completes first bulk remedy trade with merchant caravan — 'Remedy of the Northern Spring' sells 2 batches (+12 gold) — medicine pillar celebrates first major trade"
     },
     {
-      "id": "evt_23_milestone",
-      "tick": 23,
+      "id": "evt_24_milestone",
+      "tick": 24,
       "type": "milestone",
-      "description": "Village Gold Approaches 300! Village prosperity unprecedented — Food 100, Gold 284, Medicine pillar born! Four pillars now guide village destiny."
+      "description": "Village Gold Smashes 300! Alice's community foraging saves the forge — Carol's medicine trade flourishes. Gold 312, Wood recovering, Medicine pillar thriving!"
     }
   ],
   "map": {
@@ -142,7 +144,8 @@
       "Hidden Spring at (8, 4) — luminescent healing properties documented, remedy trade established",
       "Southern Ruins: Jade Amulet + carved stone tablet — ancient balance philosophy uncovered",
       "Eastern Ruins: Ancient journal + completed sacred sites map — village heritage documented",
-      "Northern Cliffs: Potential quarry site identified — future stone production possible"
+      "Northern Cliffs: Potential quarry site identified — future stone production possible",
+      "Forest Edge at (5, 3) — sustainable wood foraging zone discovered"
     ]
   }
 }
