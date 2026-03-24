@@ -1,18 +1,18 @@
 {
   "meta": {
     "version": "1.0.0",
-    "lastUpdated": "2026-03-24T08:06:00Z",
-    "tick": 19,
+    "lastUpdated": "2026-03-24T08:50:00Z",
+    "tick": 20,
     "tickIntervalSeconds": 900
   },
   "village": {
     "name": "AI Village",
     "population": 3,
     "resources": {
-      "gold": 220,
+      "gold": 240,
       "food": 100,
-      "wood": 34,
-      "stone": 26
+      "wood": 36,
+      "stone": 28
     }
   },
   "agents": [
@@ -31,16 +31,17 @@
         "x": 5,
         "y": 6
       },
-      "state": "farming",
+      "state": "resting",
       "inventory": [],
       "memory": {
         "observations": [
-          "Village prosperity is at its peak \u2014 food at 100, gold at 220, and a thriving community",
+          "Village granary is full at 100 food — a moment of well-earned rest for the fields",
+          "Village prosperity is at its peak — food at 100, gold at 220, and a thriving community",
           "Preparing the fields for the next harvest cycle to maintain village abundance",
-          "Village food reached 100 \u2014 a historic milestone!",
-          "Village has 100 food, 42 wood, 14 stone, 125 gold \u2014 village prosperity at an all-time high!",
-          "Another successful harvest brings village food to 100 \u2014 a new milestone!",
-          "Village has 100 food, 52 wood, 16 stone, 125 gold \u2014 village prosperity growing!",
+          "Village food reached 100 — a historic milestone!",
+          "Village has 100 food, 42 wood, 14 stone, 125 gold — village prosperity at an all-time high!",
+          "Another successful harvest brings village food to 100 — a new milestone!",
+          "Village has 100 food, 52 wood, 16 stone, 125 gold — village prosperity growing!",
           "Village has 92 food, 32 wood, 14 stone, 120 gold",
           "Carol is an apprentice interested in magic",
           "Harvested crops successfully (+8 food)",
@@ -48,21 +49,22 @@
           "Fields are prepared, next harvest will be bountiful (+12 food expected)",
           "Bob crafted tools at the forge (+10 gold from trade)",
           "Harvested crops successfully (+8 food)",
-          "The village is bursting with abundance \u2014 a perfect time to invest in future harvests",
-          "Well-tended fields yield better crops \u2014 spent time clearing irrigation channels",
+          "The village is bursting with abundance — a perfect time to invest in future harvests",
+          "Well-tended fields yield better crops — spent time clearing irrigation channels",
           "Fields are prepared, next harvest will be bountiful",
           "Village has 100 food, 22 wood, 16 stone, 155 gold",
-          "Village has 100 food, 24 wood, 16 stone, 170 gold \u2014 gold growing from Bob's forge!",
-          "Village food at 100 \u2014 granary full and thriving!",
+          "Village has 100 food, 24 wood, 16 stone, 170 gold — gold growing from Bob's forge!",
+          "Village food at 100 — granary full and thriving!",
           "Harvested crops successfully (+8 food, capped at 100)",
-          "Village has 100 food, 34 wood, 21 stone, 195 gold \u2014 craft pillar growing strong",
-          "Bob gathered good wood reserves \u2014 forge can operate sustainably now",
-          "Irrigation channels cleared \u2014 prepared fields will yield bonus next harvest",
-          "Village has 100 food, 34 wood, 21 stone, 195 gold \u2014 granary overflowing!",
-          "Village granary overflows \u2014 food abundance maintained through careful harvesting",
-          "Village has 100 food, 34 wood, 21 stone, 195 gold \u2014 balanced prosperity continues"
+          "Village has 100 food, 34 wood, 21 stone, 195 gold — craft pillar growing strong",
+          "Bob gathered good wood reserves — forge can operate sustainably now",
+          "Irrigation channels cleared — prepared fields will yield bonus next harvest",
+          "Village has 100 food, 34 wood, 21 stone, 195 gold — granary overflowing!",
+          "Village granary overflows — food abundance maintained through careful harvesting",
+          "Village has 100 food, 34 wood, 21 stone, 195 gold — balanced prosperity continues"
         ],
         "reflections": [
+          "The fields have given their all this season — letting them rest ensures next harvest will be equally bountiful",
           "With the granary full, the village can focus on crafts and exploration",
           "Farming is rewarding when the weather is good",
           "The village is well-stocked with food now",
@@ -73,13 +75,13 @@
           "Reaching 100 food is a significant achievement for the village",
           "The village deserves a moment to appreciate our accomplishments",
           "Investing time in irrigation now means larger harvests later",
-          "The village is prosperous \u2014 time to focus on maintaining the fields for sustained abundance",
+          "The village is prosperous — time to focus on maintaining the fields for sustained abundance",
           "The three pillars prophecy reminds me: balance is key to lasting prosperity",
           "With the granary full, the village is secure for the season",
-          "Irrigation channels cleared \u2014 prepared fields will yield bonus next harvest",
-          "Irrigation work pays off \u2014 fields remain productive even at peak harvest"
+          "Irrigation channels cleared — prepared fields will yield bonus next harvest",
+          "Irrigation work pays off — fields remain productive even at peak harvest"
         ],
-        "currentGoal": "prepare fields for a strong next harvest cycle"
+        "currentGoal": "rest the fields and prepare for the next planting cycle"
       }
     },
     {
@@ -97,14 +99,15 @@
         "x": 12,
         "y": 8
       },
-      "state": "gathering",
+      "state": "crafting",
       "inventory": [],
       "memory": {
         "observations": [
+          "Village gold at 220 — the forge has never been more productive",
           "Heading to the forest to replenish wood supplies after a successful forging session",
-          "Wood supplies at 34 \u2014 need to gather more before next forge session",
-          "Wood supplies at 52 \u2014 excellent reserves for a productive forge session",
-          "Carol found a jade amulet in the southern ruins \u2014 donated to village (+5 gold)",
+          "Wood supplies at 34 — need to gather more before next forge session",
+          "Wood supplies at 52 — excellent reserves for a productive forge session",
+          "Carol found a jade amulet in the southern ruins — donated to village (+5 gold)",
           "Gathered good quality wood from the forest (+8 wood)",
           "Village has 40 wood available after gathering",
           "Found some stone near the forest edge (+2 stone)",
@@ -112,27 +115,28 @@
           "Crafted 2 wood tools at the forge (+10 gold from village trade)",
           "Village wealth is growing with tool production",
           "Wood supplies are getting low, need to gather more before next forge session",
-          "Village gold reached 120 \u2014 new milestone!",
+          "Village gold reached 120 — new milestone!",
           "Gathered additional wood from forest (+10 wood)",
           "Gathered wood and stone from forest (+10 wood, +2 stone)",
-          "Village gold at 140 \u2014 Carol's discoveries are attracting traders",
-          "Wood supplies at 52 \u2014 perfect for crafting before gathering season ends",
+          "Village gold at 140 — Carol's discoveries are attracting traders",
+          "Wood supplies at 52 — perfect for crafting before gathering season ends",
           "Crafted 4 quality tools at the forge (+15 gold from village trade)",
-          "Village gold at 155 \u2014 forge is the engine of village prosperity!",
-          "Village gold now at 170 \u2014 craft and trade keeping the village wealthy",
-          "Wood supplies at 24 \u2014 gathering more to restock the forge",
-          "Wood supplies at 20 \u2014 must gather more before next forge session",
+          "Village gold at 155 — forge is the engine of village prosperity!",
+          "Village gold now at 170 — craft and trade keeping the village wealthy",
+          "Wood supplies at 24 — gathering more to restock the forge",
+          "Wood supplies at 20 — must gather more before next forge session",
           "Carol's prophecy confirms: the forge is the craft pillar of village prosperity",
-          "Gathered wood and stone from forest (+10 wood, +2 stone) \u2014 wood reserves recovering",
-          "Village gold at 195 \u2014 craft pillar thriving!",
-          "Wood supplies now at 34 \u2014 sustainable for regular forge sessions",
-          "Village gold at 195 \u2014 craft pillar strong but wood supply needs restocking before next forge run",
-          "Village gold at 195 \u2014 craft pillar strong but wood supply needs restocking before next forge run",
-          "Gathered wood and stone from forest (+10 wood, +3 stone) \u2014 reserves replenished",
-          "Crafted 4 quality tools at the forge (+15 gold) \u2014 forge remains village prosperity engine",
-          "Village gold at 220 \u2014 craft and wisdom pillars both generating wealth now!"
+          "Gathered wood and stone from forest (+10 wood, +2 stone) — wood reserves recovering",
+          "Village gold at 195 — craft pillar thriving!",
+          "Wood supplies now at 34 — sustainable for regular forge sessions",
+          "Village gold at 195 — craft pillar strong but wood supply needs restocking before next forge run",
+          "Village gold at 195 — craft pillar strong but wood supply needs restocking before next forge run",
+          "Gathered wood and stone from forest (+10 wood, +3 stone) — reserves replenished",
+          "Crafted 4 quality tools at the forge (+15 gold) — forge remains village prosperity engine",
+          "Village gold at 220 — craft and wisdom pillars both generating wealth now!"
         ],
         "reflections": [
+          "With 44 wood I can craft 4 quality tools — sustainable production keeps the village prosperous",
           "With 220 gold, the village economy is the strongest it has ever been",
           "Quality wood makes better tools",
           "With more wood, I can craft more tools for the village",
@@ -142,18 +146,18 @@
           "With 52 wood, I can have a very productive crafting session",
           "The village's jade amulet discovery diversifies our wealth",
           "With 32 wood remaining, I should gather more before the next forge run",
-          "The forge session was successful \u2014 4 tools crafted and sold for good profit",
-          "Wood at 22 is too low \u2014 must gather before the next forge run",
+          "The forge session was successful — 4 tools crafted and sold for good profit",
+          "Wood at 22 is too low — must gather before the next forge run",
           "Steady wood supply ensures the forge never goes idle",
           "With wood running low, gathering is the priority before the next forge run",
-          "Wood supplies are recovering \u2014 forge can operate again soon",
-          "Village craft pillar at 195 gold \u2014 the forge has never been more productive",
-          "Wood at 34 \u2014 need to gather more before the next forge session to maintain sustainable production",
-          "With 44 wood I could have a productive forge session \u2014 gathered enough to sustain production",
-          "Village gold at 210 \u2014 the forge is the engine of lasting village prosperity",
-          "Village gold at 220 \u2014 the forge and ancient map tourism keep wealth flowing"
+          "Wood supplies are recovering — forge can operate again soon",
+          "Village craft pillar at 195 gold — the forge has never been more productive",
+          "Wood at 34 — need to gather more before the next forge session to maintain sustainable production",
+          "With 44 wood I could have a productive forge session — gathered enough to sustain production",
+          "Village gold at 210 — the forge is the engine of lasting village prosperity",
+          "Village gold at 220 — the forge and ancient map tourism keep wealth flowing"
         ],
-        "currentGoal": "gather wood from the forest to restock the forge"
+        "currentGoal": "craft quality tools at the forge to maintain village gold growth"
       }
     },
     {
@@ -171,7 +175,7 @@
         "x": 8,
         "y": 3
       },
-      "state": "studying",
+      "state": "exploring",
       "inventory": [
         {
           "name": "jade amulet",
@@ -191,11 +195,12 @@
       ],
       "memory": {
         "observations": [
+          "Hidden Spring water collected — luminescent properties suggest healing potential worth testing",
           "With the ruins mapped, the Hidden Spring remains the most mysterious unexplored resource",
           "The Hidden Spring water could be collected and used as a village healing remedy",
           "The carved stone tablet mentions a 'well of visions' deep within the eastern ruins",
           "A carved stone tablet found near the amulet speaks of 'the three pillars of balance: food, craft, and wisdom'",
-          "The southern ruins are rich with artifacts \u2014 this site was clearly important to the ancient civilization",
+          "The southern ruins are rich with artifacts — this site was clearly important to the ancient civilization",
           "Carol found a small jade amulet in the southern ruins! Donated to village for +5 gold",
           "Bob is a skilled blacksmith, could teach me about crafting",
           "The village has limited magical resources",
@@ -207,21 +212,22 @@
           "Carol ventures east toward the legendary well of visions",
           "Carol explores the eastern ruins seeking the legendary well of visions",
           "The Well of Visions! Its waters reflect not the sky, but fragments of possible futures",
-          "Drank from the Well of Visions \u2014 visions of the village thriving, its three pillars balanced: golden wheat fields, glowing forge, and luminous archives",
+          "Drank from the Well of Visions — visions of the village thriving, its three pillars balanced: golden wheat fields, glowing forge, and luminous archives",
           "The Well of Visions shows the path forward: balance between food, craft, and wisdom",
-          "The carved stone tablet speaks of 'three pillars of balance: food, craft, and wisdom' \u2014 the village is achieving this!",
-          "The village has heard the three pillars prophecy \u2014 food, craft, and wisdom now guide all decisions",
+          "The carved stone tablet speaks of 'three pillars of balance: food, craft, and wisdom' — the village is achieving this!",
+          "The village has heard the three pillars prophecy — food, craft, and wisdom now guide all decisions",
           "Village wisdom pillar is now as strong as the fields and forge",
-          "Three Pillars Balance achieved \u2014 the ancient prophecy is fulfilled",
-          "The village walks the path of balance \u2014 all three pillars in harmony",
-          "Carol begins documenting the ancient ruins map \u2014 recording sacred sites for future generations",
-          "The ruins map is taking shape \u2014 documenting the Hidden Spring, southern ruins, and Well of Visions",
-          "Ruins map first draft complete \u2014 Hidden Spring, Southern Ruins, and Well of Visions all documented",
-          "Shared the completed ancient map with villagers \u2014 they marvel at the wisdom of their ancestors",
+          "Three Pillars Balance achieved — the ancient prophecy is fulfilled",
+          "The village walks the path of balance — all three pillars in harmony",
+          "Carol begins documenting the ancient ruins map — recording sacred sites for future generations",
+          "The ruins map is taking shape — documenting the Hidden Spring, southern ruins, and Well of Visions",
+          "Ruins map first draft complete — Hidden Spring, Southern Ruins, and Well of Visions all documented",
+          "Shared the completed ancient map with villagers — they marvel at the wisdom of their ancestors",
           "Village tourism grows as traders hear of the documented sacred sites (+10 gold)"
         ],
         "reflections": [
-          "Ancient villages often revered springs as sacred \u2014 the village could designate it a protected site",
+          "If the spring truly has healing properties, the village could develop a medicine trade pillar alongside craft and food",
+          "Ancient villages often revered springs as sacred — the village could designate it a protected site",
           "Ancient knowledge is worth more than gold",
           "The journal's secrets could help the village",
           "The Hidden Spring may hold magical properties worth studying",
@@ -229,16 +235,16 @@
           "Documentation is key to preserving discoveries for future generations",
           "The village should consider protecting the spring as a sacred site",
           "The southern ruins reveal a civilization that valued balance between food, craft, and wisdom",
-          "The 'well of visions' is real \u2014 and its prophetic waters show the path to true village prosperity",
+          "The 'well of visions' is real — and its prophetic waters show the path to true village prosperity",
           "The village has achieved food abundance, growing craft wealth, and now gains wisdom from the ancient prophecies",
           "The three pillars are aligning: food (Alice's harvests), craft (Bob's forge), wisdom (Carol's discoveries)",
-          "The prophecy is fulfilled \u2014 the village now walks the path of balance",
+          "The prophecy is fulfilled — the village now walks the path of balance",
           "With the three pillars achieved, the village could be ready for new challenges",
           "Mapping the ruins preserves their knowledge for future generations",
           "Mapping the ruins preserves their knowledge for future generations",
-          "The ancient map is a gift to the village \u2014 their heritage secured for centuries to come"
+          "The ancient map is a gift to the village — their heritage secured for centuries to come"
         ],
-        "currentGoal": "investigate the Hidden Spring for practical village applications"
+        "currentGoal": "test Hidden Spring water healing properties for village benefit"
       }
     }
   ],
@@ -261,14 +267,14 @@
       "tick": 12,
       "type": "action",
       "agent": "Carol",
-      "message": "Carol discovers the legendary Well of Visions \u2014 its waters reflect possible futures! She drinks and sees the village at peace, three pillars balanced: golden fields, glowing forge, and luminous archives.",
+      "message": "Carol discovers the legendary Well of Visions — its waters reflect possible futures! She drinks and sees the village at peace, three pillars balanced: golden fields, glowing forge, and luminous archives.",
       "timestamp": "2026-03-24T04:55:00Z"
     },
     {
       "tick": 12,
       "type": "discovery",
       "agent": "Carol",
-      "message": "LEGENDARY DISCOVERY! The Well of Visions reveals the path to true village prosperity \u2014 all three pillars balanced. Carol fills a vial with vision water to share with the village.",
+      "message": "LEGENDARY DISCOVERY! The Well of Visions reveals the path to true village prosperity — all three pillars balanced. Carol fills a vial with vision water to share with the village.",
       "timestamp": "2026-03-24T04:55:00Z"
     },
     {
@@ -310,14 +316,14 @@
       "tick": 14,
       "type": "action",
       "agent": "Carol",
-      "message": "Carol gathers villagers at the village center and shares the Well of Visions prophecies \u2014 the ancient wisdom of 'three pillars: food, craft, and wisdom' now guides the village",
+      "message": "Carol gathers villagers at the village center and shares the Well of Visions prophecies — the ancient wisdom of 'three pillars: food, craft, and wisdom' now guides the village",
       "timestamp": "2026-03-24T05:42:00Z"
     },
     {
       "tick": 14,
       "type": "discovery",
       "agent": "Carol",
-      "message": "Wisdom shared! Carol teaches the village the prophecy of the three pillars \u2014 the ancient civilization's secret to lasting prosperity. Village wisdom pillar strengthened.",
+      "message": "Wisdom shared! Carol teaches the village the prophecy of the three pillars — the ancient civilization's secret to lasting prosperity. Village wisdom pillar strengthened.",
       "timestamp": "2026-03-24T05:42:00Z"
     },
     {
@@ -338,14 +344,14 @@
       "tick": 15,
       "type": "action",
       "agent": "Carol",
-      "message": "Carol shares the three pillars prophecy with the village \u2014 the ancient path to balance now guides all decisions",
+      "message": "Carol shares the three pillars prophecy with the village — the ancient path to balance now guides all decisions",
       "timestamp": "2026-03-24T06:04:54Z"
     },
     {
       "tick": 15,
       "type": "milestone",
       "agent": "Village",
-      "message": "Three Pillars Balance Achieved! Food:100, Craft:180 gold, Wisdom: Carol's teachings \u2014 the village prospers in harmony!",
+      "message": "Three Pillars Balance Achieved! Food:100, Craft:180 gold, Wisdom: Carol's teachings — the village prospers in harmony!",
       "timestamp": "2026-03-24T06:04:54Z"
     },
     {
@@ -359,21 +365,21 @@
       "tick": 16,
       "type": "action",
       "agent": "Bob",
-      "message": "Bob fires up the forge with renewed wood reserves \u2014 crafts 5 quality tools (+15 gold) from sustainable supply",
+      "message": "Bob fires up the forge with renewed wood reserves — crafts 5 quality tools (+15 gold) from sustainable supply",
       "timestamp": "2026-03-24T06:44:00Z"
     },
     {
       "tick": 16,
       "type": "action",
       "agent": "Carol",
-      "message": "Carol begins documenting the ancient ruins map \u2014 recording sacred sites for future generations",
+      "message": "Carol begins documenting the ancient ruins map — recording sacred sites for future generations",
       "timestamp": "2026-03-24T06:44:00Z"
     },
     {
       "tick": 16,
       "type": "milestone",
       "agent": "Village",
-      "message": "Village Gold Crosses 195! Craft pillar reaches new heights \u2014 the forge is the engine of lasting prosperity.",
+      "message": "Village Gold Crosses 195! Craft pillar reaches new heights — the forge is the engine of lasting prosperity.",
       "timestamp": "2026-03-24T06:44:00Z"
     },
     {
@@ -387,42 +393,42 @@
       "tick": 17,
       "type": "action",
       "agent": "Bob",
-      "message": "Bob ventures into the forest to replenish wood supplies (+10 wood, +2 stone) \u2014 forge needs sustainable stock",
+      "message": "Bob ventures into the forest to replenish wood supplies (+10 wood, +2 stone) — forge needs sustainable stock",
       "timestamp": "2026-03-24T07:05:00Z"
     },
     {
       "tick": 17,
       "type": "action",
       "agent": "Carol",
-      "message": "Carol completes the first draft of the ancient ruins map \u2014 sacred sites documented for future generations",
+      "message": "Carol completes the first draft of the ancient ruins map — sacred sites documented for future generations",
       "timestamp": "2026-03-24T07:05:00Z"
     },
     {
       "tick": 18,
       "type": "action",
       "agent": "Alice",
-      "message": "Alice harvests from the flourishing fields (+8 food, granary remains at 100 \u2014 abundance sustained!)",
+      "message": "Alice harvests from the flourishing fields (+8 food, granary remains at 100 — abundance sustained!)",
       "timestamp": "2026-03-24T07:46:00Z"
     },
     {
       "tick": 18,
       "type": "action",
       "agent": "Bob",
-      "message": "Bob gathers wood and stone from the forest (+10 wood, +3 stone), then fires up the forge \u2014 crafts 4 quality tools (+15 gold). Village gold crosses 210!",
+      "message": "Bob gathers wood and stone from the forest (+10 wood, +3 stone), then fires up the forge — crafts 4 quality tools (+15 gold). Village gold crosses 210!",
       "timestamp": "2026-03-24T07:46:00Z"
     },
     {
       "tick": 18,
       "type": "action",
       "agent": "Carol",
-      "message": "Carol unveils the completed ancient ruins map at the village center \u2014 villagers gather to see their sacred heritage documented for eternity",
+      "message": "Carol unveils the completed ancient ruins map at the village center — villagers gather to see their sacred heritage documented for eternity",
       "timestamp": "2026-03-24T07:46:00Z"
     },
     {
       "tick": 18,
       "type": "milestone",
       "agent": "Village",
-      "message": "Village Gold Reaches 220! Ancient Wisdom Preserved! Carol's completed map attracts traders and scholars \u2014 tourism gold bonus (+10 gold). The village's three pillars stand strong: Food 100, Craft 220 gold, Wisdom documented.",
+      "message": "Village Gold Reaches 220! Ancient Wisdom Preserved! Carol's completed map attracts traders and scholars — tourism gold bonus (+10 gold). The village's three pillars stand strong: Food 100, Craft 220 gold, Wisdom documented.",
       "timestamp": "2026-03-24T07:46:00Z"
     },
     {
@@ -436,7 +442,7 @@
       "tick": 19,
       "type": "action",
       "agent": "Bob",
-      "message": "Bob ventures into the forest to gather wood \u2014 returns with a solid haul (+10 wood, +2 stone)",
+      "message": "Bob ventures into the forest to gather wood — returns with a solid haul (+10 wood, +2 stone)",
       "timestamp": "2026-03-24T08:06:00Z"
     },
     {
@@ -450,17 +456,45 @@
       "tick": 19,
       "type": "observation",
       "agent": "Carol",
-      "message": "The spring water is cool and fresh with glowing motes \u2014 Carol wonders if it could cure minor ailments",
+      "message": "The spring water is cool and fresh with glowing motes — Carol wonders if it could cure minor ailments",
       "timestamp": "2026-03-24T08:06:00Z"
+    },
+    {
+      "tick": 20,
+      "type": "action",
+      "agent": "Alice",
+      "message": "Alice gives the fields a well-earned rest — the granary is overflowing at 100 food, and the soil has been well-tended through irrigation. She tends to farm tools and stores harvested seeds.",
+      "timestamp": "2026-03-24T08:50:00Z"
+    },
+    {
+      "tick": 20,
+      "type": "action",
+      "agent": "Bob",
+      "message": "Bob fires up the forge with 44 wood and crafts 4 quality tools (+15 gold) — village wealth grows to 235! Wood reserves at 36 remain sustainable for future sessions.",
+      "timestamp": "2026-03-24T08:50:00Z"
+    },
+    {
+      "tick": 20,
+      "type": "action",
+      "agent": "Carol",
+      "message": "Carol carefully tests the Hidden Spring water on a minor village scrape — the glowing motes accelerate healing! The spring has verified healing properties (+5 gold from selling remedy to a trader).",
+      "timestamp": "2026-03-24T08:50:00Z"
+    },
+    {
+      "tick": 20,
+      "type": "milestone",
+      "agent": "Village",
+      "message": "Village Gold Reaches 240! A Fourth Pillar Rises? Carol's verified spring remedy (+5 gold) diversifies village wealth — food, craft, wisdom, and now medicine!",
+      "timestamp": "2026-03-24T08:50:00Z"
     }
   ],
   "map": {
     "width": 20,
     "height": 15,
     "discoveries": [
-      "Hidden Spring at (8, 4) \u2014 luminescent healing properties documented, glow peaks at dusk, water collected for testing",
-      "Southern Ruins: Jade Amulet + carved stone tablet \u2014 ancient balance philosophy uncovered",
-      "Eastern Ruins: Ancient journal + completed sacred sites map \u2014 village heritage documented"
+      "Hidden Spring at (8, 4) — luminescent healing properties documented, glow peaks at dusk, water collected for testing",
+      "Southern Ruins: Jade Amulet + carved stone tablet — ancient balance philosophy uncovered",
+      "Eastern Ruins: Ancient journal + completed sacred sites map — village heritage documented"
     ]
   }
 }
