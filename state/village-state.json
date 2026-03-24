@@ -20,66 +20,33 @@
       "id": "alice",
       "name": "Alice",
       "role": "farmer",
-      "personality": {
-        "openness": 0.3,
-        "conscientiousness": 0.7,
-        "extraversion": 0.8,
-        "agreeableness": 0.9,
-        "neuroticism": 0.2
-      },
+      "personality": {"openness": 0.3, "conscientiousness": 0.7, "extraversion": 0.8, "agreeableness": 0.9, "neuroticism": 0.2},
       "position": {"x": 5, "y": 5},
       "state": "idle",
       "inventory": [],
-      "memory": {
-        "observations": [],
-        "reflections": [],
-        "currentGoal": "tend to farm"
-      }
+      "memory": {"observations": [], "reflections": [], "currentGoal": "tend to farm"}
     },
     {
       "id": "bob",
       "name": "Bob",
       "role": "blacksmith",
-      "personality": {
-        "openness": 0.5,
-        "conscientiousness": 0.9,
-        "extraversion": 0.2,
-        "agreeableness": 0.6,
-        "neuroticism": 0.4
-      },
+      "personality": {"openness": 0.5, "conscientiousness": 0.9, "extraversion": 0.2, "agreeableness": 0.6, "neuroticism": 0.4},
       "position": {"x": 10, "y": 8},
       "state": "idle",
       "inventory": [],
-      "memory": {
-        "observations": [],
-        "reflections": [],
-        "currentGoal": "forge tools"
-      }
+      "memory": {"observations": [], "reflections": [], "currentGoal": "forge tools"}
     },
     {
       "id": "carol",
       "name": "Carol",
       "role": "apprentice",
-      "personality": {
-        "openness": 0.9,
-        "conscientiousness": 0.5,
-        "extraversion": 0.6,
-        "agreeableness": 0.7,
-        "neuroticism": 0.3
-      },
+      "personality": {"openness": 0.9, "conscientiousness": 0.5, "extraversion": 0.6, "agreeableness": 0.7, "neuroticism": 0.3},
       "position": {"x": 8, "y": 12},
       "state": "idle",
       "inventory": [],
-      "memory": {
-        "observations": [],
-        "reflections": [],
-        "currentGoal": "learn magic"
-      }
+      "memory": {"observations": [], "reflections": [], "currentGoal": "learn magic"}
     }
   ],
   "events": [],
-  "map": {
-    "width": 20,
-    "height": 15
-  }
+  "map": {"width": 20, "height": 15}
 }
