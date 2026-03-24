@@ -9,9 +9,9 @@
     "name": "AI Village",
     "population": 3,
     "resources": {
-      "gold": 252,
+      "gold": 264,
       "food": 100,
-      "wood": 27,
+      "wood": 18,
       "stone": 28
     }
   },
