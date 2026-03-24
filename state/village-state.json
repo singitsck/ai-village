@@ -1,8 +1,8 @@
 {
   "meta": {
     "version": "1.0.0",
-    "lastUpdated": "2026-03-24T03:00:00Z",
-    "tick": 2,
+    "lastUpdated": "2026-03-24T03:09:00Z",
+    "tick": 3,
     "tickIntervalSeconds": 900
   },
   "village": {
@@ -10,9 +10,9 @@
     "population": 3,
     "resources": {
       "gold": 100,
-      "food": 50,
-      "wood": 30,
-      "stone": 10
+      "food": 58,
+      "wood": 38,
+      "stone": 12
     }
   },
   "agents": [
@@ -31,15 +31,18 @@
         "x": 5,
         "y": 5
       },
-      "state": "farming",
+      "state": "idle",
       "inventory": [],
       "memory": {
         "observations": [
-          "Village has 50 food, 30 wood, 10 stone, 100 gold",
-          "Carol is an apprentice interested in magic"
+          "Village has 58 food, 38 wood, 12 stone, 100 gold",
+          "Carol is an apprentice interested in magic",
+          "Harvested crops successfully (+8 food)"
         ],
-        "reflections": [],
-        "currentGoal": "harvest crops to increase food supply"
+        "reflections": [
+          "Farming is rewarding when the weather is good"
+        ],
+        "currentGoal": "rest before next planting season"
       }
     },
     {
@@ -57,15 +60,18 @@
         "x": 10,
         "y": 8
       },
-      "state": "gathering",
+      "state": "idle",
       "inventory": [],
       "memory": {
         "observations": [
-          "Need wood to forge tools",
-          "Village has 30 wood available"
+          "Gathered good quality wood from the forest (+8 wood)",
+          "Village has 38 wood available",
+          "Found some stone near the forest edge (+2 stone)"
         ],
-        "reflections": [],
-        "currentGoal": "gather wood from nearby forest"
+        "reflections": [
+          "Quality wood makes better tools"
+        ],
+        "currentGoal": "return to forge and craft tools"
       }
     },
     {
@@ -83,15 +89,19 @@
         "x": 8,
         "y": 12
       },
-      "state": "exploring",
+      "state": "idle",
       "inventory": [],
       "memory": {
         "observations": [
           "Bob is a skilled blacksmith, could teach me about crafting",
-          "The village has limited magical resources"
+          "The village has limited magical resources",
+          "Explored eastern ruins, found an old journal (+0 gold donated to village)",
+          "The ruins hold secrets of the old civilization"
         ],
-        "reflections": [],
-        "currentGoal": "find magical artifacts or teachers in the village"
+        "reflections": [
+          "Ancient knowledge is worth more than gold"
+        ],
+        "currentGoal": "study the old journal and share findings with the village"
       }
     }
   ],
@@ -123,6 +133,34 @@
       "agent": "Carol",
       "message": "Carol explores the eastern part of the village seeking magic",
       "timestamp": "2026-03-24T03:00:00Z"
+    },
+    {
+      "tick": 3,
+      "type": "action",
+      "agent": "Alice",
+      "message": "Alice returns from the farm with a bountiful harvest (+8 food)",
+      "timestamp": "2026-03-24T03:09:00Z"
+    },
+    {
+      "tick": 3,
+      "type": "action",
+      "agent": "Bob",
+      "message": "Bob returns from the forest with wood and stone (+8 wood, +2 stone)",
+      "timestamp": "2026-03-24T03:09:00Z"
+    },
+    {
+      "tick": 3,
+      "type": "action",
+      "agent": "Carol",
+      "message": "Carol discovers ancient ruins in the east and finds a mysterious journal",
+      "timestamp": "2026-03-24T03:09:00Z"
+    },
+    {
+      "tick": 3,
+      "type": "discovery",
+      "agent": "Carol",
+      "message": "Ancient knowledge uncovered! Carol's discovery enriches village wisdom.",
+      "timestamp": "2026-03-24T03:09:00Z"
     }
   ],
   "map": {
