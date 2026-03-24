@@ -1,8 +1,8 @@
 {
   "meta": {
     "version": "1.0.0",
-    "lastUpdated": "2026-03-24T04:00:00Z",
-    "tick": 9,
+    "lastUpdated": "2026-03-24T04:04:00Z",
+    "tick": 10,
     "tickIntervalSeconds": 900
   },
   "village": {
@@ -27,14 +27,13 @@
         "agreeableness": 0.9,
         "neuroticism": 0.2
       },
-      "position": {
-        "x": 5,
-        "y": 5
-      },
-      "state": "working",
+      "position": { "x": 5, "y": 5 },
+      "state": "resting",
       "inventory": [],
       "memory": {
         "observations": [
+          "Village food reached 100 — a historic milestone!",
+          "Village has 100 food, 42 wood, 14 stone, 125 gold — village prosperity at an all-time high!",
           "Another successful harvest brings village food to 100 — a new milestone!",
           "Village has 100 food, 42 wood, 14 stone, 125 gold — village prosperity growing!",
           "Village has 92 food, 32 wood, 14 stone, 120 gold",
@@ -42,13 +41,7 @@
           "Harvested crops successfully (+8 food)",
           "Bob gathered wood and stone (+8 wood, +2 stone)",
           "Fields are prepared, next harvest will be bountiful (+12 food expected)",
-          "Bob crafted tools at the forge (+10 gold from trade)",
-          "Harvested prepared fields — excellent yield! (+10 food)",
-          "Village food stores are growing steadily",
-          "Bob needs more wood for his forge work",
-          "The prepared fields yielded a good harvest (+8 food)",
-          "Tended to the fields and harvested more crops (+8 food)",
-          "Village food supply is strong at 92 — a good surplus"
+          "Bob crafted tools at the forge (+10 gold from trade)"
         ],
         "reflections": [
           "Farming is rewarding when the weather is good",
@@ -57,9 +50,10 @@
           "A well-fed village is a happy village",
           "Rotation between resting and harvesting keeps the farm productive",
           "The village has enough food to last through winter",
-          "Reaching 100 food is a significant achievement for the village"
+          "Reaching 100 food is a significant achievement for the village",
+          "The village deserves a moment to appreciate our accomplishments"
         ],
-        "currentGoal": "continue the harvest cycle toward 100+ food surplus"
+        "currentGoal": "take a well-deserved rest and appreciate the village's prosperity"
       }
     },
     {
@@ -73,15 +67,12 @@
         "agreeableness": 0.6,
         "neuroticism": 0.4
       },
-      "position": {
-        "x": 10,
-        "y": 8
-      },
+      "position": { "x": 10, "y": 8 },
       "state": "working",
       "inventory": [],
       "memory": {
         "observations": [
-          "Wood supplies now at 42 — enough for another crafting session",
+          "Wood supplies at 42 — perfect for a productive forge session",
           "Carol found a jade amulet in the southern ruins — donated to village (+5 gold)",
           "Gathered good quality wood from the forest (+8 wood)",
           "Village has 40 wood available after gathering",
@@ -91,10 +82,7 @@
           "Village wealth is growing with tool production",
           "Wood supplies are getting low, need to gather more before next forge session",
           "Village gold reached 120 — new milestone!",
-          "Gathered additional wood from forest (+10 wood)",
-          "Wood supplies are recovering nicely",
-          "Returns from forest with a good haul of wood (+10 wood)",
-          "Wood supplies at 32 — moderate reserves for the forge"
+          "Gathered additional wood from forest (+10 wood)"
         ],
         "reflections": [
           "Quality wood makes better tools",
@@ -102,10 +90,10 @@
           "Tool production brings gold into the village",
           "Must replenish wood before the next crafting run",
           "Sustained wood supply is the key to consistent tool production",
-          "With 32 wood, I can do one more craft run before needing to gather again",
+          "With 42 wood, I can have a very productive crafting session",
           "The village's jade amulet discovery diversifies our wealth"
         ],
-        "currentGoal": "craft tools at the forge to convert wood surplus into gold"
+        "currentGoal": "craft tools at the forge to convert wood surplus into village gold"
       }
     },
     {
@@ -119,21 +107,24 @@
         "agreeableness": 0.7,
         "neuroticism": 0.3
       },
-      "position": {
-        "x": 8,
-        "y": 4
-      },
+      "position": { "x": 8, "y": 4 },
       "state": "exploring",
       "inventory": [
         {
           "name": "jade amulet",
           "type": "artifact",
           "donated": true
+        },
+        {
+          "name": "carved stone tablet",
+          "type": "artifact",
+          "donated": false
         }
       ],
       "memory": {
         "observations": [
-          "A carved stone tablet found near the amulet speaks of \"the three pillars of balance: food, craft, and wisdom\"",
+          "The carved stone tablet mentions a 'well of visions' deep within the eastern ruins",
+          "A carved stone tablet found near the amulet speaks of 'the three pillars of balance: food, craft, and wisdom'",
           "The southern ruins are rich with artifacts — this site was clearly important to the ancient civilization",
           "Carol found a small jade amulet in the southern ruins! Donated to village for +5 gold",
           "Bob is a skilled blacksmith, could teach me about crafting",
@@ -142,12 +133,7 @@
           "The ruins hold secrets of the old civilization",
           "The journal speaks of a hidden spring in the north",
           "Carol discovers a small magical spring! The water sparkles with unusual energy.",
-          "Hidden Spring found! A pristine spring in the northern part of the village, said to have healing properties",
-          "The spring water glows faintly blue at night — clearly magical",
-          "Spring water is cool and fresh, with tiny motes of light floating on the surface",
-          "Documented the spring's luminescent properties — small glowing particles drift upward from the water's surface",
-          "Shared findings with Alice and Bob about the spring's potential healing properties",
-          "Carol documents her findings about the Hidden Spring and shares them with the village"
+          "Hidden Spring found! A pristine spring in the northern part of the village"
         ],
         "reflections": [
           "Ancient knowledge is worth more than gold",
@@ -156,224 +142,54 @@
           "The spring could be a valuable village resource if its properties are understood",
           "Documentation is key to preserving discoveries for future generations",
           "The village should consider protecting the spring as a sacred site",
-          "The spring's healing properties could benefit the whole village",
-          "The southern ruins reveal a civilization that valued balance between food, craft, and wisdom"
+          "The southern ruins reveal a civilization that valued balance between food, craft, and wisdom",
+          "The 'well of visions' could be another magical discovery worth exploring"
         ],
-        "currentGoal": "continue documenting the southern ruins and share findings with village"
+        "currentGoal": "investigate the eastern ruins for the legendary 'well of visions' mentioned on the tablet"
       }
     }
   ],
   "events": [
-    {
-      "tick": 1,
-      "type": "action",
-      "agent": "Carol",
-      "message": "Carol is now idle",
-      "timestamp": "2026-03-24T02:55:18Z"
-    },
-    {
-      "tick": 2,
-      "type": "action",
-      "agent": "Alice",
-      "message": "Alice heads to the farm to harvest crops",
-      "timestamp": "2026-03-24T03:00:00Z"
-    },
-    {
-      "tick": 2,
-      "type": "action",
-      "agent": "Bob",
-      "message": "Bob ventures to the forest to gather wood for forging",
-      "timestamp": "2026-03-24T03:00:00Z"
-    },
-    {
-      "tick": 2,
-      "type": "action",
-      "agent": "Carol",
-      "message": "Carol explores the eastern part of the village seeking magic",
-      "timestamp": "2026-03-24T03:00:00Z"
-    },
-    {
-      "tick": 3,
-      "type": "action",
-      "agent": "Alice",
-      "message": "Alice returns from the farm with a bountiful harvest (+8 food)",
-      "timestamp": "2026-03-24T03:09:00Z"
-    },
-    {
-      "tick": 3,
-      "type": "action",
-      "agent": "Bob",
-      "message": "Bob returns from the forest with wood and stone (+8 wood, +2 stone)",
-      "timestamp": "2026-03-24T03:09:00Z"
-    },
-    {
-      "tick": 3,
-      "type": "action",
-      "agent": "Carol",
-      "message": "Carol discovers ancient ruins in the east and finds a mysterious journal",
-      "timestamp": "2026-03-24T03:09:00Z"
-    },
-    {
-      "tick": 3,
-      "type": "discovery",
-      "agent": "Carol",
-      "message": "Ancient knowledge uncovered! Carol's discovery enriches village wisdom.",
-      "timestamp": "2026-03-24T03:09:00Z"
-    },
-    {
-      "tick": 4,
-      "type": "action",
-      "agent": "Alice",
-      "message": "Alice returns from the farm with another good harvest (+8 food)",
-      "timestamp": "2026-03-24T03:11:00Z"
-    },
-    {
-      "tick": 4,
-      "type": "action",
-      "agent": "Bob",
-      "message": "Bob heads to his forge to craft tools from the gathered wood",
-      "timestamp": "2026-03-24T03:11:00Z"
-    },
-    {
-      "tick": 4,
-      "type": "action",
-      "agent": "Carol",
-      "message": "Carol shares the journal's secrets with the village and prepares to seek the hidden spring",
-      "timestamp": "2026-03-24T03:11:00Z"
-    },
-    {
-      "tick": 5,
-      "type": "action",
-      "agent": "Alice",
-      "message": "Alice prepares the fields for the next planting season by tilling the soil",
-      "timestamp": "2026-03-24T03:15:00Z"
-    },
-    {
-      "tick": 5,
-      "type": "action",
-      "agent": "Bob",
-      "message": "Bob crafts tools using his accumulated wood at the village forge",
-      "timestamp": "2026-03-24T03:15:00Z"
-    },
-    {
-      "tick": 5,
-      "type": "action",
-      "agent": "Carol",
-      "message": "Carol ventures north toward the rumored hidden spring",
-      "timestamp": "2026-03-24T03:15:00Z"
-    },
-    {
-      "tick": 5,
-      "type": "discovery",
-      "agent": "Carol",
-      "message": "Carol discovers a small magical spring! The water sparkles with unusual energy.",
-      "timestamp": "2026-03-24T03:15:00Z"
-    },
-    {
-      "tick": 6,
-      "type": "action",
-      "agent": "Alice",
-      "message": "Alice harvests the prepared fields with an excellent yield (+10 food)",
-      "timestamp": "2026-03-24T03:22:00Z"
-    },
-    {
-      "tick": 6,
-      "type": "action",
-      "agent": "Bob",
-      "message": "Bob ventures back to the forest to gather more wood for the forge",
-      "timestamp": "2026-03-24T03:22:00Z"
-    },
-    {
-      "tick": 6,
-      "type": "action",
-      "agent": "Carol",
-      "message": "Carol studies the Hidden Spring closely — noting its magical glow and unusual properties",
-      "timestamp": "2026-03-24T03:22:00Z"
-    },
-    {
-      "tick": 6,
-      "type": "discovery",
-      "agent": "Carol",
-      "message": "Magical properties confirmed! The spring water exhibits faint luminescent particles that suggest healing or restorative qualities.",
-      "timestamp": "2026-03-24T03:22:00Z"
-    },
-    {
-      "tick": 7,
-      "type": "action",
-      "agent": "Alice",
-      "message": "Alice tends to the fields and harvests more crops (+8 food)",
-      "timestamp": "2026-03-24T03:30:00Z"
-    },
-    {
-      "tick": 7,
-      "type": "action",
-      "agent": "Bob",
-      "message": "Bob returns from the forest with a good haul of wood (+10 wood)",
-      "timestamp": "2026-03-24T03:30:00Z"
-    },
-    {
-      "tick": 7,
-      "type": "action",
-      "agent": "Carol",
-      "message": "Carol documents her findings about the Hidden Spring and shares them with the village",
-      "timestamp": "2026-03-24T03:30:00Z"
-    },
-    {
-      "tick": 8,
-      "type": "action",
-      "agent": "Alice",
-      "message": "Alice continues harvesting — another successful yield from the well-tended fields (+8 food)",
-      "timestamp": "2026-03-24T03:38:00Z"
-    },
-    {
-      "tick": 8,
-      "type": "action",
-      "agent": "Bob",
-      "message": "Bob heads to the forest for another wood-gathering expedition to restock the forge",
-      "timestamp": "2026-03-24T03:38:00Z"
-    },
-    {
-      "tick": 8,
-      "type": "action",
-      "agent": "Carol",
-      "message": "Carol ventures south toward the old ruins, seeking more artifacts from the ancient civilization",
-      "timestamp": "2026-03-24T03:38:00Z"
-    },
-    {
-      "tick": 9,
-      "type": "action",
-      "agent": "Alice",
-      "message": "Alice returns from the farm with another excellent harvest (+8 food) — village food hits 100!",
-      "timestamp": "2026-03-24T04:00:00Z"
-    },
-    {
-      "tick": 9,
-      "type": "action",
-      "agent": "Bob",
-      "message": "Bob returns from the forest with a full load of wood (+10 wood) — supplies at 42",
-      "timestamp": "2026-03-24T04:00:00Z"
-    },
-    {
-      "tick": 9,
-      "type": "action",
-      "agent": "Carol",
-      "message": "Carol returns from southern ruins with a jade amulet — donated to village (+5 gold)",
-      "timestamp": "2026-03-24T04:00:00Z"
-    },
-    {
-      "tick": 9,
-      "type": "discovery",
-      "agent": "Carol",
-      "message": "Ancient artifact found! A carved stone tablet speaks of 'the three pillars of balance: food, craft, and wisdom'",
-      "timestamp": "2026-03-24T04:00:00Z"
-    }
+    {"tick": 1, "type": "action", "agent": "Carol", "message": "Carol is now idle", "timestamp": "2026-03-24T02:55:18Z"},
+    {"tick": 2, "type": "action", "agent": "Alice", "message": "Alice heads to the farm to harvest crops", "timestamp": "2026-03-24T03:00:00Z"},
+    {"tick": 2, "type": "action", "agent": "Bob", "message": "Bob ventures to the forest to gather wood for forging", "timestamp": "2026-03-24T03:00:00Z"},
+    {"tick": 2, "type": "action", "agent": "Carol", "message": "Carol explores the eastern part of the village seeking magic", "timestamp": "2026-03-24T03:00:00Z"},
+    {"tick": 3, "type": "action", "agent": "Alice", "message": "Alice returns from the farm with a bountiful harvest (+8 food)", "timestamp": "2026-03-24T03:09:00Z"},
+    {"tick": 3, "type": "action", "agent": "Bob", "message": "Bob returns from the forest with wood and stone (+8 wood, +2 stone)", "timestamp": "2026-03-24T03:09:00Z"},
+    {"tick": 3, "type": "action", "agent": "Carol", "message": "Carol discovers ancient ruins in the east and finds a mysterious journal", "timestamp": "2026-03-24T03:09:00Z"},
+    {"tick": 3, "type": "discovery", "agent": "Carol", "message": "Ancient knowledge uncovered! Carol's discovery enriches village wisdom.", "timestamp": "2026-03-24T03:09:00Z"},
+    {"tick": 4, "type": "action", "agent": "Alice", "message": "Alice returns from the farm with another good harvest (+8 food)", "timestamp": "2026-03-24T03:11:00Z"},
+    {"tick": 4, "type": "action", "agent": "Bob", "message": "Bob heads to his forge to craft tools from the gathered wood", "timestamp": "2026-03-24T03:11:00Z"},
+    {"tick": 4, "type": "action", "agent": "Carol", "message": "Carol shares the journal's secrets with the village and prepares to seek the hidden spring", "timestamp": "2026-03-24T03:11:00Z"},
+    {"tick": 5, "type": "action", "agent": "Alice", "message": "Alice prepares the fields for the next planting season by tilling the soil", "timestamp": "2026-03-24T03:15:00Z"},
+    {"tick": 5, "type": "action", "agent": "Bob", "message": "Bob crafts tools using his accumulated wood at the village forge", "timestamp": "2026-03-24T03:15:00Z"},
+    {"tick": 5, "type": "action", "agent": "Carol", "message": "Carol ventures north toward the rumored hidden spring", "timestamp": "2026-03-24T03:15:00Z"},
+    {"tick": 5, "type": "discovery", "agent": "Carol", "message": "Carol discovers a small magical spring! The water sparkles with unusual energy.", "timestamp": "2026-03-24T03:15:00Z"},
+    {"tick": 6, "type": "action", "agent": "Alice", "message": "Alice harvests the prepared fields with an excellent yield (+10 food)", "timestamp": "2026-03-24T03:22:00Z"},
+    {"tick": 6, "type": "action", "agent": "Bob", "message": "Bob ventures back to the forest to gather more wood for the forge", "timestamp": "2026-03-24T03:22:00Z"},
+    {"tick": 6, "type": "action", "agent": "Carol", "message": "Carol studies the Hidden Spring closely — noting its magical glow and unusual properties", "timestamp": "2026-03-24T03:22:00Z"},
+    {"tick": 6, "type": "discovery", "agent": "Carol", "message": "Magical properties confirmed! The spring water exhibits faint luminescent particles that suggest healing or restorative qualities.", "timestamp": "2026-03-24T03:22:00Z"},
+    {"tick": 7, "type": "action", "agent": "Alice", "message": "Alice tends to the fields and harvests more crops (+8 food)", "timestamp": "2026-03-24T03:30:00Z"},
+    {"tick": 7, "type": "action", "agent": "Bob", "message": "Bob returns from the forest with a good haul of wood (+10 wood)", "timestamp": "2026-03-24T03:30:00Z"},
+    {"tick": 7, "type": "action", "agent": "Carol", "message": "Carol documents her findings about the Hidden Spring and shares them with the village", "timestamp": "2026-03-24T03:30:00Z"},
+    {"tick": 8, "type": "action", "agent": "Alice", "message": "Alice continues harvesting — another successful yield from the well-tended fields (+8 food)", "timestamp": "2026-03-24T03:38:00Z"},
+    {"tick": 8, "type": "action", "agent": "Bob", "message": "Bob heads to the forest for another wood-gathering expedition to restock the forge", "timestamp": "2026-03-24T03:38:00Z"},
+    {"tick": 8, "type": "action", "agent": "Carol", "message": "Carol ventures south toward the old ruins, seeking more artifacts from the ancient civilization", "timestamp": "2026-03-24T03:38:00Z"},
+    {"tick": 9, "type": "action", "agent": "Alice", "message": "Alice returns from the farm with another excellent harvest (+8 food) — village food hits 100!", "timestamp": "2026-03-24T04:00:00Z"},
+    {"tick": 9, "type": "action", "agent": "Bob", "message": "Bob returns from the forest with a full load of wood (+10 wood) — supplies at 42", "timestamp": "2026-03-24T04:00:00Z"},
+    {"tick": 9, "type": "action", "agent": "Carol", "message": "Carol returns from southern ruins with a jade amulet — donated to village (+5 gold)", "timestamp": "2026-03-24T04:00:00Z"},
+    {"tick": 9, "type": "discovery", "agent": "Carol", "message": "Ancient artifact found! A carved stone tablet speaks of 'the three pillars of balance: food, craft, and wisdom'", "timestamp": "2026-03-24T04:00:00Z"},
+    {"tick": 10, "type": "action", "agent": "Alice", "message": "Alice takes a well-deserved rest, reflecting on the village's prosperity and planning next season's fields", "timestamp": "2026-03-24T04:04:00Z"},
+    {"tick": 10, "type": "action", "agent": "Bob", "message": "Bob fires up the forge and crafts 4 quality tools from the wood surplus (+20 gold)", "timestamp": "2026-03-24T04:04:00Z"},
+    {"tick": 10, "type": "action", "agent": "Carol", "message": "Carol ventures east toward the legendary 'well of visions' mentioned in the ancient tablet", "timestamp": "2026-03-24T04:04:00Z"}
   ],
   "map": {
     "width": 20,
     "height": 15,
     "discoveries": [
       "Hidden Spring at (8, 4) — luminescent healing properties documented",
-      "Southern Ruins artifact: Jade Amulet + carved stone tablet — ancient balance philosophy uncovered"
+      "Southern Ruins artifact: Jade Amulet + carved stone tablet — ancient balance philosophy uncovered",
+      "Legend of 'Well of Visions' in eastern ruins mentioned on stone tablet"
     ]
   }
 }
