@@ -1,18 +1,18 @@
 {
   "meta": {
     "version": "1.0.0",
-    "lastUpdated": "2026-03-24T06:04:54Z",
-    "tick": 15,
+    "lastUpdated": "2026-03-24T06:44:00Z",
+    "tick": 16,
     "tickIntervalSeconds": 900
   },
   "village": {
     "name": "AI Village",
     "population": 3,
     "resources": {
-      "gold": 180,
+      "gold": 195,
       "food": 100,
-      "wood": 20,
-      "stone": 19
+      "wood": 34,
+      "stone": 21
     }
   },
   "agents": [
@@ -52,7 +52,9 @@
           "Village has 100 food, 22 wood, 16 stone, 155 gold",
           "Village has 100 food, 24 wood, 16 stone, 170 gold — gold growing from Bob's forge!",
           "Village food at 100 — granary full and thriving!",
-          "Harvested crops successfully (+8 food, capped at 100)"
+          "Harvested crops successfully (+8 food, capped at 100)",
+          "Village has 100 food, 34 wood, 21 stone, 195 gold — craft pillar growing strong",
+          "Bob gathered good wood reserves — forge can operate sustainably now"
         ],
         "reflections": [
           "Farming is rewarding when the weather is good",
@@ -65,9 +67,10 @@
           "The village deserves a moment to appreciate our accomplishments",
           "Investing time in irrigation now means larger harvests later",
           "The village is prosperous — time to focus on maintaining the fields for sustained abundance",
-          "The three pillars prophecy reminds me: balance is key to lasting prosperity"
+          "The three pillars prophecy reminds me: balance is key to lasting prosperity",
+          "With the granary full, the village is secure for the season"
         ],
-        "currentGoal": "rest and prepare for next planting season"
+        "currentGoal": "enjoy the village's prosperity and prepare for next planting season"
       }
     },
     {
@@ -108,7 +111,10 @@
           "Village gold now at 170 — craft and trade keeping the village wealthy",
           "Wood supplies at 24 — gathering more to restock the forge",
           "Wood supplies at 20 — must gather more before next forge session",
-          "Carol's prophecy confirms: the forge is the craft pillar of village prosperity"
+          "Carol's prophecy confirms: the forge is the craft pillar of village prosperity",
+          "Gathered wood and stone from forest (+10 wood, +2 stone) — wood reserves recovering",
+          "Village gold at 195 — craft pillar thriving!",
+          "Wood supplies now at 34 — sustainable for regular forge sessions"
         ],
         "reflections": [
           "Quality wood makes better tools",
@@ -120,11 +126,13 @@
           "The village's jade amulet discovery diversifies our wealth",
           "With 32 wood remaining, I should gather more before the next forge run",
           "The forge session was successful — 4 tools crafted and sold for good profit",
-          "Wood at 22 is too low — must gather before the next crafting run",
+          "Wood at 22 is too low — must gather before the next forge run",
           "Steady wood supply ensures the forge never goes idle",
-          "With wood running low, gathering is the priority before the next forge run"
+          "With wood running low, gathering is the priority before the next forge run",
+          "Wood supplies are recovering — forge can operate again soon",
+          "Village craft pillar at 195 gold — the forge has never been more productive"
         ],
-        "currentGoal": "rest and gather wood for next crafting session"
+        "currentGoal": "craft tools with sustainable wood supply and grow village wealth"
       }
     },
     {
@@ -180,7 +188,9 @@
           "The Well of Visions shows the path forward: balance between food, craft, and wisdom",
           "The carved stone tablet speaks of 'three pillars of balance: food, craft, and wisdom' — the village is achieving this!",
           "The village has heard the three pillars prophecy — food, craft, and wisdom now guide all decisions",
-          "Village wisdom pillar is now as strong as the fields and forge"
+          "Village wisdom pillar is now as strong as the fields and forge",
+          "Three Pillars Balance achieved — the ancient prophecy is fulfilled",
+          "The village walks the path of balance — all three pillars in harmony"
         ],
         "reflections": [
           "Ancient knowledge is worth more than gold",
@@ -193,9 +203,10 @@
           "The 'well of visions' is real — and its prophetic waters show the path to true village prosperity",
           "The village has achieved food abundance, growing craft wealth, and now gains wisdom from the ancient prophecies",
           "The three pillars are aligning: food (Alice's harvests), craft (Bob's forge), wisdom (the Well's prophecies)",
-          "The prophecy is fulfilled — the village now walks the path of balance"
+          "The prophecy is fulfilled — the village now walks the path of balance",
+          "With the three pillars achieved, the village could be ready for new challenges"
         ],
-        "currentGoal": "teach younger villagers the ancient wisdom of the three pillars"
+        "currentGoal": "document the ancient wisdom for future generations"
       }
     }
   ],
@@ -498,7 +509,7 @@
       "tick": 14,
       "type": "action",
       "agent": "Alice",
-      "message": "Alice tends to the farm and harvests crops (+8 food, capped at 100 — granary full!)",
+      "message": "Alice tends to the farm and harvests crops (+8 food, granary full!)",
       "timestamp": "2026-03-24T05:42:00Z"
     },
     {
@@ -549,6 +560,34 @@
       "agent": "Village",
       "message": "Three Pillars Balance Achieved! Food:100, Craft:180 gold, Wisdom: Carol's teachings — the village prospers in harmony!",
       "timestamp": "2026-03-24T06:04:54Z"
+    },
+    {
+      "tick": 16,
+      "type": "action",
+      "agent": "Alice",
+      "message": "Alice tends to the irrigation channels and prepares fields for next season (+future yield bonus)",
+      "timestamp": "2026-03-24T06:44:00Z"
+    },
+    {
+      "tick": 16,
+      "type": "action",
+      "agent": "Bob",
+      "message": "Bob fires up the forge with renewed wood reserves — crafts 5 quality tools (+15 gold) from sustainable supply",
+      "timestamp": "2026-03-24T06:44:00Z"
+    },
+    {
+      "tick": 16,
+      "type": "action",
+      "agent": "Carol",
+      "message": "Carol begins documenting the ancient ruins map — recording sacred sites for future generations",
+      "timestamp": "2026-03-24T06:44:00Z"
+    },
+    {
+      "tick": 16,
+      "type": "milestone",
+      "agent": "Village",
+      "message": "Village Gold Crosses 195! Craft pillar reaches new heights — the forge is the engine of lasting prosperity.",
+      "timestamp": "2026-03-24T06:44:00Z"
     }
   ],
   "map": {
