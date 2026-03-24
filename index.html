@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Village Civilization</title>
+    <title>AI Village Civilization - Realtime</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Courier New', monospace;
@@ -22,16 +19,8 @@
             padding: 20px;
         }
         
-        h1 {
-            color: #ffd700;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-        
-        .status {
-            color: #888;
-            margin-bottom: 20px;
-        }
+        h1 { color: #ffd700; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .status { color: #888; margin-bottom: 20px; }
         
         #game-canvas {
             border: 4px solid #444;
@@ -56,31 +45,11 @@
             padding: 15px;
         }
         
-        .card h3 {
-            color: #e94560;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-        
-        .card p, .card li {
-            font-size: 12px;
-            color: #aaa;
-            line-height: 1.6;
-        }
-        
-        .card ul {
-            list-style: none;
-            padding-left: 0;
-        }
-        
-        .card li {
-            padding: 4px 0;
-            border-bottom: 1px solid #0f346044;
-        }
-        
-        .card li:last-child {
-            border-bottom: none;
-        }
+        .card h3 { color: #e94560; margin-bottom: 10px; font-size: 14px; }
+        .card p, .card li { font-size: 12px; color: #aaa; line-height: 1.6; }
+        .card ul { list-style: none; padding-left: 0; }
+        .card li { padding: 4px 0; border-bottom: 1px solid #0f346044; }
+        .card li:last-child { border-bottom: none; }
         
         .state-badge {
             display: inline-block;
@@ -89,45 +58,24 @@
             font-size: 10px;
             margin-left: 5px;
         }
-        
         .state-idle { background: #4ade80; color: #000; }
         .state-moving { background: #60a5fa; color: #000; }
         .state-working { background: #facc15; color: #000; }
         .state-talking { background: #c084fc; color: #000; }
         
-        #event-log {
-            max-height: 200px;
-            overflow-y: auto;
-            font-size: 11px;
-            color: #888;
-        }
+        #event-log { max-height: 200px; overflow-y: auto; font-size: 11px; color: #888; }
+        #event-log p { padding: 4px 0; border-bottom: 1px solid #0f346033; }
         
-        #event-log p {
-            padding: 4px 0;
-            border-bottom: 1px solid #0f346033;
-        }
+        .online { color: #4ade80; }
+        .offline { color: #ef4444; }
         
-        .loading {
-            color: #facc15;
-            animation: pulse 1s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        footer {
-            margin-top: 30px;
-            color: #555;
-            font-size: 11px;
-        }
+        footer { margin-top: 30px; color: #555; font-size: 11px; }
     </style>
 </head>
 <body>
     <h1>🏘️ AI Village Civilization</h1>
     <p class="status" id="status">
-        <span class="loading">⟳ Loading village state...</span>
+        <span class="offline">⚫ Connecting to Supabase...</span>
     </p>
     
     <canvas id="game-canvas" width="640" height="480"></canvas>
@@ -136,10 +84,7 @@
         <div class="card">
             <h3>📊 Village Resources</h3>
             <ul id="resources">
-                <li>Gold: —</li>
-                <li>Food: —</li>
-                <li>Wood: —</li>
-                <li>Stone: —</li>
+                <li>Loading...</li>
             </ul>
         </div>
         
@@ -153,56 +98,91 @@
         <div class="card">
             <h3>📜 Event Log</h3>
             <div id="event-log">
-                <p>No events yet...</p>
+                <p>Waiting for events...</p>
             </div>
         </div>
         
         <div class="card">
             <h3>💡 About</h3>
             <p>
-                This village is simulated by AI agents running on a schedule.
-                Each tick, the agents make decisions and update the village state.
+                This village is powered by AI agents running on OpenClaw Cron.
+                Updates are delivered in real-time via Supabase Realtime.
             </p>
             <p style="margin-top: 10px;">
                 <strong>Tick:</strong> <span id="tick">—</span><br>
-                <strong>Last Updated:</strong> <span id="last-update">—</span>
+                <strong>Connection:</strong> <span id="connection" class="offline">⚫ Offline</span>
             </p>
         </div>
     </div>
     
     <footer>
-        AI Village Civilization | Powered by OpenClaw Agents | GitHub Pages
+        AI Village Civilization | Powered by Supabase Realtime | OpenClaw Agents
     </footer>
     
     <script>
-        const STATE_URL = 'state/village-state.json';
-        const REFRESH_INTERVAL = 5000; // 5 seconds
+        // Supabase Configuration
+        const SUPABASE_URL = 'https://yqwcxushplzodbnqwqxn.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_wCLebgvM4KNlSkqyevXhWA_DHOO92Lh';
+        
+        // Initialize Supabase client
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
         let villageState = null;
         
+        // Fetch initial state
         async function fetchState() {
-            try {
-                const response = await fetch(STATE_URL + '?t=' + Date.now(), {
-                    cache: 'no-store'
-                });
-                if (!response.ok) throw new Error('Failed to fetch');
-                villageState = await response.json();
-                render();
-            } catch (error) {
+            const { data, error } = await supabase
+                .from('village_state')
+                .select('*')
+                .eq('id', 'main')
+                .single();
+            
+            if (error) {
                 console.error('Error fetching state:', error);
                 document.getElementById('status').innerHTML = 
-                    '<span style="color:#ef4444">⚠ Failed to load state</span>';
+                    '<span class="offline">⚠ Error connecting to database</span>';
+                return;
             }
+            
+            villageState = data;
+            render();
+            document.getElementById('status').innerHTML = 
+                '<span class="online">🟢 Connected | Tick ' + data.meta.tick + '</span>';
+        }
+        
+        // Subscribe to realtime changes
+        function subscribeToChanges() {
+            const channel = supabase
+                .channel('village_changes')
+                .on(
+                    'postgres_changes',
+                    {
+                        event: 'UPDATE',
+                        schema: 'public',
+                        table: 'village_state',
+                        filter: 'id=eq.main'
+                    },
+                    (payload) => {
+                        console.log('Realtime update received:', payload);
+                        villageState = payload.new;
+                        render();
+                        document.getElementById('status').innerHTML = 
+                            '<span class="online">🟢 Live Update | Tick ' + payload.new.meta.tick + '</span>';
+                    }
+                )
+                .subscribe((status) => {
+                    console.log('Subscription status:', status);
+                    document.getElementById('connection').className = 
+                        status === 'SUBSCRIBED' ? 'online' : 'offline';
+                    document.getElementById('connection').textContent = 
+                        status === 'SUBSCRIBED' ? '🟢 Live' : '⚫ Offline';
+                });
         }
         
         function render() {
             if (!villageState) return;
             
             const { meta, village, agents, events } = villageState;
-            
-            // Update status
-            document.getElementById('status').innerHTML = 
-                `✅ Connected | Tick ${meta.tick} | ${agents.length} villagers`;
             
             // Update resources
             const res = village.resources;
@@ -219,13 +199,13 @@
                     <strong>${agent.name}</strong> (${agent.role})
                     <span class="state-badge state-${agent.state}">${agent.state}</span>
                     <br>
-                    <small>Goal: ${agent.memory.currentGoal}</small>
+                    <small>Goal: ${agent.memory?.currentGoal || 'none'}</small>
                 </li>
             `).join('');
             
             // Update event log
             const logEl = document.getElementById('event-log');
-            if (events.length > 0) {
+            if (events && events.length > 0) {
                 logEl.innerHTML = events.slice(-10).reverse().map(e => `
                     <p><strong>[${e.tick}]</strong> ${e.message}</p>
                 `).join('');
@@ -233,8 +213,6 @@
             
             // Update meta
             document.getElementById('tick').textContent = meta.tick;
-            document.getElementById('last-update').textContent = 
-                new Date(meta.lastUpdated).toLocaleString();
             
             // Render canvas
             renderCanvas();
@@ -265,7 +243,7 @@
             }
             
             // Draw agents
-            if (villageState) {
+            if (villageState && villageState.agents) {
                 villageState.agents.forEach(agent => {
                     const x = agent.position.x * 32 + 16;
                     const y = agent.position.y * 32 + 16;
@@ -311,21 +289,9 @@
             return colors[state] || colors.idle;
         }
         
-        // Initial fetch
+        // Initialize
         fetchState();
-        
-        // Auto-refresh
-        setInterval(fetchState, REFRESH_INTERVAL);
-        
-        // Visibility API - pause when tab is hidden
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                console.log('Tab hidden, pausing auto-refresh');
-            } else {
-                console.log('Tab visible, resuming auto-refresh');
-                fetchState();
-            }
-        });
+        subscribeToChanges();
     </script>
 </body>
 </html>
