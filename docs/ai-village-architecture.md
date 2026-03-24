@@ -1,456 +1,373 @@
-# AI Village Civilization — System Architecture
+# AI Village — System Architecture
 
-**Version:** 1.0  
+**Version:** 2.0  
 **Date:** 2026-03-24  
-**Author:** PM Agent (Research Task)
+**Author:** PM Agent
 
 ---
 
 ## 1. Overview
 
-A browser-based AI village civilization simulation driven by a multi-agent system. The game state lives in a JSON file (`village-state.json`) hosted on GitHub Pages. A scheduled GitHub Actions workflow (cron) triggers OpenClaw agents to process the world's turn, updating the state JSON. The frontend reads and renders the JSON state in real-time.
+AI Village 是一個智能村民模擬系統，每個村民有自己的 LLM Brain，會記住過去的事件並影響未來決定。
+
+**核心特點：**
+- Per-Villager LLM Brain - 每個村民獨立思考
+- 情感記憶系統 - 記住帶有情緒的事件
+- 關係追蹤 - 好感/反感會影響互動
+- 自然故事產生 - 故事從村民互動中自然浮現
+
+---
+
+## 2. 當前架構
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    GitHub Repository                          │
-│  ┌──────────────┐    ┌─────────────────┐    ┌───────────┐  │
-│  │ village-state│◄───│  GitHub Actions  │───►│  OpenClaw │  │
-│  │   .json      │    │  Cron Workflow   │    │  Agents   │  │
-│  └──────┬───────┘    └─────────────────┘    └───────────┘  │
-│         │                                                     │
-│         │ push (on merge)                                     │
-│         ▼                                                     │
-│  ┌─────────────────────────────────────────────────────────┐  │
-│  │              GitHub Pages (Static Host)                  │  │
-│  │         https://username.github.io/village/              │  │
-│  └─────────────────────────────────────────────────────────┘  │
+│                    Frontend (GitHub Pages)                   │
+│         https://singitsck.github.io/ai-village/           │
+│                    ↕ Polling (3s)                          │
 └─────────────────────────────────────────────────────────────┘
-                              │
-                              │ fetch / raw
-                              ▼
-              ┌───────────────────────────────┐
-              │       Browser Frontend        │
-              │   (Reads & renders state)      │
-              │   Auto-refresh every N seconds │
-              └───────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│                    Supabase (Source of Truth)                │
+│              village_state (單一 JSONB 文檔)                 │
+│  • meta: tick, weather, lastUpdated                      │
+│  • agents[]: 村民（含 memory, relationships）            │
+│  • events[]: 事件日誌                                     │
+└─────────────────────────────────────────────────────────────┘
+                              ↑
+┌─────────────────────────────────────────────────────────────┐
+│                 OpenClaw Cron (每 15 分鐘)                   │
+│                                                             │
+│  ai-village-multiagent                                     │
+│  └── PM Agent → Spawn 3 Villager Agents                   │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 2. Components
+## 3. 組件
 
-### 2.1 State File (`village-state.json`)
+### 3.1 Supabase State
 
-The single source of truth for the entire simulation. Hosted as a raw file in the GitHub repository, accessible at:
-
-```
-https://raw.githubusercontent.com/{owner}/{repo}/main/data/village-state.json
-```
-
-**Access via GitHub Pages (user-friendly):**
-```
-https://{owner}.github.io/{repo}/data/village-state.json
-```
-
-#### State Schema
+**Table:** `village_state` (單一 JSONB 文檔)
 
 ```json
 {
+  "id": "main",
   "meta": {
-    "version": "1.0.0",
-    "tick": 142,
-    "lastUpdated": "2026-03-24T10:00:00Z",
-    "tickIntervalSeconds": 300,
-    "paused": false
+    "tick": 13,
+    "weather": {
+      "type": "sunny",
+      "emoji": "☀️",
+      "mood_modifier": 0.2,
+      "work_efficiency": 1.2
+    },
+    "lastUpdated": "2026-03-24T12:00:00Z",
+    "tickIntervalSeconds": 900
   },
   "village": {
-    "name": "Willowbrook",
-    "population": 47,
-    "resources": {
-      "gold": 1200,
-      "food": 340,
-      "wood": 210,
-      "stone": 85
-    },
-    "buildings": [
-      { "id": "b1", "type": "town_hall", "x": 0, "y": 0, "hp": 100, "level": 2 },
-      { "id": "b2", "type": "farm", "x": 1, "y": 0, "hp": 80, "level": 1 }
-    ],
-    "technology": {
-      "irrigation": { "level": 1, "unlocked": true },
-      "mining": { "level": 0, "unlocked": false }
-    }
+    "name": "AI Village",
+    "population": 3
   },
   "agents": [
     {
-      "id": "agent_001",
-      "name": "Elder Miriam",
-      "role": "leader",
-      "x": 0,
-      "y": 0,
-      "traits": ["wise", "diplomatic"],
-      "goals": ["expand_population", "build_infrastructure"],
-      "memory": ["Decided to build new farm at (2,3)", "Met with trader from north village"]
+      "id": "alice",
+      "name": "Alice",
+      "role": "farmer",
+      "state": "idle",
+      "position": {"x": 5, "y": 5},
+      "personality": {
+        "openness": 0.3,
+        "conscientiousness": 0.7,
+        "extraversion": 0.8,
+        "agreeableness": 0.9,
+        "neuroticism": 0.2
+      },
+      "memory": {
+        "currentGoal": "tend to farm",
+        "observations": [
+          {
+            "tick": 10,
+            "content": "決定working：天氣很好想要工作",
+            "emotional_valence": 0.2,
+            "intensity": 0.5,
+            "importance": 0.6,
+            "is_pivotal": false
+          }
+        ],
+        "reflections": []
+      },
+      "relationships": {
+        "bob": {
+          "affinity": 0.3,
+          "trust": 0.5,
+          "active_emotions": [],
+          "last_interaction": 0
+        }
+      }
     }
   ],
   "events": [
     {
-      "id": "evt_089",
-      "tick": 141,
-      "type": "resource_gain",
-      "message": "Farm produced +15 food",
-      "data": { "resource": "food", "amount": 15 }
-    },
-    {
-      "id": "evt_090",
-      "tick": 142,
-      "type": "agent_action",
-      "message": "Elder Miriam proposed building a marketplace",
-      "data": { "agentId": "agent_001", "action": "propose_building", "target": "marketplace" }
+      "tick": 13,
+      "type": "weather",
+      "agent": "system",
+      "message": "天氣變為 ☀️ sunny"
     }
-  ],
-  "map": {
-    "width": 32,
-    "height": 32,
-    "tiles": [
-      { "x": 0, "y": 0, "type": "grass", "owner": null },
-      { "x": 1, "y": 0, "type": "forest", "owner": "village" }
-    ]
-  }
-}
-```
-
-### 2.2 GitHub Actions Cron Workflow
-
-Location: `.github/workflows/village-tick.yml`
-
-```yaml
-name: Village Tick
-
-on:
-  schedule:
-    # Every 5 minutes: */5 * * * *
-    # Adjust to match tickIntervalSeconds in meta
-    - cron: '*/5 * * * *'
-  workflow_dispatch:
-    # Manual trigger for testing
-
-permissions:
-  contents: write
-  pull-requests: write
-
-jobs:
-  process-village-turn:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Read current state
-        run: |
-          curl -s https://raw.githubusercontent.com/${{ github.repository }}/main/data/village-state.json -o village-state.json
-          cat village-state.json
-
-      - name: Trigger OpenClaw agent
-        env:
-          OPENCLAW_API_KEY: ${{ secrets.OPENCLAW_API_KEY }}
-        run: |
-          curl -X POST https://api.openclaw.example/v1/agents/trigger \
-            -H "Authorization: Bearer $OPENCLAW_API_KEY" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "agent": "village-simulation-agent",
-              "payload": {
-                "stateFile": "village-state.json",
-                "tick": 142
-              }
-            }'
-
-      - name: Commit updated state
-        run: |
-          git config user.name "Village Bot"
-          git config user.email "bot@village.ai"
-          git add data/village-state.json
-          git diff --staged --stat
-          git commit -m "Tick 142: Auto-simulation update [skip ci]" || echo "No changes to commit"
-          git push
-```
-
-### 2.3 OpenClaw Agent System
-
-Each agent is a specialized AI that processes a specific aspect of the village.
-
-#### Agent Roster
-
-| Agent | Role | Responsibility |
-|-------|------|----------------|
-| `village-leader-agent` | Leader | Makes high-level decisions, assigns tasks to other agents |
-| `resource-agent` | Resource Manager | Calculates production, consumption, trade |
-| `builder-agent` | Construction | Proposes/plans building construction |
-| `diplomat-agent` | Diplomacy | Handles village relations, events, negotiations |
-| `event-logger-agent` | Historian | Logs events, maintains event timeline |
-
-#### Agent Communication Pattern
-
-Agents communicate via the shared `village-state.json`. Each agent:
-1. Reads the current state
-2. Processes its domain (e.g., calculate resource production)
-3. Writes proposed changes to a `proposals/` directory
-4. A final merge agent consolidates proposals and writes back to `village-state.json`
-
-```json
-// proposals/resource-proposal.json
-{
-  "agent": "resource-agent",
-  "tick": 142,
-  "actions": [
-    { "type": "consume", "resource": "food", "amount": 47, "reason": "population_consumption" },
-    { "type": "produce", "resource": "food", "amount": 15, "reason": "farm_output", "source": "b2" }
   ]
 }
 ```
 
-### 2.4 Frontend — Read/Refresh Pattern
+### 3.2 OpenClaw Cron
 
-The frontend is a static site (React/Vue/Vanilla JS) hosted on GitHub Pages. It polls the JSON state file and re-renders on changes.
+**Job:** `ai-village-multiagent`  
+**Schedule:** 每 15 分鐘 (`*/15 * * * *`)  
+**觸發流程：**
 
-#### Auto-Refresh Options
-
-**Option A: Polling (Simple)**
-```javascript
-// Refresh every 30 seconds
-setInterval(async () => {
-  const res = await fetch('https://raw.githubusercontent.com/{owner}/{repo}/main/data/village-state.json');
-  const state = await res.json();
-  renderVillage(state);
-}, 30000);
+```
+Cron 觸發
+    ↓
+PM Agent 收到消息
+    ↓
+運行 villager-tick-multiagent.py
+    ↓
+Spawn 3 個 Villager Agents (並行)
+    ↓
+收集決策 → 更新 Supabase
 ```
 
-**Option B: GitHub Pages with Jekyll**  
-Use Jekyll's `relative_include` or a custom plugin to serve the JSON.
+### 3.3 Per-Villager LLM Brain
 
-**Option C: Dedicated API Proxy**  
-A lightweight serverless function (Cloudflare Workers, Vercel Edge) proxies the raw file with caching headers to avoid GitHub rate limits.
+每個村民是一個獨立的 AI Agent，收到：
 
-#### Recommended Frontend Stack
+```
+你是 Alice，一個 30 歲的 farmer。
 
-- **Framework:** React 18 + Vite (lightweight, fast builds)
-- **Styling:** Tailwind CSS or plain CSS
-- **Map Rendering:** Canvas API or a lightweight library like `leaflet`
-- **State Management:** React hooks (useState, useEffect)
-- **Hosting:** GitHub Pages (via `peaceiris/actions-gh-pages`)
+【性格特徵】開放性:0.3, 盡責性:0.7, 外向性:0.8, 友善性:0.9, 神經質:0.2
 
-#### Frontend Features
+你的重要記憶：
+- 😊 和 Bob 一起工作很愉快（importance: 0.7）
+- 🤔 決定idle：想要休息一下
 
-1. **Village Map** — Grid showing tiles, buildings, agent positions
-2. **Resource Panel** — Current gold, food, wood, stone with production rates
-3. **Agent Roster** — List of agents with traits, goals, and current actions
-4. **Event Log** — Scrollable feed of recent events
-5. **Tech Tree** — Visual representation of researched technologies
-6. **Controls** — Pause/Resume simulation, manual "Advance Turn" button
+你對其他村民的態度：
+- Bob: 有好感，想要親近
+
+當前天氣：☀️ Sunny（工作動機 120%）
+
+請決定你接下來要做什麼。
+
+回應格式：
+ACTION: [行動]
+REASON: [原因]
+```
 
 ---
 
-## 3. Data Flow
+## 4. 村民系統
+
+### 4.1 村民列表
+
+| ID | 名稱 | 職業 | 性格特點 |
+|-----|------|------|----------|
+| alice | Alice | 農夫 (farmer) | 友善性高 (0.9), 外向 (0.8) |
+| bob | Bob | 鐵匠 (blacksmith) | 盡責性高 (0.9), 內向 (0.2) |
+| carol | Carol | 學徒 (apprentice) | 開放性高 (0.9), 好奇 (0.6) |
+
+### 4.2 性格系統 (Big Five)
+
+```typescript
+interface Personality {
+  openness: number;           // 0-1 好奇心、創造力
+  conscientiousness: number;  // 0-1 紀律性、工作態度
+  extraversion: number;       // 0-1 社交活躍度
+  agreeableness: number;     // 0-1 合作意願
+  neuroticism: number;       // 0-1 情緒穩定性
+}
+```
+
+### 4.3 狀態類型
+
+| 狀態 | 描述 |
+|------|------|
+| `idle` | 保持現狀 |
+| `moving` | 移動到新位置 |
+| `working` | 執行工作 |
+| `talking` | 和某人交談 |
+| `resting` | 休息 |
+
+---
+
+## 5. 記憶系統
+
+### 5.1 記憶結構
+
+```typescript
+interface Memory {
+  tick: number;
+  content: string;           // 記憶內容
+  emotional_valence: number; // -1 (負面) to 1 (正面)
+  intensity: number;         // 0 to 1 強度
+  importance: number;        // 0 to 1 重要性
+  is_pivotal: boolean;     // true = 不會衰減
+}
+```
+
+### 5.2 記憶衰減
 
 ```
-Tick T:
+每 Tick:
+  if not is_pivotal:
+    importance *= 0.98  // 2% 衰減
+```
 
-  [1] GitHub Actions Cron fires (every 5 min)
+### 5.3 記憶影響決策
+
+```python
+# 檢索相關記憶時的評分
+score = (
+    relevance * 0.3 +      # 內容相關性
+    recency * 0.2 +        # 時間新近度
+    importance * 0.3 +     # 重要性
+    emotion_bonus * 0.2    # 情緒強度
+)
+```
+
+---
+
+## 6. 關係系統
+
+### 6.1 關係結構
+
+```typescript
+interface Relationship {
+  affinity: number;         // -1 (反感) to 1 (好感)
+  trust: number;           // 0 to 1
+  respect: number;         // 0 to 1
+  familiarity: number;     // 0 to 1
+  active_emotions: string[]; // ["anger", "gratitude"]
+  last_interaction: number;  // tick
+}
+```
+
+### 6.2 關係更新規則
+
+| 互動 | 效果 |
+|------|------|
+| talk (正面) | affinity +0.1, trust +0.05 |
+| talk (負面) | affinity -0.15, 添加 "anger" |
+| work_together | affinity +0.15, trust +0.1 |
+
+---
+
+## 7. 天氣系統
+
+### 7.1 天氣類型
+
+| 天氣 | Emoji | 心情修正 | 工作效率 |
+|------|-------|----------|----------|
+| Sunny | ☀️ | +0.2 | 120% |
+| Cloudy | ☁️ | 0.0 | 100% |
+| Rainy | 🌧️ | -0.1 | 70% |
+| Stormy | ⛈️ | -0.3 | 30% |
+| Snowy | ❄️ | -0.2 | 50% |
+
+### 7.2 天氣生成
+
+- 70% 機會保持現有天氣（持續性）
+- 30% 機會變化為新天氣
+
+---
+
+## 8. Multi-Agent 協調流程
+
+```
+[1] Cron 觸發 (每 15 分鐘)
          │
          ▼
-  [2] Check if meta.paused === true
-         │  Yes → Skip processing
-         │  No  → Continue
-         ▼
-  [3] OpenClaw agents read village-state.json
+[2] PM Agent 收到消息
          │
-         ├──► Resource Agent → proposals/resource-proposal.json
-         ├──► Builder Agent  → proposals/builder-proposal.json
-         ├──► Diplomat Agent → proposals/diplomat-proposal.json
-         └──► Leader Agent   → proposals/leader-proposal.json
+         ▼
+[3] 運行 villager-tick-multiagent.py
+         │
+         ▼
+[4] 獲取所有村民的上下文
+         │
+         ├──► Spawn Alice Agent
+         ├──► Spawn Bob Agent
+         └──► Spawn Carol Agent
                 │
                 ▼
-  [4] Merge Agent reads all proposals
-         │  Validates & merges into single update
-         │  Writes new village-state.json
-         │  Increments meta.tick
-         │  Sets meta.lastUpdated
+[5] 每個 Villager Agent 用 LLM 思考
          │
          ▼
-  [5] Git push triggers GitHub Pages rebuild
+[6] 返回決策 (ACTION + REASON)
          │
          ▼
-  [6] Frontend polls & re-renders
+[7] PM Agent 收集並更新 Supabase
+         │
+         ├──► 更新每個村民的 state
+         ├──► 添加新記憶
+         ├──► 更新關係（如有互動）
+         └──► 添加事件到 events[]
          │
          ▼
-  Tick T+1
+[8] 前端 Polling 自動刷新
 ```
 
 ---
 
-## 4. GitHub Integration Pattern
-
-### Repository Structure
+## 9. 項目結構
 
 ```
 ai-village/
-├── .github/
-│   └── workflows/
-│       ├── village-tick.yml       # Cron job
-│       └── deploy-pages.yml       # GitHub Pages deploy
-├── data/
-│   ├── village-state.json         # Game state (main)
-│   └── village-state.backup.json  # Previous tick backup
-├── proposals/
-│   ├── resource-proposal.json
-│   ├── builder-proposal.json
-│   ├── diplomat-proposal.json
-│   └── leader-proposal.json
-├── src/
-│   ├── main.js                    # Entry point
-│   ├── state.js                   # State fetching & parsing
-│   ├── render.js                  # DOM rendering
-│   ├── map.js                     # Map rendering (Canvas)
-│   └── styles.css
-├── index.html
-├── package.json
-└── vite.config.js
-```
-
-### GitHub Actions Secrets
-
-| Secret | Purpose |
-|--------|---------|
-| `OPENCLAW_API_KEY` | Auth for OpenClaw agent API |
-| `OPENCLAW_WEBHOOK_SECRET` | Verify webhook authenticity |
-
-### Rate Limiting Considerations
-
-- GitHub raw content: **60 requests/hour** for unauthenticated
-- Use a token for higher limits: `${{ secrets.GITHUB_TOKEN }}`
-- Frontend should cache with `no-cache, must-revalidate` headers
-- Consider using GitHub's API with ETag support for conditional fetches
-
----
-
-## 5. Agent Responsibilities (Detailed)
-
-### 5.1 Leader Agent
-- Reads full village state
-- Evaluates overall village health (population growth, resource balance, building needs)
-- Proposes high-level goals for the tick
-- Delegates tasks to specialized agents via proposals
-- Decides final action when proposals conflict
-
-### 5.2 Resource Agent
-- Calculates resource production (farms, mines, forests)
-- Calculates resource consumption (population, buildings)
-- Detects resource shortages or surpluses
-- Proposes trade actions or storage expansion
-- Tracks resource history for trend analysis
-
-### 5.3 Builder Agent
-- Monitors building health and decay
-- Proposes new construction sites
-- Plans building upgrades based on available resources
-- Coordinates with Resource Agent to ensure materials available
-- Tracks construction progress across ticks
-
-### 5.4 Diplomat Agent
-- Generates random world events (visitors, disasters, opportunities)
-- Processes village relationships
-- Creates narrative/story for the simulation
-- Logs interesting events to the event log
-- Handles random encounters and village reputation
-
-### 5.5 Event Logger Agent
-- Maintains the canonical event log
-- Formats events for frontend display
-- Prunes old events (keep last 100 events)
-- Generates tick summary
-- Archives significant milestones
-
----
-
-## 6. State Update Concurrency
-
-Since multiple agents write proposals simultaneously, use file-based locking:
-
-```bash
-# Create a lock file before writing
-echo "agent_001" > .proposals/.lock
-git add .proposals/.lock
-git commit -m "Lock proposals for tick 142"
-# ... write proposals ...
-git commit -m "Commit proposals for tick 142"
-git push
-```
-
-Or use a **merge-first** approach:
-- All agents write to their own numbered proposal file: `proposals/agent_001_tick142.json`
-- Merge agent collects all and applies changes sequentially
-
----
-
-## 7. Error Handling
-
-| Scenario | Handling |
-|----------|----------|
-| OpenClaw API timeout | Keep current state, retry next tick, log error |
-| GitHub push conflict | Pull latest, rebase proposals, push |
-| Malformed proposal | Reject proposal, log warning, continue with others |
-| Rate limit hit | Wait 1 minute, retry (GitHub Actions has built-in retry) |
-| Frontend can't fetch | Show last cached state with "Stale data" warning |
-
----
-
-## 8. Tick Interval Recommendations
-
-| Interval | Use Case |
-|----------|----------|
-| `*/5 * * * *` (5 min) | Fast simulation, active development |
-| `*/15 * * * *` (15 min) | Balanced, default recommendation |
-| `*/30 * * * *` (30 min) | Relaxed pace, casual viewing |
-| Manual only | Debugging or one-shot mode |
-
-Match `meta.tickIntervalSeconds` to the cron schedule:
-- 5 min cron → `tickIntervalSeconds: 300`
-- 15 min cron → `tickIntervalSeconds: 900`
-
----
-
-## 9. Scaling to Multiple Villages
-
-For multiple simultaneous villages, use subdirectories:
-
-```
-data/
-├── village-willowbrook/
-│   └── state.json
-├── village-oakvale/
-│   └── state.json
-└── meta.json
-```
-
-Frontend can switch between villages via URL parameter:
-```
-?village=willowbrook
+├── index.html              # 前端頁面
+├── state/
+│   └── village-state.json  # 本地備份
+├── scripts/
+│   ├── villager-tick-multiagent.py  # 多 Agent 協調
+│   ├── villager-tick-llm.py         # LLM 版本
+│   └── villager-tick.py              # 基礎版本
+├── docs/
+│   ├── ai-village-architecture.md    # 本文件
+│   ├── ai-village-frontend.md       # 前端文檔
+│   └── ai-village-implementation.md  # 實現文檔
+└── .env                      # 環境配置
 ```
 
 ---
 
-## 10. Quick Start Checklist
+## 10. 技術棧
 
-- [ ] Create GitHub repository with GitHub Pages enabled
-- [ ] Add `OPENCLAW_API_KEY` secret to repo settings
-- [ ] Create `.github/workflows/village-tick.yml`
-- [ ] Initialize `data/village-state.json` with initial state
-- [ ] Deploy frontend to GitHub Pages
-- [ ] Verify cron fires and state updates
-- [ ] Add OpenClaw agent webhooks for processing
-- [ ] Configure frontend polling interval
+| 組件 | 技術 |
+|------|------|
+| 前端 | HTML + JavaScript + Polling |
+| 數據庫 | Supabase (JSONB) |
+| Agent | OpenClaw + MiniMax LLM |
+| Cron | OpenClaw Cron |
+| 部署 | GitHub Pages (前端) |
 
 ---
 
-*This document is a living specification. Update as the system evolves.*
+## 11. 與舊架構的區別
+
+| 項目 | 舊架構 (v1) | 新架構 (v2) |
+|------|-------------|-------------|
+| 數據存儲 | GitHub JSON | Supabase |
+| Agent 數量 | 5+ (資源/建築/外交等) | 3 (每村民一個) |
+| 決策方式 | 多 Agent 提案合併 | Per-Villager LLM Brain |
+| 更新頻率 | Cron → GitHub Actions | Cron → OpenClaw Agent |
+| 記憶系統 | 簡單陣列 | 情感記憶 + 關係追蹤 |
+
+---
+
+## 12. 未來計劃
+
+- [ ] 實現故事線追蹤系統
+- [ ] 添加更多村民
+- [ ] 實現資源經濟系統
+- [ ] 添加訪客和事件系統
+- [ ] 實現村莊設施建築
+
+---
+
+*最後更新: 2026-03-24*
