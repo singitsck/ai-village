@@ -1,17 +1,17 @@
 {
   "meta": {
     "version": "1.0.0",
-    "lastUpdated": "2026-03-24T03:11:00Z",
-    "tick": 4,
+    "lastUpdated": "2026-03-24T03:15:00Z",
+    "tick": 5,
     "tickIntervalSeconds": 900
   },
   "village": {
     "name": "AI Village",
     "population": 3,
     "resources": {
-      "gold": 100,
+      "gold": 110,
       "food": 66,
-      "wood": 46,
+      "wood": 38,
       "stone": 14
     }
   },
@@ -31,20 +31,23 @@
         "x": 5,
         "y": 5
       },
-      "state": "idle",
+      "state": "working",
       "inventory": [],
       "memory": {
         "observations": [
-          "Village has 66 food, 46 wood, 14 stone, 100 gold",
+          "Village has 66 food, 38 wood, 14 stone, 110 gold",
           "Carol is an apprentice interested in magic",
           "Harvested crops successfully (+8 food)",
-          "Bob gathered wood and stone (+8 wood, +2 stone)"
+          "Bob gathered wood and stone (+8 wood, +2 stone)",
+          "Fields are prepared, next harvest will be bountiful (+12 food expected)",
+          "Bob crafted tools at the forge (+10 gold from trade)"
         ],
         "reflections": [
           "Farming is rewarding when the weather is good",
-          "The village is well-stocked with food now"
+          "The village is well-stocked with food now",
+          "Prepared fields mean better yields next season"
         ],
-        "currentGoal": "prepare fields for next planting season"
+        "currentGoal": "await next planting season after successful field preparation"
       }
     },
     {
@@ -62,20 +65,23 @@
         "x": 10,
         "y": 8
       },
-      "state": "idle",
+      "state": "working",
       "inventory": [],
       "memory": {
         "observations": [
           "Gathered good quality wood from the forest (+8 wood)",
-          "Village has 46 wood available",
+          "Village has 38 wood available after crafting",
           "Found some stone near the forest edge (+2 stone)",
-          "Alice is a reliable farmer who keeps the village fed"
+          "Alice is a reliable farmer who keeps the village fed",
+          "Crafted 2 wood tools at the forge (+10 gold from village trade)",
+          "Village wealth is growing with tool production"
         ],
         "reflections": [
           "Quality wood makes better tools",
-          "With more wood, I can craft tools for the village"
+          "With more wood, I can craft more tools for the village",
+          "Tool production brings gold into the village"
         ],
-        "currentGoal": "return to forge and craft tools using accumulated wood"
+        "currentGoal": "continue tool production with remaining wood supply"
       }
     },
     {
@@ -91,9 +97,9 @@
       },
       "position": {
         "x": 8,
-        "y": 12
+        "y": 4
       },
-      "state": "idle",
+      "state": "exploring",
       "inventory": [],
       "memory": {
         "observations": [
@@ -101,97 +107,39 @@
           "The village has limited magical resources",
           "Explored eastern ruins, found an old journal (+0 gold donated to village)",
           "The ruins hold secrets of the old civilization",
-          "The journal speaks of a hidden spring in the north"
+          "The journal speaks of a hidden spring in the north",
+          "Carol discovers a small magical spring! The water sparkles with unusual energy.",
+          "Hidden Spring found! A pristine spring in the northern part of the village, said to have healing properties"
         ],
         "reflections": [
           "Ancient knowledge is worth more than gold",
-          "The journal's secrets could help the village"
+          "The journal's secrets could help the village",
+          "The Hidden Spring may hold magical properties worth studying"
         ],
-        "currentGoal": "share journal findings with villagers and explore the hidden spring"
+        "currentGoal": "study the Hidden Spring's properties and report findings to village"
       }
     }
   ],
   "events": [
-    {
-      "tick": 1,
-      "type": "action",
-      "agent": "Carol",
-      "message": "Carol is now idle",
-      "timestamp": "2026-03-24T02:55:18Z"
-    },
-    {
-      "tick": 2,
-      "type": "action",
-      "agent": "Alice",
-      "message": "Alice heads to the farm to harvest crops",
-      "timestamp": "2026-03-24T03:00:00Z"
-    },
-    {
-      "tick": 2,
-      "type": "action",
-      "agent": "Bob",
-      "message": "Bob ventures to the forest to gather wood for forging",
-      "timestamp": "2026-03-24T03:00:00Z"
-    },
-    {
-      "tick": 2,
-      "type": "action",
-      "agent": "Carol",
-      "message": "Carol explores the eastern part of the village seeking magic",
-      "timestamp": "2026-03-24T03:00:00Z"
-    },
-    {
-      "tick": 3,
-      "type": "action",
-      "agent": "Alice",
-      "message": "Alice returns from the farm with a bountiful harvest (+8 food)",
-      "timestamp": "2026-03-24T03:09:00Z"
-    },
-    {
-      "tick": 3,
-      "type": "action",
-      "agent": "Bob",
-      "message": "Bob returns from the forest with wood and stone (+8 wood, +2 stone)",
-      "timestamp": "2026-03-24T03:09:00Z"
-    },
-    {
-      "tick": 3,
-      "type": "action",
-      "agent": "Carol",
-      "message": "Carol discovers ancient ruins in the east and finds a mysterious journal",
-      "timestamp": "2026-03-24T03:09:00Z"
-    },
-    {
-      "tick": 3,
-      "type": "discovery",
-      "agent": "Carol",
-      "message": "Ancient knowledge uncovered! Carol's discovery enriches village wisdom.",
-      "timestamp": "2026-03-24T03:09:00Z"
-    },
-    {
-      "tick": 4,
-      "type": "action",
-      "agent": "Alice",
-      "message": "Alice returns from the farm with another good harvest (+8 food)",
-      "timestamp": "2026-03-24T03:11:00Z"
-    },
-    {
-      "tick": 4,
-      "type": "action",
-      "agent": "Bob",
-      "message": "Bob heads to his forge to craft tools from the gathered wood",
-      "timestamp": "2026-03-24T03:11:00Z"
-    },
-    {
-      "tick": 4,
-      "type": "action",
-      "agent": "Carol",
-      "message": "Carol shares the journal's secrets with the village and prepares to seek the hidden spring",
-      "timestamp": "2026-03-24T03:11:00Z"
-    }
+    {"tick": 1, "type": "action", "agent": "Carol", "message": "Carol is now idle", "timestamp": "2026-03-24T02:55:18Z"},
+    {"tick": 2, "type": "action", "agent": "Alice", "message": "Alice heads to the farm to harvest crops", "timestamp": "2026-03-24T03:00:00Z"},
+    {"tick": 2, "type": "action", "agent": "Bob", "message": "Bob ventures to the forest to gather wood for forging", "timestamp": "2026-03-24T03:00:00Z"},
+    {"tick": 2, "type": "action", "agent": "Carol", "message": "Carol explores the eastern part of the village seeking magic", "timestamp": "2026-03-24T03:00:00Z"},
+    {"tick": 3, "type": "action", "agent": "Alice", "message": "Alice returns from the farm with a bountiful harvest (+8 food)", "timestamp": "2026-03-24T03:09:00Z"},
+    {"tick": 3, "type": "action", "agent": "Bob", "message": "Bob returns from the forest with wood and stone (+8 wood, +2 stone)", "timestamp": "2026-03-24T03:09:00Z"},
+    {"tick": 3, "type": "action", "agent": "Carol", "message": "Carol discovers ancient ruins in the east and finds a mysterious journal", "timestamp": "2026-03-24T03:09:00Z"},
+    {"tick": 3, "type": "discovery", "agent": "Carol", "message": "Ancient knowledge uncovered! Carol's discovery enriches village wisdom.", "timestamp": "2026-03-24T03:09:00Z"},
+    {"tick": 4, "type": "action", "agent": "Alice", "message": "Alice returns from the farm with another good harvest (+8 food)", "timestamp": "2026-03-24T03:11:00Z"},
+    {"tick": 4, "type": "action", "agent": "Bob", "message": "Bob heads to his forge to craft tools from the gathered wood", "timestamp": "2026-03-24T03:11:00Z"},
+    {"tick": 4, "type": "action", "agent": "Carol", "message": "Carol shares the journal's secrets with the village and prepares to seek the hidden spring", "timestamp": "2026-03-24T03:11:00Z"},
+    {"tick": 5, "type": "action", "agent": "Alice", "message": "Alice prepares the fields for the next planting season by tilling the soil", "timestamp": "2026-03-24T03:15:00Z"},
+    {"tick": 5, "type": "action", "agent": "Bob", "message": "Bob crafts tools using his accumulated wood at the village forge", "timestamp": "2026-03-24T03:15:00Z"},
+    {"tick": 5, "type": "action", "agent": "Carol", "message": "Carol ventures north toward the rumored hidden spring", "timestamp": "2026-03-24T03:15:00Z"},
+    {"tick": 5, "type": "discovery", "agent": "Carol", "message": "Carol discovers a small magical spring! The water sparkles with unusual energy.", "timestamp": "2026-03-24T03:15:00Z"}
   ],
   "map": {
     "width": 20,
-    "height": 15
+    "height": 15,
+    "discoveries": ["Hidden Spring at north (8, 4)"]
   }
 }
