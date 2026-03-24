@@ -1,17 +1,17 @@
 {
   "meta": {
     "version": "1.0.0",
-    "lastUpdated": "2026-03-24T04:55:00Z",
-    "tick": 12,
+    "lastUpdated": "2026-03-24T05:03:43Z",
+    "tick": 13,
     "tickIntervalSeconds": 900
   },
   "village": {
     "name": "AI Village",
     "population": 3,
     "resources": {
-      "gold": 140,
+      "gold": 155,
       "food": 100,
-      "wood": 32,
+      "wood": 22,
       "stone": 16
     }
   },
@@ -31,14 +31,14 @@
         "x": 5,
         "y": 5
       },
-      "state": "working",
+      "state": "resting",
       "inventory": [],
       "memory": {
         "observations": [
-          "Village food reached 100 — a historic milestone!",
-          "Village has 100 food, 42 wood, 14 stone, 125 gold — village prosperity at an all-time high!",
-          "Another successful harvest brings village food to 100 — a new milestone!",
-          "Village has 100 food, 52 wood, 16 stone, 125 gold — village prosperity growing!",
+          "Village food reached 100 \u2014 a historic milestone!",
+          "Village has 100 food, 42 wood, 14 stone, 125 gold \u2014 village prosperity at an all-time high!",
+          "Another successful harvest brings village food to 100 \u2014 a new milestone!",
+          "Village has 100 food, 52 wood, 16 stone, 125 gold \u2014 village prosperity growing!",
           "Village has 92 food, 32 wood, 14 stone, 120 gold",
           "Carol is an apprentice interested in magic",
           "Harvested crops successfully (+8 food)",
@@ -46,8 +46,10 @@
           "Fields are prepared, next harvest will be bountiful (+12 food expected)",
           "Bob crafted tools at the forge (+10 gold from trade)",
           "Harvested crops successfully (+8 food)",
-          "The village is bursting with abundance — a perfect time to invest in future harvests",
-          "Well-tended fields yield better crops — spent time clearing irrigation channels"
+          "The village is bursting with abundance \u2014 a perfect time to invest in future harvests",
+          "Well-tended fields yield better crops \u2014 spent time clearing irrigation channels",
+          "Fields are prepared, next harvest will be bountiful",
+          "Village has 100 food, 22 wood, 16 stone, 155 gold"
         ],
         "reflections": [
           "Farming is rewarding when the weather is good",
@@ -60,7 +62,7 @@
           "The village deserves a moment to appreciate our accomplishments",
           "Investing time in irrigation now means larger harvests later"
         ],
-        "currentGoal": "prepare fields for next season's harvest"
+        "currentGoal": "rest before next harvest"
       }
     },
     {
@@ -82,8 +84,8 @@
       "inventory": [],
       "memory": {
         "observations": [
-          "Wood supplies at 52 — excellent reserves for a productive forge session",
-          "Carol found a jade amulet in the southern ruins — donated to village (+5 gold)",
+          "Wood supplies at 52 \u2014 excellent reserves for a productive forge session",
+          "Carol found a jade amulet in the southern ruins \u2014 donated to village (+5 gold)",
           "Gathered good quality wood from the forest (+8 wood)",
           "Village has 40 wood available after gathering",
           "Found some stone near the forest edge (+2 stone)",
@@ -91,11 +93,12 @@
           "Crafted 2 wood tools at the forge (+10 gold from village trade)",
           "Village wealth is growing with tool production",
           "Wood supplies are getting low, need to gather more before next forge session",
-          "Village gold reached 120 — new milestone!",
+          "Village gold reached 120 \u2014 new milestone!",
           "Gathered additional wood from forest (+10 wood)",
           "Gathered wood and stone from forest (+10 wood, +2 stone)",
-          "Village gold at 140 — Carol's discoveries are attracting traders",
-          "Wood supplies at 52 — perfect for crafting before gathering season ends"
+          "Village gold at 140 \u2014 Carol's discoveries are attracting traders",
+          "Wood supplies at 52 \u2014 perfect for crafting before gathering season ends",
+          "Crafted 4 quality tools at the forge (+15 gold from village trade)"
         ],
         "reflections": [
           "Quality wood makes better tools",
@@ -107,7 +110,7 @@
           "The village's jade amulet discovery diversifies our wealth",
           "With 32 wood remaining, I should gather more before the next forge run"
         ],
-        "currentGoal": "craft tools and build village gold reserves"
+        "currentGoal": "gather more wood for next crafting session"
       }
     },
     {
@@ -147,7 +150,7 @@
         "observations": [
           "The carved stone tablet mentions a 'well of visions' deep within the eastern ruins",
           "A carved stone tablet found near the amulet speaks of 'the three pillars of balance: food, craft, and wisdom'",
-          "The southern ruins are rich with artifacts — this site was clearly important to the ancient civilization",
+          "The southern ruins are rich with artifacts \u2014 this site was clearly important to the ancient civilization",
           "Carol found a small jade amulet in the southern ruins! Donated to village for +5 gold",
           "Bob is a skilled blacksmith, could teach me about crafting",
           "The village has limited magical resources",
@@ -159,7 +162,8 @@
           "Carol ventures east toward the legendary well of visions",
           "Carol explores the eastern ruins seeking the legendary well of visions",
           "The Well of Visions! Its waters reflect not the sky, but fragments of possible futures",
-          "Drank from the Well of Visions — visions of the village thriving, its three pillars balanced: golden wheat fields, glowing forge, and luminous archives"
+          "Drank from the Well of Visions \u2014 visions of the village thriving, its three pillars balanced: golden wheat fields, glowing forge, and luminous archives",
+          "The Well of Visions shows the path forward: balance between food, craft, and wisdom"
         ],
         "reflections": [
           "Ancient knowledge is worth more than gold",
@@ -169,7 +173,7 @@
           "Documentation is key to preserving discoveries for future generations",
           "The village should consider protecting the spring as a sacred site",
           "The southern ruins reveal a civilization that valued balance between food, craft, and wisdom",
-          "The 'well of visions' is real — and its prophetic waters show the path to true village prosperity"
+          "The 'well of visions' is real \u2014 and its prophetic waters show the path to true village prosperity"
         ],
         "currentGoal": "share the Well of Visions' prophecies with the village"
       }
@@ -299,7 +303,7 @@
       "tick": 6,
       "type": "action",
       "agent": "Carol",
-      "message": "Carol studies the Hidden Spring closely — noting its magical glow and unusual properties",
+      "message": "Carol studies the Hidden Spring closely \u2014 noting its magical glow and unusual properties",
       "timestamp": "2026-03-24T03:22:00Z"
     },
     {
@@ -334,7 +338,7 @@
       "tick": 8,
       "type": "action",
       "agent": "Alice",
-      "message": "Alice continues harvesting — another successful yield from the well-tended fields (+8 food)",
+      "message": "Alice continues harvesting \u2014 another successful yield from the well-tended fields (+8 food)",
       "timestamp": "2026-03-24T03:38:00Z"
     },
     {
@@ -355,21 +359,21 @@
       "tick": 9,
       "type": "action",
       "agent": "Alice",
-      "message": "Alice returns from the farm with another excellent harvest (+8 food) — village food hits 100!",
+      "message": "Alice returns from the farm with another excellent harvest (+8 food) \u2014 village food hits 100!",
       "timestamp": "2026-03-24T04:00:00Z"
     },
     {
       "tick": 9,
       "type": "action",
       "agent": "Bob",
-      "message": "Bob returns from the forest with a full load of wood (+10 wood) — supplies at 42",
+      "message": "Bob returns from the forest with a full load of wood (+10 wood) \u2014 supplies at 42",
       "timestamp": "2026-03-24T04:00:00Z"
     },
     {
       "tick": 9,
       "type": "action",
       "agent": "Carol",
-      "message": "Carol returns from southern ruins with a jade amulet — donated to village (+5 gold)",
+      "message": "Carol returns from southern ruins with a jade amulet \u2014 donated to village (+5 gold)",
       "timestamp": "2026-03-24T04:00:00Z"
     },
     {
@@ -439,25 +443,46 @@
       "tick": 12,
       "type": "action",
       "agent": "Carol",
-      "message": "Carol discovers the legendary Well of Visions — its waters reflect possible futures! She drinks and sees the village at peace, three pillars balanced: golden fields, glowing forge, and luminous archives.",
+      "message": "Carol discovers the legendary Well of Visions \u2014 its waters reflect possible futures! She drinks and sees the village at peace, three pillars balanced: golden fields, glowing forge, and luminous archives.",
       "timestamp": "2026-03-24T04:55:00Z"
     },
     {
       "tick": 12,
       "type": "discovery",
       "agent": "Carol",
-      "message": "LEGENDARY DISCOVERY! The Well of Visions reveals the path to true village prosperity — all three pillars balanced. Carol fills a vial with vision water to share with the village.",
+      "message": "LEGENDARY DISCOVERY! The Well of Visions reveals the path to true village prosperity \u2014 all three pillars balanced. Carol fills a vial with vision water to share with the village.",
       "timestamp": "2026-03-24T04:55:00Z"
+    },
+    {
+      "tick": 13,
+      "type": "action",
+      "agent": "Alice",
+      "message": "Alice prepares the fields and clears irrigation channels for next season",
+      "timestamp": "2026-03-24T05:03:43Z"
+    },
+    {
+      "tick": 13,
+      "type": "action",
+      "agent": "Bob",
+      "message": "Bob crafts 4 quality tools at the forge (+15 gold)",
+      "timestamp": "2026-03-24T05:03:43Z"
+    },
+    {
+      "tick": 13,
+      "type": "action",
+      "agent": "Carol",
+      "message": "Carol studies the Well of Visions prophecies and their meaning for village prosperity",
+      "timestamp": "2026-03-24T05:03:43Z"
     }
   ],
   "map": {
     "width": 20,
     "height": 15,
     "discoveries": [
-      "Hidden Spring at (8, 4) — luminescent healing properties documented",
-      "Southern Ruins artifact: Jade Amulet + carved stone tablet — ancient balance philosophy uncovered",
+      "Hidden Spring at (8, 4) \u2014 luminescent healing properties documented",
+      "Southern Ruins artifact: Jade Amulet + carved stone tablet \u2014 ancient balance philosophy uncovered",
       "Legend of 'Well of Visions' in eastern ruins mentioned on stone tablet",
-      "Well of Visions at (14, 3) — legendary site of ancient wisdom, PROPHECY REVEALED"
+      "Well of Visions at (14, 3) \u2014 legendary site of ancient wisdom, PROPHECY REVEALED"
     ]
   }
 }
