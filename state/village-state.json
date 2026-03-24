@@ -1,8 +1,8 @@
 {
   "meta": {
     "version": "1.0.0",
-    "lastUpdated": "2026-03-24T03:22:00Z",
-    "tick": 6,
+    "lastUpdated": "2026-03-24T03:30:00Z",
+    "tick": 7,
     "tickIntervalSeconds": 900
   },
   "village": {
@@ -10,8 +10,8 @@
     "population": 3,
     "resources": {
       "gold": 120,
-      "food": 76,
-      "wood": 30,
+      "food": 84,
+      "wood": 40,
       "stone": 14
     }
   },
@@ -28,26 +28,29 @@
         "neuroticism": 0.2
       },
       "position": { "x": 5, "y": 5 },
-      "state": "idle",
+      "state": "working",
       "inventory": [],
       "memory": {
         "observations": [
-          "Village has 76 food, 30 wood, 14 stone, 120 gold",
+          "Village has 84 food, 40 wood, 14 stone, 120 gold",
           "Carol is an apprentice interested in magic",
           "Harvested crops successfully (+8 food)",
           "Bob gathered wood and stone (+8 wood, +2 stone)",
           "Fields are prepared, next harvest will be bountiful (+12 food expected)",
           "Bob crafted tools at the forge (+10 gold from trade)",
           "Harvested prepared fields — excellent yield! (+10 food)",
-          "Village food stores are growing steadily"
+          "Village food stores are growing steadily",
+          "Bob needs more wood for his forge work",
+          "The prepared fields yielded a good harvest (+8 food)"
         ],
         "reflections": [
           "Farming is rewarding when the weather is good",
           "The village is well-stocked with food now",
           "Prepared fields mean better yields next season",
-          "A well-fed village is a happy village"
+          "A well-fed village is a happy village",
+          "Rotation between resting and harvesting keeps the farm productive"
         ],
-        "currentGoal": "rest and await next planting cycle"
+        "currentGoal": "continue the harvest cycle to maintain food surplus"
       }
     },
     {
@@ -67,21 +70,24 @@
       "memory": {
         "observations": [
           "Gathered good quality wood from the forest (+8 wood)",
-          "Village has 30 wood available after crafting",
+          "Village has 40 wood available after gathering",
           "Found some stone near the forest edge (+2 stone)",
           "Alice is a reliable farmer who keeps the village fed",
           "Crafted 2 wood tools at the forge (+10 gold from village trade)",
           "Village wealth is growing with tool production",
           "Wood supplies are getting low, need to gather more before next forge session",
-          "Village gold reached 120 — new milestone!"
+          "Village gold reached 120 — new milestone!",
+          "Gathered additional wood from forest (+10 wood)",
+          "Wood supplies are recovering nicely"
         ],
         "reflections": [
           "Quality wood makes better tools",
           "With more wood, I can craft more tools for the village",
           "Tool production brings gold into the village",
-          "Must replenish wood before the next crafting run"
+          "Must replenish wood before the next crafting run",
+          "Sustained wood supply is the key to consistent tool production"
         ],
-        "currentGoal": "gather more wood from the forest to sustain tool production"
+        "currentGoal": "return to forge with gathered wood to craft new tools"
       }
     },
     {
@@ -96,7 +102,7 @@
         "neuroticism": 0.3
       },
       "position": { "x": 8, "y": 4 },
-      "state": "studying",
+      "state": "idle",
       "inventory": [],
       "memory": {
         "observations": [
@@ -108,15 +114,19 @@
           "Carol discovers a small magical spring! The water sparkles with unusual energy.",
           "Hidden Spring found! A pristine spring in the northern part of the village, said to have healing properties",
           "The spring water glows faintly blue at night — clearly magical",
-          "Spring water is cool and fresh, with tiny motes of light floating on the surface"
+          "Spring water is cool and fresh, with tiny motes of light floating on the surface",
+          "Documented the spring's luminescent properties — small glowing particles drift upward from the water's surface",
+          "Shared findings with Alice and Bob about the spring's potential healing properties"
         ],
         "reflections": [
           "Ancient knowledge is worth more than gold",
           "The journal's secrets could help the village",
           "The Hidden Spring may hold magical properties worth studying",
-          "The spring could be a valuable village resource if its properties are understood"
+          "The spring could be a valuable village resource if its properties are understood",
+          "Documentation is key to preserving discoveries for future generations",
+          "The village should consider protecting the spring as a sacred site"
         ],
-        "currentGoal": "document spring properties and share findings with the village"
+        "currentGoal": "rest after documenting and sharing findings; await next adventure"
       }
     }
   ],
@@ -139,11 +149,14 @@
     {"tick": 6, "type": "action", "agent": "Alice", "message": "Alice harvests the prepared fields with an excellent yield (+10 food)", "timestamp": "2026-03-24T03:22:00Z"},
     {"tick": 6, "type": "action", "agent": "Bob", "message": "Bob ventures back to the forest to gather more wood for the forge", "timestamp": "2026-03-24T03:22:00Z"},
     {"tick": 6, "type": "action", "agent": "Carol", "message": "Carol studies the Hidden Spring closely — noting its magical glow and unusual properties", "timestamp": "2026-03-24T03:22:00Z"},
-    {"tick": 6, "type": "discovery", "agent": "Carol", "message": "Magical properties confirmed! The spring water exhibits faint luminescent particles that suggest healing or restorative qualities.", "timestamp": "2026-03-24T03:22:00Z"}
+    {"tick": 6, "type": "discovery", "agent": "Carol", "message": "Magical properties confirmed! The spring water exhibits faint luminescent particles that suggest healing or restorative qualities.", "timestamp": "2026-03-24T03:22:00Z"},
+    {"tick": 7, "type": "action", "agent": "Alice", "message": "Alice tends to the fields and harvests more crops (+8 food)", "timestamp": "2026-03-24T03:30:00Z"},
+    {"tick": 7, "type": "action", "agent": "Bob", "message": "Bob returns from the forest with a good haul of wood (+10 wood)", "timestamp": "2026-03-24T03:30:00Z"},
+    {"tick": 7, "type": "action", "agent": "Carol", "message": "Carol documents her findings about the Hidden Spring and shares them with the village", "timestamp": "2026-03-24T03:30:00Z"}
   ],
   "map": {
     "width": 20,
     "height": 15,
-    "discoveries": ["Hidden Spring at (8, 4) — luminescent, healing properties suspected"]
+    "discoveries": ["Hidden Spring at (8, 4) — luminescent healing properties documented"]
   }
 }
