@@ -412,11 +412,11 @@
                 <div class="villager-card">
                     <div class="villager-header">
                         <div class="villager-avatar ${agent.role || ''}">
-                            ${ROLE_EMOJI[agent.role] || '👤'}
+                            ${getGenderEmoji(agent.gender)} ${ROLE_EMOJI[agent.role] || '👤'}
                         </div>
                         <div class="villager-info">
-                            <h2>${agent.name || '未知'}</h2>
-                            <span class="villager-role">${getRoleText(agent.role)}</span>
+                            <h2>${agent.name || '未知'} ${getGenderEmoji(agent.gender)}</h2>
+                            <span class="villager-role">${getRoleText(agent.role)} · ${agent.age || '?'}歲 · ${getGenderText(agent.gender)}</span>
                             <span class="state-badge state-${agent.state || 'idle'}">
                                 ${STATE_EMOJI[agent.state] || ''} ${getStateText(agent.state)}
                             </span>
@@ -621,6 +621,16 @@
                 apprentice: 'linear-gradient(135deg, #a78bfa, #8b5cf6)'
             };
             return map[role] || '#60a5fa';
+        }
+        
+        function getGenderEmoji(gender) {
+            const map = { female: '👩', male: '👨', other: '🧑' };
+            return map[gender] || '👤';
+        }
+        
+        function getGenderText(gender) {
+            const map = { female: '女性', male: '男性', other: '其他' };
+            return map[gender] || '未知';
         }
         
         // Start
