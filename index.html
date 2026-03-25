@@ -129,6 +129,33 @@
             color: #a78bfa;
         }
         
+        .personality-section {
+            background: #0f346022;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        
+        .attr-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 12px;
+            border-bottom: 1px solid #0f346033;
+        }
+        
+        .attr-row:last-child {
+            border-bottom: none;
+        }
+        
+        .attr-label {
+            color: #888;
+        }
+        
+        .attr-value {
+            color: #ddd;
+        }
+        
         .section-title {
             font-size: 14px;
             color: #e94560;
@@ -425,6 +452,26 @@
                     
                     <div class="goal">
                         🎯 目標: ${memory.currentGoal || agent.goal || '快樂生活'}
+                    </div>
+                    
+                    <div class="section-title">✨ 個人特質</div>
+                    <div class="personality-section">
+                        <div class="attr-row">
+                            <span class="attr-label">🎂 生日</span>
+                            <span class="attr-value">${agent.birthday || '待發掘...'}</span>
+                        </div>
+                        <div class="attr-row">
+                            <span class="attr-label">🎨 興趣</span>
+                            <span class="attr-value">${(agent.hobbies || []).join(', ') || '待發掘...'}</span>
+                        </div>
+                        <div class="attr-row">
+                            <span class="attr-label">⭐ 專長</span>
+                            <span class="attr-value">${agent.specialty || '待發掘...'}</span>
+                        </div>
+                        <div class="attr-row">
+                            <span class="attr-label">👨‍👩‍👧 家庭</span>
+                            <span class="attr-value">${agent.family_status || '待發掘...'}</span>
+                        </div>
                     </div>
                     
                     <div class="section-title">🧠 性格特徵</div>
