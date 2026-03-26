@@ -1,92 +1,64 @@
-# 🏘️ AI Village Civilization
+# AI Village 🌾
 
-> Multi-agent AI simulation running on GitHub Pages with Cron-driven agents
+> 每個村民是一個獨立的 AI Agent，會記住過去、影響未來決定
 
-## Overview
+## 🎯 願景
 
-This is a virtual village where AI agents (villagers) live, interact, and make decisions autonomously. Each agent has:
-- **Memory** - They remember past events and learn from them
-- **Personality** - Based on Big Five personality model
-- **Goals** - Each villager has their own objectives
-- **Relationships** - They form bonds with other villagers
+村民會有真正個性化的記憶：
+- 「我上次和 Bob 吵架了，所以今天不想幫他蓋房子」
+- 「Carol 是我的好朋友，我總是想和她一起工作」
 
-## Architecture
+會自然產生故事：有人談戀愛、有人偷懶、有人發起革命、有人因為天氣心情差而遷移。世界感覺極度「活」。
 
-```
-GitHub Repo → OpenClaw Cron (15min) → Agents → village-state.json → GitHub Pages → Browser
-```
-
-- **Frontend**: Static HTML + Canvas 2D (hosted on GitHub Pages)
-- **State**: JSON file in the repo (`/state/village-state.json`)
-- **AI Brain**: OpenClaw Cron Jobs trigger agents to update the village
-
-## Quick Start
-
-1. Visit the live demo: **[https://singitsck.github.io/ai-village](https://singitsck.github.io/ai-village)**
-2. Watch the villagers interact
-3. Click refresh to see new events
-
-## For Developers
-
-### Project Structure
+## 🏛️ 當前架構
 
 ```
-ai-village/
-├── index.html          # Main display (GitHub Pages entry)
-├── state/
-│   └── village-state.json   # Village state (updated by agents)
-├── docs/
-│   ├── ai-village-architecture.md
-│   ├── ai-village-implementation.md
-│   └── ai-village-frontend.md
-└── scripts/           # Automation scripts
+Frontend (GitHub Pages)
+    ↕ Polling (3s)
+Supabase (village_state)
+    ↑
+PM Agent → Spawn 3 Villager Agents
+    ↑
+OpenClaw Cron (每 15 分鐘)
 ```
 
-### Village State Schema
+## 🌐 當前狀態
 
-```json
-{
-  "meta": {
-    "version": "1.0.0",
-    "lastUpdated": "2026-03-24T02:48:00Z",
-    "tick": 0,
-    "tickIntervalSeconds": 900
-  },
-  "village": {
-    "name": "AI Village",
-    "population": 3,
-    "resources": { "gold": 100, "food": 50, "wood": 30, "stone": 10 }
-  },
-  "agents": [
-    {
-      "id": "alice",
-      "name": "Alice",
-      "role": "farmer",
-      "personality": { "openness": 0.3, "extraversion": 0.8, ... },
-      "position": {"x": 5, "y": 5},
-      "state": "idle",
-      "memory": { "observations": [], "reflections": [], "currentGoal": "tend to farm" }
-    }
-  ],
-  "events": []
-}
-```
+**Live Demo:** https://singitsck.github.io/ai-village/
 
-## Villagers
+| 村民 | 職業 | 決策 |
+|------|------|------|
+| Alice | 農夫 | rest |
+| Bob | 鐵匠 | talk_to Alice |
+| Carol | 學徒 | talk_to Alice |
 
-| Name | Role | Personality |
-|------|------|-------------|
-| Alice | Farmer | Friendly, extroverted |
-| Bob | Blacksmith | Reserved, conscientious |
-| Carol | Apprentice | Curious, creative |
+## 📁 文檔
 
-## Tech Stack
+- [Architecture](docs/ai-village-architecture.md) - 系統架構
+- [Frontend](docs/ai-village-frontend.md) - 前端說明
+- [Implementation](docs/ai-village-implementation.md) - 實現指南
 
-- **Frontend**: Vanilla JS + Canvas 2D
-- **State**: JSON file on GitHub
-- **AI**: OpenClaw Cron Jobs (15 min interval)
-- **Hosting**: GitHub Pages (free)
+## 🚀 技術棧
 
-## License
+| 組件 | 技術 |
+|------|------|
+| 前端 | HTML + JS + Polling |
+| 數據庫 | Supabase |
+| Agent | OpenClaw (PM + 3 Villagers) |
+| Cron | OpenClaw Cron |
 
-MIT
+## 📊 當前功能
+
+- [x] Per-Villager LLM Brain
+- [x] 情感記憶系統
+- [x] 關係追蹤系統
+- [x] 天氣系統
+- [x] Multi-Agent 協調
+- [x] 自然故事產生
+- [ ] 故事線追蹤
+- [ ] 資源經濟系統
+- [ ] 訪客系統
+
+---
+
+*最後更新: 2026-03-26*
