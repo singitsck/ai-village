@@ -91,6 +91,8 @@
         .villager-avatar.farmer { background: linear-gradient(135deg, #4ade80, #22c55e); border-color: #4ade80; }
         .villager-avatar.blacksmith { background: linear-gradient(135deg, #f97316, #ea580c); border-color: #f97316; }
         .villager-avatar.apprentice { background: linear-gradient(135deg, #a78bfa, #8b5cf6); border-color: #a78bfa; }
+        .villager-avatar.leader { background: linear-gradient(135deg, #facc15, #eab308); border-color: #facc15; }
+        .villager-avatar.unknown { background: linear-gradient(135deg, #60a5fa, #3b82f6); border-color: #60a5fa; }
         
         .villager-info h2 {
             font-size: 20px;
@@ -98,7 +100,7 @@
             margin-bottom: 5px;
         }
         
-        .villager-role {
+        .villager-meta {
             font-size: 12px;
             color: #888;
             background: #0f3460;
@@ -112,13 +114,14 @@
             padding: 4px 12px;
             border-radius: 15px;
             font-size: 12px;
-            margin-left: 10px;
+            margin-left: 8px;
         }
         .state-idle { background: #4ade80; color: #000; }
         .state-moving { background: #60a5fa; color: #000; }
         .state-working { background: #facc15; color: #000; }
         .state-talking { background: #c084fc; color: #000; }
         .state-resting { background: #fb923c; color: #000; }
+        .state-default { background: #888; color: #000; }
         
         .goal {
             margin-top: 10px;
@@ -127,33 +130,6 @@
             border-radius: 8px;
             font-size: 13px;
             color: #a78bfa;
-        }
-        
-        .personality-section {
-            background: #0f346022;
-            border-radius: 8px;
-            padding: 10px;
-            margin: 10px 0;
-        }
-        
-        .attr-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-            font-size: 12px;
-            border-bottom: 1px solid #0f346033;
-        }
-        
-        .attr-row:last-child {
-            border-bottom: none;
-        }
-        
-        .attr-label {
-            color: #888;
-        }
-        
-        .attr-value {
-            color: #ddd;
         }
         
         .section-title {
@@ -240,6 +216,8 @@
             color: #555;
         }
         
+        .memory-content { color: #ddd; }
+        
         .relationship-list {
             display: grid;
             gap: 10px;
@@ -296,6 +274,12 @@
         .emotion-curious { background: #60a5fa44; color: #60a5fa; }
         .emotion-angry { background: #ef444444; color: #ef4444; }
         .emotion-neutral { background: #88888844; color: #888; }
+        .emotion-trusting { background: #4ade8044; color: #4ade80; }
+        .emotion-happy { background: #facc1544; color: #facc15; }
+        .emotion-sad { background: #60a5fa44; color: #60a5fa; }
+        .emotion-scared { background: #c084fc44; color: #c084fc; }
+        .emotion-disgusted { background: #f9731644; color: #f97316; }
+        .emotion-surprised { background: #fb923c44; color: #fb923c; }
         
         .affinity-bar {
             width: 60px;
@@ -327,6 +311,14 @@
         .loading { animation: pulse 1s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+        
+        .empty-state h3 { color: #aaa; margin-bottom: 10px; }
+        
         /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #1a1a2e; }
@@ -355,334 +347,373 @@
     </div>
     
     <div class="villager-grid" id="villagers">
-        <!-- Villager cards will be inserted here -->
+        <div class="empty-state">
+            <h3>⟳ 載入中...</h3>
+            <p>正在從 Supabase 獲取村莊資料</p>
+        </div>
     </div>
     
     <footer>
         <p>🤖 AI Village | 基於 Supabase + OpenClaw Agents</p>
-        <p>每 15 分鐘自動更新 | 村民會根據性格、記憶和人際關係做出決定</p>
+        <p>每 5 秒自動更新 | 村民會根據性格、記憶和人際關係做出決定</p>
     </footer>
     
     <script>
+        // ============================================================
         // Config
+        // ============================================================
         const SUPABASE_URL = 'https://yqwcxushplzodbnqwqxn.supabase.co';
         const ANON_KEY = 'sb_publishable_wCLebgvM4KNlSkqyevXhWA_DHOO92Lh';
-        const REFRESH_INTERVAL = 5000;
+        const REFRESH_INTERVAL = 5000; // 5 秒輪詢
         
-        // Emoji map
+        // ============================================================
+        // Emoji / Text Maps
+        // ============================================================
         const ROLE_EMOJI = { farmer: '🌾', blacksmith: '🔨', apprentice: '📖', leader: '👑' };
         const WEATHER_EMOJI = { sunny: '☀️', cloudy: '☁️', rainy: '🌧️', stormy: '⛈️', snowy: '❄️' };
         const STATE_EMOJI = { idle: '😴', moving: '🚶', working: '⚒️', talking: '💬', resting: '🛋️' };
         
-        let lastTick = -1;
+        const STATE_TEXT = { idle: '閒置', moving: '移動中', working: '工作中', talking: '交談中', resting: '休息' };
+        const WEATHER_TEXT = { sunny: '晴天', cloudy: '多雲', rainy: '雨天', stormy: '暴風雨', snowy: '下雪' };
+        const EMOTION_TEXT = {
+            friendly: '友好', grateful: '感激', curious: '好奇', angry: '生氣',
+            patient: '耐心', neutral: '中立', trusting: '信任', happy: '開心',
+            sad: '傷心', scared: '害怕', disgusted: '厭惡', surprised: '驚訝'
+        };
         
+        const ROLE_TEXT = { farmer: '🌾 農夫', blacksmith: '🔨 鐵匠', apprentice: '📖 學徒', leader: '👑 領袖' };
+        const GENDER_EMOJI = { female: '👩', male: '👨', other: '🧑' };
+        const GENDER_TEXT = { female: '女性', male: '男性', other: '其他' };
+        
+        // ============================================================
+        // State Cache
+        // ============================================================
+        let cachedState = null;    // full village_state from Supabase
+        let lastTick = -1;
+        let radarDrawn = new Set();
+        
+        // ============================================================
+        // Init
+        // ============================================================
+        fetchState();
+        setInterval(fetchState, REFRESH_INTERVAL);
+        
+        // ============================================================
+        // Fetch from Supabase
+        // ============================================================
         async function fetchState() {
             try {
                 const response = await fetch(
                     SUPABASE_URL + '/rest/v1/village_state?id=eq.main',
-                    { headers: { 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY } }
+                    {
+                        headers: {
+                            'apikey': ANON_KEY,
+                            'Authorization': 'Bearer ' + ANON_KEY,
+                            'Accept': 'application/json'
+                        }
+                    }
                 );
-                if (!response.ok) throw new Error('Failed');
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const data = await response.json();
-                if (data && data.length > 0) {
-                    render(data[0]);
-                    document.getElementById('status').innerHTML = '<span class="online">✅ 已連接</span>';
-                    document.getElementById('status').classList.remove('loading');
+                if (!data || data.length === 0) {
+                    throw new Error('No data returned');
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('status').innerHTML = '<span style="color:#ef4444">⚠️ 連接失敗</span>';
+                cachedState = data[0];
+                renderAll(cachedState);
+                updateStatus('<span class="online">✅ 已連接</span>', false);
+            } catch (err) {
+                console.error('[AI Village] Fetch error:', err);
+                updateStatus('<span style="color:#ef4444">⚠️ 連接失敗</span>', false);
             }
         }
         
-        function render(state) {
+        // ============================================================
+        // Update status bar
+        // ============================================================
+        function updateStatus(html, loading) {
+            const el = document.getElementById('status');
+            el.innerHTML = html;
+            if (loading) el.classList.add('loading');
+            else el.classList.remove('loading');
+        }
+        
+        // ============================================================
+        // Main render
+        // ============================================================
+        function renderAll(state) {
             if (!state || !state.meta) return;
-            if (state.meta.tick === lastTick) return;
-            lastTick = state.meta.tick;
             
             const { meta, agents } = state;
             
-            // Update meta
+            // Skip if tick unchanged
+            if (meta.tick === lastTick) return;
+            lastTick = meta.tick;
+            
+            // ---- Status Bar ----
             document.getElementById('tick').textContent = meta.tick;
-            document.getElementById('last-update').textContent = new Date(meta.lastUpdated).toLocaleTimeString('zh-TW');
+            
+            if (meta.lastUpdated) {
+                const d = new Date(meta.lastUpdated);
+                document.getElementById('last-update').textContent = d.toLocaleString('zh-TW');
+            }
             
             const weather = meta.weather || { type: 'sunny', emoji: '☀️' };
-            document.getElementById('weather').textContent = `${weather.emoji} ${getWeatherText(weather.type)}`;
+            const wType = weather.type || 'sunny';
+            const wEmoji = weather.emoji || WEATHER_EMOJI[wType] || '☀️';
+            const wText = WEATHER_TEXT[wType] || wType;
+            document.getElementById('weather').textContent = `${wEmoji} ${wText}`;
             
-            // Render villagers
-            if (agents && Array.isArray(agents)) {
-                document.getElementById('villagers').innerHTML = agents.map(renderVillagerCard).join('');
-                
-                // Draw radar charts
-                agents.forEach(agent => {
-                    setTimeout(() => drawRadarChart('radar-' + agent.id, agent.personality || {}), 100);
-                });
+            // ---- Villagers ----
+            const container = document.getElementById('villagers');
+            
+            if (!agents || !Array.isArray(agents) || agents.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>🏘️ 村莊是空的</h3>
+                        <p>還沒有村民入住</p>
+                    </div>`;
+                return;
             }
+            
+            container.innerHTML = agents.map(renderVillagerCard).join('');
+            
+            // Draw radar charts after DOM is ready
+            requestAnimationFrame(() => {
+                agents.forEach(agent => {
+                    if (!radarDrawn.has(agent.id)) {
+                        drawRadarChart('radar-' + agent.id, agent.personality || {});
+                        radarDrawn.add(agent.id);
+                    }
+                });
+            });
         }
         
+        // ============================================================
+        // Render one villager card
+        // ============================================================
         function renderVillagerCard(agent) {
             const personality = agent.personality || {};
             const memory = agent.memory || {};
             const relationships = agent.relationships || {};
             
-            // Get memories
-            const memories = (memory.observations || []).slice(-3).reverse();
+            const role = agent.role || 'unknown';
+            const state = agent.state || 'idle';
+            const gender = agent.gender || 'other';
             
-            // Get relationships
-            const relHtml = Object.entries(relationships).map(([id, rel]) => {
-                const targetAgent = getAgentById(id);
-                if (!targetAgent) return '';
-                return renderRelationship(id, rel, targetAgent);
-            }).join('');
+            // Recent memories (last 3, newest first)
+            const observations = (memory.observations || []).slice(-3).reverse();
+            
+            // Relationships
+            const relEntries = Object.entries(relationships);
             
             return `
                 <div class="villager-card">
                     <div class="villager-header">
-                        <div class="villager-avatar ${agent.role || ''}">
-                            ${getGenderEmoji(agent.gender)} ${ROLE_EMOJI[agent.role] || '👤'}
+                        <div class="villager-avatar ${role}">
+                            ${GENDER_EMOJI[gender] || '👤'} ${ROLE_EMOJI[role] || '👤'}
                         </div>
                         <div class="villager-info">
-                            <h2>${agent.name || '未知'} ${getGenderEmoji(agent.gender)}</h2>
-                            <span class="villager-role">${getRoleText(agent.role)} · ${agent.age || '?'}歲 · ${getGenderText(agent.gender)}</span>
-                            <span class="state-badge state-${agent.state || 'idle'}">
-                                ${STATE_EMOJI[agent.state] || ''} ${getStateText(agent.state)}
+                            <h2>${escHtml(agent.name || '未知')}</h2>
+                            <span class="villager-meta">
+                                ${ROLE_TEXT[role] || role} · ${agent.age || '?'}歲 · ${GENDER_TEXT[gender] || '未知'}
+                            </span>
+                            <span class="state-badge state-${state}">
+                                ${STATE_EMOJI[state] || ''} ${STATE_TEXT[state] || state}
                             </span>
                         </div>
                     </div>
                     
                     <div class="goal">
-                        🎯 目標: ${memory.currentGoal || agent.goal || '快樂生活'}
-                    </div>
-                    
-                    <div class="section-title">✨ 個人特質</div>
-                    <div class="personality-section">
-                        <div class="attr-row">
-                            <span class="attr-label">🎂 生日</span>
-                            <span class="attr-value">${agent.birthday || '待發掘...'}</span>
-                        </div>
-                        <div class="attr-row">
-                            <span class="attr-label">🎨 興趣</span>
-                            <span class="attr-value">${(agent.hobbies || []).join(', ') || '待發掘...'}</span>
-                        </div>
-                        <div class="attr-row">
-                            <span class="attr-label">⭐ 專長</span>
-                            <span class="attr-value">${agent.specialty || '待發掘...'}</span>
-                        </div>
-                        <div class="attr-row">
-                            <span class="attr-label">👨‍👩‍👧 家庭</span>
-                            <span class="attr-value">${agent.family_status || '待發掘...'}</span>
-                        </div>
+                        🎯 目標: ${escHtml(agent.goal || '快樂生活')}
                     </div>
                     
                     <div class="section-title">🧠 性格特徵</div>
                     <div class="radar-container">
                         <canvas id="radar-${agent.id}" class="radar-chart" width="150" height="150"></canvas>
                         <div class="personality-stats">
-                            ${renderPersonalityStat('開放性', personality.openness)}
-                            ${renderPersonalityStat('盡責性', personality.conscientiousness)}
-                            ${renderPersonalityStat('外向性', personality.extraversion)}
-                            ${renderPersonalityStat('友善性', personality.agreeableness)}
-                            ${renderPersonalityStat('神經質', personality.neuroticism)}
+                            ${renderPersonalityStat('開放性', personality.openness, 'openness')}
+                            ${renderPersonalityStat('盡責性', personality.conscientiousness, 'conscientiousness')}
+                            ${renderPersonalityStat('外向性', personality.extraversion, 'extraversion')}
+                            ${renderPersonalityStat('友善性', personality.agreeableness, 'agreeableness')}
+                            ${renderPersonalityStat('神經質', personality.neuroticism, 'neuroticism')}
                         </div>
                     </div>
                     
                     <div class="section-title">📝 最近記憶</div>
                     <div class="memory-list">
-                        ${memories.length > 0 ? memories.map(m => renderMemory(m)).join('') : '<p style="color:#555;font-size:12px">還沒有記憶</p>'}
+                        ${observations.length > 0
+                            ? observations.map(m => renderMemory(m)).join('')
+                            : '<p style="color:#555;font-size:12px">還沒有記憶</p>'
+                        }
                     </div>
                     
                     <div class="section-title">💕 人際關係</div>
                     <div class="relationship-list">
-                        ${relHtml || '<p style="color:#555;font-size:12px">還沒有建立關係</p>'}
+                        ${relEntries.length > 0
+                            ? relEntries.map(([id, rel]) => renderRelationship(id, rel)).join('')
+                            : '<p style="color:#555;font-size:12px">還沒有建立關係</p>'
+                        }
                     </div>
                 </div>
             `;
         }
         
-        function renderPersonalityStat(name, value) {
-            const val = Math.round((value || 0.5) * 100);
-            const cls = name === '神經質' ? 'neuroticism' : 
-                        name === '開放性' ? 'openness' :
-                        name === '盡責性' ? 'conscientiousness' :
-                        name === '外向性' ? 'extraversion' : 'agreeableness';
+        function renderPersonalityStat(name, value, cls) {
+            const val = Math.round((value ?? 0.5) * 100);
             return `
                 <div class="stat-row">
                     <span class="stat-label">${name}</span>
                     <div class="stat-bar">
-                        <div class="stat-fill ${cls}" style="width: ${val}%"></div>
+                        <div class="stat-fill ${cls}" style="width:${val}%"></div>
                     </div>
-                </div>
-            `;
+                </div>`;
         }
         
         function renderMemory(m) {
-            const valence = m.emotional_valence || 0;
+            const valence = m.emotional_valence ?? 0;
             const cls = valence > 0.3 ? 'positive' : valence < -0.3 ? 'negative' : 'neutral';
             const emoji = valence > 0.3 ? '😊' : valence < -0.3 ? '😠' : '🤔';
             return `
                 <div class="memory-item ${cls}">
                     <span class="memory-emoji">${emoji}</span>
-                    ${m.content || '...'}
-                    <span class="memory-tick">Tick ${m.tick}</span>
-                </div>
-            `;
+                    <span class="memory-content">${escHtml(m.content || '...')}</span>
+                    <span class="memory-tick">Tick ${m.tick ?? '?'}</span>
+                </div>`;
         }
         
-        function renderRelationship(id, rel, target) {
-            const affinity = rel.affinity || 0;
+        function renderRelationship(relId, rel) {
+            // Find target agent in cached state
+            const target = (cachedState?.agents || []).find(a => a.id === relId);
+            const affinity = rel.affinity ?? 0;
             const affCls = affinity > 0.2 ? 'positive' : affinity < -0.2 ? 'negative' : 'neutral';
             const attText = affinity > 0.3 ? '有好感' : affinity < -0.3 ? '有反感' : '一般';
+            const relRole = target?.role || 'unknown';
+            const emotions = (rel.active_emotions || []).slice(-3);
             
-            const emotions = (rel.active_emotions || []).slice(-2);
-            const emotionHtml = emotions.map(e => 
-                `<span class="emotion-tag emotion-${e}">${getEmotionText(e)}</span>`
+            const emotionHtml = emotions.map(e =>
+                `<span class="emotion-tag emotion-${e}">${EMOTION_TEXT[e] || e}</span>`
             ).join('');
             
             return `
                 <div class="relationship-item">
-                    <div class="rel-avatar" style="background: ${getRoleGradient(target.role)}">
-                        ${ROLE_EMOJI[target.role] || '👤'}
+                    <div class="rel-avatar" style="background:${getRoleGradient(relRole)}">
+                        ${ROLE_EMOJI[relRole] || '👤'}
                     </div>
                     <div class="rel-info">
-                        <div class="rel-name">${target.name || '未知'}</div>
+                        <div class="rel-name">${escHtml(target?.name || relId)}</div>
                         <div class="rel-attitude">${attText}</div>
                         ${emotionHtml ? `<div class="rel-emotions">${emotionHtml}</div>` : ''}
                     </div>
                     <div class="affinity-bar">
-                        <div class="affinity-fill affinity-${affCls}" style="width: ${Math.abs(affinity) * 100}%"></div>
+                        <div class="affinity-fill affinity-${affCls}" style="width:${Math.min(100, Math.abs(affinity) * 100)}%"></div>
                     </div>
-                </div>
-            `;
+                </div>`;
         }
         
+        // ============================================================
+        // Radar Chart (Canvas)
+        // ============================================================
         function drawRadarChart(canvasId, personality) {
             const canvas = document.getElementById(canvasId);
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
-            const centerX = 75, centerY = 75, radius = 55;
+            const W = 150, H = 150;
+            const cx = W / 2, cy = H / 2, R = 55;
             
             const labels = ['開放', '盡責', '外向', '友善', '神經'];
             const values = [
-                personality.openness || 0.5,
-                personality.conscientiousness || 0.5,
-                personality.extraversion || 0.5,
-                personality.agreeableness || 0.5,
-                personality.neuroticism || 0.5
+                personality.openness ?? 0.5,
+                personality.conscientiousness ?? 0.5,
+                personality.extraversion ?? 0.5,
+                personality.agreeableness ?? 0.5,
+                personality.neuroticism ?? 0.5
             ];
             
-            ctx.clearRect(0, 0, 150, 150);
+            ctx.clearRect(0, 0, W, H);
             
-            // Draw grid
+            // Grid rings
             ctx.strokeStyle = '#0f346044';
             ctx.lineWidth = 1;
-            for (let i = 1; i <= 5; i++) {
+            for (let ring = 1; ring <= 5; ring++) {
                 ctx.beginPath();
-                for (let j = 0; j < 5; j++) {
-                    const angle = (Math.PI * 2 * j / 5) - Math.PI / 2;
-                    const r = radius * i / 5;
-                    const x = centerX + Math.cos(angle) * r;
-                    const y = centerY + Math.sin(angle) * r;
-                    if (i === 1) ctx.moveTo(x, y);
+                for (let i = 0; i < 5; i++) {
+                    const angle = (Math.PI * 2 * i / 5) - Math.PI / 2;
+                    const r = R * ring / 5;
+                    const x = cx + Math.cos(angle) * r;
+                    const y = cy + Math.sin(angle) * r;
+                    if (ring === 1) ctx.moveTo(x, y);
                     else ctx.lineTo(x, y);
                 }
                 ctx.closePath();
                 ctx.stroke();
             }
             
-            // Draw axis lines
+            // Axis lines + labels
+            ctx.fillStyle = '#888';
+            ctx.font = '9px Microsoft JhengHei';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
             for (let i = 0; i < 5; i++) {
                 const angle = (Math.PI * 2 * i / 5) - Math.PI / 2;
                 ctx.beginPath();
-                ctx.moveTo(centerX, centerY);
-                ctx.lineTo(centerX + Math.cos(angle) * radius, centerY + Math.sin(angle) * radius);
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(cx + Math.cos(angle) * R, cy + Math.sin(angle) * R);
                 ctx.stroke();
                 
-                // Labels
-                ctx.fillStyle = '#888';
-                ctx.font = '9px Microsoft JhengHei';
-                ctx.textAlign = 'center';
-                ctx.fillText(labels[i], centerX + Math.cos(angle) * (radius + 12), centerY + Math.sin(angle) * (radius + 12));
+                const lx = cx + Math.cos(angle) * (R + 14);
+                const ly = cy + Math.sin(angle) * (R + 14);
+                ctx.fillText(labels[i], lx, ly);
             }
             
-            // Draw data
+            // Data polygon
             ctx.beginPath();
             for (let i = 0; i < 5; i++) {
                 const angle = (Math.PI * 2 * i / 5) - Math.PI / 2;
-                const r = (values[i] || 0.5) * radius;
-                const x = centerX + Math.cos(angle) * r;
-                const y = centerY + Math.sin(angle) * r;
+                const r = (values[i] ?? 0.5) * R;
+                const x = cx + Math.cos(angle) * r;
+                const y = cy + Math.sin(angle) * r;
                 if (i === 0) ctx.moveTo(x, y);
                 else ctx.lineTo(x, y);
             }
             ctx.closePath();
-            ctx.fillStyle = 'rgba(233, 69, 96, 0.3)';
+            ctx.fillStyle = 'rgba(233,69,96,0.25)';
             ctx.fill();
             ctx.strokeStyle = '#e94560';
             ctx.lineWidth = 2;
             ctx.stroke();
             
-            // Draw dots
+            // Data dots
+            ctx.fillStyle = '#e94560';
             for (let i = 0; i < 5; i++) {
                 const angle = (Math.PI * 2 * i / 5) - Math.PI / 2;
-                const r = (values[i] || 0.5) * radius;
-                const x = centerX + Math.cos(angle) * r;
-                const y = centerY + Math.sin(angle) * r;
+                const r = (values[i] ?? 0.5) * R;
                 ctx.beginPath();
-                ctx.arc(x, y, 4, 0, Math.PI * 2);
-                ctx.fillStyle = '#e94560';
+                ctx.arc(cx + Math.cos(angle) * r, cy + Math.sin(angle) * r, 4, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
         
-        // Helper functions
-        function getAgentById(id) {
-            const state = window._cachedState;
-            if (!state || !state.agents) return null;
-            return state.agents.find(a => a.id === id);
-        }
-        
-        function getRoleText(role) {
-            const map = { farmer: '🌾 農夫', blacksmith: '🔨 鐵匠', apprentice: '📖 學徒', leader: '👑 領袖' };
-            return map[role] || role;
-        }
-        
-        function getStateText(state) {
-            const map = { idle: '閒置', moving: '移動中', working: '工作中', talking: '交談中', resting: '休息' };
-            return map[state] || state;
-        }
-        
-        function getWeatherText(type) {
-            const map = { sunny: '晴天', cloudy: '多雲', rainy: '雨天', stormy: '暴風雨', snowy: '下雪' };
-            return map[type] || type;
-        }
-        
-        function getEmotionText(emotion) {
-            const map = { friendly: '友好', grateful: '感激', curious: '好奇', angry: '生氣', patient: '耐心', neutral: '中立' };
-            return map[emotion] || emotion;
-        }
-        
+        // ============================================================
+        // Helpers
+        // ============================================================
         function getRoleGradient(role) {
-            const map = { 
-                farmer: 'linear-gradient(135deg, #4ade80, #22c55e)', 
+            const map = {
+                farmer: 'linear-gradient(135deg, #4ade80, #22c55e)',
                 blacksmith: 'linear-gradient(135deg, #f97316, #ea580c)',
-                apprentice: 'linear-gradient(135deg, #a78bfa, #8b5cf6)'
+                apprentice: 'linear-gradient(135deg, #a78bfa, #8b5cf6)',
+                leader: 'linear-gradient(135deg, #facc15, #eab308)'
             };
-            return map[role] || '#60a5fa';
+            return map[role] || 'linear-gradient(135deg, #60a5fa, #3b82f6)';
         }
         
-        function getGenderEmoji(gender) {
-            const map = { female: '👩', male: '👨', other: '🧑' };
-            return map[gender] || '👤';
+        function escHtml(str) {
+            if (str == null) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
         }
-        
-        function getGenderText(gender) {
-            const map = { female: '女性', male: '男性', other: '其他' };
-            return map[gender] || '未知';
-        }
-        
-        // Start
-        fetchState();
-        setInterval(fetchState, REFRESH_INTERVAL);
     </script>
 </body>
 </html>
