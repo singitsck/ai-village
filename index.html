@@ -49,6 +49,72 @@
             font-size: 16px;
         }
         
+        .resource-bar {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: #0f346066;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 13px;
+        }
+        
+        .resource-icon { font-size: 14px; }
+        .resource-value { font-weight: bold; color: #ffd700; }
+        
+        .events-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #0f3460;
+            border-radius: 10px;
+        }
+        
+        .events-title {
+            font-size: 14px;
+            color: #e94560;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .event-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .event-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: #16213e;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+        
+        .event-tick {
+            color: #555;
+            font-size: 10px;
+            min-width: 40px;
+        }
+        
+        .event-message { color: #ddd; }
+        
+        .event-type-action { color: #60a5fa; }
+        .event-type-social { color: #c084fc; }
+        .event-type-system { color: #facc15; }
+        .event-type-default { color: #888; }
+        
         .villager-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -85,14 +151,9 @@
             align-items: center;
             justify-content: center;
             font-size: 30px;
-            border: 3px solid;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            border: 3px solid #60a5fa;
         }
-        
-        .villager-avatar.farmer { background: linear-gradient(135deg, #4ade80, #22c55e); border-color: #4ade80; }
-        .villager-avatar.blacksmith { background: linear-gradient(135deg, #f97316, #ea580c); border-color: #f97316; }
-        .villager-avatar.apprentice { background: linear-gradient(135deg, #a78bfa, #8b5cf6); border-color: #a78bfa; }
-        .villager-avatar.leader { background: linear-gradient(135deg, #facc15, #eab308); border-color: #facc15; }
-        .villager-avatar.unknown { background: linear-gradient(135deg, #60a5fa, #3b82f6); border-color: #60a5fa; }
         
         .villager-info h2 {
             font-size: 20px;
@@ -103,10 +164,16 @@
         .villager-meta {
             font-size: 12px;
             color: #888;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 5px;
+        }
+        
+        .meta-tag {
             background: #0f3460;
             padding: 3px 10px;
             border-radius: 10px;
-            display: inline-block;
         }
         
         .state-badge {
@@ -132,6 +199,17 @@
             color: #a78bfa;
         }
         
+        .last-decision {
+            margin-top: 8px;
+            padding: 8px 10px;
+            background: #0f346022;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+        
+        .last-decision-label { color: #888; margin-right: 5px; }
+        .last-decision-reason { color: #a78bfa; font-style: italic; }
+        
         .section-title {
             font-size: 14px;
             color: #e94560;
@@ -142,50 +220,6 @@
             align-items: center;
             gap: 8px;
         }
-        
-        .radar-container {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .radar-chart {
-            width: 150px;
-            height: 150px;
-        }
-        
-        .personality-stats {
-            flex: 1;
-        }
-        
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 4px 0;
-            font-size: 12px;
-        }
-        
-        .stat-label { color: #888; }
-        
-        .stat-bar {
-            width: 100px;
-            height: 6px;
-            background: #0f3460;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        
-        .stat-fill {
-            height: 100%;
-            border-radius: 3px;
-            transition: width 0.5s ease;
-        }
-        
-        .stat-fill.openness { background: linear-gradient(90deg, #4ade80, #22c55e); }
-        .stat-fill.conscientiousness { background: linear-gradient(90deg, #f97316, #ea580c); }
-        .stat-fill.extraversion { background: linear-gradient(90deg, #facc15, #eab308); }
-        .stat-fill.agreeableness { background: linear-gradient(90deg, #60a5fa, #3b82f6); }
-        .stat-fill.neuroticism { background: linear-gradient(90deg, #c084fc, #a855f7); }
         
         .memory-list {
             max-height: 120px;
@@ -240,6 +274,7 @@
             align-items: center;
             justify-content: center;
             font-size: 18px;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
         }
         
         .rel-info {
@@ -251,9 +286,12 @@
             font-weight: bold;
         }
         
-        .rel-attitude {
-            font-size: 11px;
+        .rel-stats {
+            display: flex;
+            gap: 10px;
+            font-size: 10px;
             color: #888;
+            margin-top: 2px;
         }
         
         .rel-emotions {
@@ -327,7 +365,7 @@
 </head>
 <body>
     <h1>🏘️ AI 鄉村文明</h1>
-    <p class="subtitle">每個村民都有獨特的性格、記憶與人際關係</p>
+    <p class="subtitle">每個村民都有獨特的記憶與人際關係</p>
     
     <div id="status-bar">
         <div class="status-item">
@@ -342,8 +380,18 @@
             <span class="weather-badge" id="weather">🌤️ 載入中...</span>
         </div>
         <div class="status-item">
+            <span>👥 人口:</span>
+            <span id="population">—</span>
+        </div>
+        <div class="status-item resource-bar" id="resources"></div>
+        <div class="status-item">
             <span id="status" class="loading">⟳ 連接中...</span>
         </div>
+    </div>
+    
+    <div class="events-section" id="events-section" style="display:none">
+        <div class="events-title">📜 最近事件</div>
+        <div class="event-list" id="event-list"></div>
     </div>
     
     <div class="villager-grid" id="villagers">
@@ -355,7 +403,7 @@
     
     <footer>
         <p>🤖 AI Village | 基於 Supabase + OpenClaw Agents</p>
-        <p>每 5 秒自動更新 | 村民會根據性格、記憶和人際關係做出決定</p>
+        <p>每 5 秒自動更新 | 村民會根據記憶和人際關係做出決定</p>
     </footer>
     
     <script>
@@ -364,12 +412,11 @@
         // ============================================================
         const SUPABASE_URL = 'https://yqwcxushplzodbnqwqxn.supabase.co';
         const ANON_KEY = 'sb_publishable_wCLebgvM4KNlSkqyevXhWA_DHOO92Lh';
-        const REFRESH_INTERVAL = 5000; // 5 秒輪詢
+        const REFRESH_INTERVAL = 5000;
         
         // ============================================================
         // Emoji / Text Maps
         // ============================================================
-        const ROLE_EMOJI = { farmer: '🌾', blacksmith: '🔨', apprentice: '📖', leader: '👑' };
         const WEATHER_EMOJI = { sunny: '☀️', cloudy: '☁️', rainy: '🌧️', stormy: '⛈️', snowy: '❄️' };
         const STATE_EMOJI = { idle: '😴', moving: '🚶', working: '⚒️', talking: '💬', resting: '🛋️' };
         
@@ -381,16 +428,19 @@
             sad: '傷心', scared: '害怕', disgusted: '厭惡', surprised: '驚訝'
         };
         
-        const ROLE_TEXT = { farmer: '🌾 農夫', blacksmith: '🔨 鐵匠', apprentice: '📖 學徒', leader: '👑 領袖' };
-        const GENDER_EMOJI = { female: '👩', male: '👨', other: '🧑' };
-        const GENDER_TEXT = { female: '女性', male: '男性', other: '其他' };
+        const RESOURCE_EMOJI = { food: '🍖', gold: '💰', wood: '🪵', stone: '🪨' };
+        const RESOURCE_TEXT = { food: '食物', gold: '金幣', wood: '木材', stone: '石頭' };
+        
+        const ACTION_EMOJI = {
+            work: '⚒️', move: '🚶', talk: '💬', rest: '🛋️',
+            eat: '🍽️', farm: '🌾', build: '🔨', explore: '🗺️'
+        };
         
         // ============================================================
         // State Cache
         // ============================================================
-        let cachedState = null;    // full village_state from Supabase
+        let cachedState = null;
         let lastTick = -1;
-        let radarDrawn = new Set();
         
         // ============================================================
         // Init
@@ -443,7 +493,7 @@
         function renderAll(state) {
             if (!state || !state.meta) return;
             
-            const { meta, agents } = state;
+            const { meta, agents, village, events } = state;
             
             // Skip if tick unchanged
             if (meta.tick === lastTick) return;
@@ -463,6 +513,42 @@
             const wText = WEATHER_TEXT[wType] || wType;
             document.getElementById('weather').textContent = `${wEmoji} ${wText}`;
             
+            // ---- Village Info ----
+            if (village) {
+                document.getElementById('population').textContent = village.population ?? '?';
+                
+                // Resources
+                const resourcesEl = document.getElementById('resources');
+                const resources = village.resources || {};
+                resourcesEl.innerHTML = Object.entries(resources).map(([key, val]) => {
+                    const icon = RESOURCE_EMOJI[key] || '📦';
+                    const name = RESOURCE_TEXT[key] || key;
+                    return `<div class="resource-item">
+                        <span class="resource-icon">${icon}</span>
+                        <span class="resource-value">${val ?? 0}</span>
+                        <span style="color:#888;font-size:11px">${name}</span>
+                    </div>`;
+                }).join('');
+            }
+            
+            // ---- Events (last 5) ----
+            const eventsSection = document.getElementById('events-section');
+            const eventList = document.getElementById('event-list');
+            if (events && Array.isArray(events) && events.length > 0) {
+                eventsSection.style.display = 'block';
+                const lastEvents = events.slice(-5).reverse();
+                eventList.innerHTML = lastEvents.map(ev => {
+                    const typeClass = `event-type-${ev.type || 'default'}`;
+                    const tickStr = ev.tick ? `T${ev.tick}` : '';
+                    return `<div class="event-item">
+                        <span class="event-tick">${tickStr}</span>
+                        <span class="event-message ${typeClass}">${escHtml(ev.message || ev.reason || '')}</span>
+                    </div>`;
+                }).join('');
+            } else {
+                eventsSection.style.display = 'none';
+            }
+            
             // ---- Villagers ----
             const container = document.getElementById('villagers');
             
@@ -476,29 +562,19 @@
             }
             
             container.innerHTML = agents.map(renderVillagerCard).join('');
-            
-            // Draw radar charts after DOM is ready
-            requestAnimationFrame(() => {
-                agents.forEach(agent => {
-                    if (!radarDrawn.has(agent.id)) {
-                        drawRadarChart('radar-' + agent.id, agent.personality || {});
-                        radarDrawn.add(agent.id);
-                    }
-                });
-            });
         }
         
         // ============================================================
         // Render one villager card
         // ============================================================
         function renderVillagerCard(agent) {
-            const personality = agent.personality || {};
             const memory = agent.memory || {};
             const relationships = agent.relationships || {};
             
-            const role = agent.role || 'unknown';
             const state = agent.state || 'idle';
-            const gender = agent.gender || 'other';
+            
+            // Goal from memory.currentGoal
+            const currentGoal = memory.currentGoal || '快樂生活';
             
             // Recent memories (last 3, newest first)
             const observations = (memory.observations || []).slice(-3).reverse();
@@ -506,17 +582,29 @@
             // Relationships
             const relEntries = Object.entries(relationships);
             
+            // Build meta tags (only fields that exist)
+            const metaTags = [];
+            if (agent.birthday) metaTags.push(`🎂 ${agent.birthday}`);
+            if (agent.specialty && agent.specialty !== '待發掘') metaTags.push(`⭐ ${agent.specialty}`);
+            if (agent.family_status && agent.family_status !== '待發掘') metaTags.push(`👨‍👩‍👧 ${agent.family_status}`);
+            if (agent.hobbies && Array.isArray(agent.hobbies) && agent.hobbies.length > 0) {
+                metaTags.push(`🎯 ${agent.hobbies.join(', ')}`);
+            }
+            
             return `
                 <div class="villager-card">
                     <div class="villager-header">
-                        <div class="villager-avatar ${role}">
-                            ${GENDER_EMOJI[gender] || '👤'} ${ROLE_EMOJI[role] || '👤'}
+                        <div class="villager-avatar">
+                            👤
                         </div>
                         <div class="villager-info">
                             <h2>${escHtml(agent.name || '未知')}</h2>
-                            <span class="villager-meta">
-                                ${ROLE_TEXT[role] || role} · ${agent.age || '?'}歲 · ${GENDER_TEXT[gender] || '未知'}
-                            </span>
+                            <div class="villager-meta">
+                                ${metaTags.length > 0 
+                                    ? metaTags.map(t => `<span class="meta-tag">${escHtml(t)}</span>`).join('')
+                                    : ''
+                                }
+                            </div>
                             <span class="state-badge state-${state}">
                                 ${STATE_EMOJI[state] || ''} ${STATE_TEXT[state] || state}
                             </span>
@@ -524,20 +612,16 @@
                     </div>
                     
                     <div class="goal">
-                        🎯 目標: ${escHtml(agent.goal || '快樂生活')}
+                        🎯 目標: ${escHtml(currentGoal)}
                     </div>
                     
-                    <div class="section-title">🧠 性格特徵</div>
-                    <div class="radar-container">
-                        <canvas id="radar-${agent.id}" class="radar-chart" width="150" height="150"></canvas>
-                        <div class="personality-stats">
-                            ${renderPersonalityStat('開放性', personality.openness, 'openness')}
-                            ${renderPersonalityStat('盡責性', personality.conscientiousness, 'conscientiousness')}
-                            ${renderPersonalityStat('外向性', personality.extraversion, 'extraversion')}
-                            ${renderPersonalityStat('友善性', personality.agreeableness, 'agreeableness')}
-                            ${renderPersonalityStat('神經質', personality.neuroticism, 'neuroticism')}
-                        </div>
+                    ${agent.last_action ? `
+                    <div class="last-decision">
+                        <span class="last-decision-label">⚡ 最近行動:</span>
+                        <span>${escHtml(agent.last_action)}</span>
+                        ${agent.last_reason ? `<br><span class="last-decision-reason">"${escHtml(agent.last_reason)}"</span>` : ''}
                     </div>
+                    ` : ''}
                     
                     <div class="section-title">📝 最近記憶</div>
                     <div class="memory-list">
@@ -558,17 +642,6 @@
             `;
         }
         
-        function renderPersonalityStat(name, value, cls) {
-            const val = Math.round((value ?? 0.5) * 100);
-            return `
-                <div class="stat-row">
-                    <span class="stat-label">${name}</span>
-                    <div class="stat-bar">
-                        <div class="stat-fill ${cls}" style="width:${val}%"></div>
-                    </div>
-                </div>`;
-        }
-        
         function renderMemory(m) {
             const valence = m.emotional_valence ?? 0;
             const cls = valence > 0.3 ? 'positive' : valence < -0.3 ? 'negative' : 'neutral';
@@ -584,11 +657,16 @@
         function renderRelationship(relId, rel) {
             // Find target agent in cached state
             const target = (cachedState?.agents || []).find(a => a.id === relId);
+            
+            // rel already contains: trust, respect, affinity, familiarity, active_emotions
+            const trust = rel.trust ?? 0;
+            const respect = rel.respect ?? 0;
             const affinity = rel.affinity ?? 0;
+            const familiarity = rel.familiarity ?? 0;
+            const emotions = (rel.active_emotions || []).slice(-3);
+            
             const affCls = affinity > 0.2 ? 'positive' : affinity < -0.2 ? 'negative' : 'neutral';
             const attText = affinity > 0.3 ? '有好感' : affinity < -0.3 ? '有反感' : '一般';
-            const relRole = target?.role || 'unknown';
-            const emotions = (rel.active_emotions || []).slice(-3);
             
             const emotionHtml = emotions.map(e =>
                 `<span class="emotion-tag emotion-${e}">${EMOTION_TEXT[e] || e}</span>`
@@ -596,116 +674,25 @@
             
             return `
                 <div class="relationship-item">
-                    <div class="rel-avatar" style="background:${getRoleGradient(relRole)}">
-                        ${ROLE_EMOJI[relRole] || '👤'}
-                    </div>
+                    <div class="rel-avatar">👤</div>
                     <div class="rel-info">
                         <div class="rel-name">${escHtml(target?.name || relId)}</div>
-                        <div class="rel-attitude">${attText}</div>
+                        <div class="rel-stats">
+                            <span>信任 ${Math.round(trust * 100)}%</span>
+                            <span>尊重 ${Math.round(respect * 100)}%</span>
+                            <span>熟悉 ${Math.round(familiarity * 100)}%</span>
+                        </div>
                         ${emotionHtml ? `<div class="rel-emotions">${emotionHtml}</div>` : ''}
                     </div>
-                    <div class="affinity-bar">
+                    <div class="affinity-bar" title="${attText}">
                         <div class="affinity-fill affinity-${affCls}" style="width:${Math.min(100, Math.abs(affinity) * 100)}%"></div>
                     </div>
                 </div>`;
         }
         
         // ============================================================
-        // Radar Chart (Canvas)
-        // ============================================================
-        function drawRadarChart(canvasId, personality) {
-            const canvas = document.getElementById(canvasId);
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            const W = 150, H = 150;
-            const cx = W / 2, cy = H / 2, R = 55;
-            
-            const labels = ['開放', '盡責', '外向', '友善', '神經'];
-            const values = [
-                personality.openness ?? 0.5,
-                personality.conscientiousness ?? 0.5,
-                personality.extraversion ?? 0.5,
-                personality.agreeableness ?? 0.5,
-                personality.neuroticism ?? 0.5
-            ];
-            
-            ctx.clearRect(0, 0, W, H);
-            
-            // Grid rings
-            ctx.strokeStyle = '#0f346044';
-            ctx.lineWidth = 1;
-            for (let ring = 1; ring <= 5; ring++) {
-                ctx.beginPath();
-                for (let i = 0; i < 5; i++) {
-                    const angle = (Math.PI * 2 * i / 5) - Math.PI / 2;
-                    const r = R * ring / 5;
-                    const x = cx + Math.cos(angle) * r;
-                    const y = cy + Math.sin(angle) * r;
-                    if (ring === 1) ctx.moveTo(x, y);
-                    else ctx.lineTo(x, y);
-                }
-                ctx.closePath();
-                ctx.stroke();
-            }
-            
-            // Axis lines + labels
-            ctx.fillStyle = '#888';
-            ctx.font = '9px Microsoft JhengHei';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            for (let i = 0; i < 5; i++) {
-                const angle = (Math.PI * 2 * i / 5) - Math.PI / 2;
-                ctx.beginPath();
-                ctx.moveTo(cx, cy);
-                ctx.lineTo(cx + Math.cos(angle) * R, cy + Math.sin(angle) * R);
-                ctx.stroke();
-                
-                const lx = cx + Math.cos(angle) * (R + 14);
-                const ly = cy + Math.sin(angle) * (R + 14);
-                ctx.fillText(labels[i], lx, ly);
-            }
-            
-            // Data polygon
-            ctx.beginPath();
-            for (let i = 0; i < 5; i++) {
-                const angle = (Math.PI * 2 * i / 5) - Math.PI / 2;
-                const r = (values[i] ?? 0.5) * R;
-                const x = cx + Math.cos(angle) * r;
-                const y = cy + Math.sin(angle) * r;
-                if (i === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
-            }
-            ctx.closePath();
-            ctx.fillStyle = 'rgba(233,69,96,0.25)';
-            ctx.fill();
-            ctx.strokeStyle = '#e94560';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            
-            // Data dots
-            ctx.fillStyle = '#e94560';
-            for (let i = 0; i < 5; i++) {
-                const angle = (Math.PI * 2 * i / 5) - Math.PI / 2;
-                const r = (values[i] ?? 0.5) * R;
-                ctx.beginPath();
-                ctx.arc(cx + Math.cos(angle) * r, cy + Math.sin(angle) * r, 4, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-        
-        // ============================================================
         // Helpers
         // ============================================================
-        function getRoleGradient(role) {
-            const map = {
-                farmer: 'linear-gradient(135deg, #4ade80, #22c55e)',
-                blacksmith: 'linear-gradient(135deg, #f97316, #ea580c)',
-                apprentice: 'linear-gradient(135deg, #a78bfa, #8b5cf6)',
-                leader: 'linear-gradient(135deg, #facc15, #eab308)'
-            };
-            return map[role] || 'linear-gradient(135deg, #60a5fa, #3b82f6)';
-        }
-        
         function escHtml(str) {
             if (str == null) return '';
             return String(str)
