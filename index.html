@@ -693,20 +693,6 @@
         }
         
         // ============================================================
-        // Animation loop
-        // ============================================================
-        function animate() {
-            animationTime++;
-            drawMap(cachedState || {
-                map: { width: MAP_WIDTH, height: MAP_HEIGHT },
-                agents: []
-            });
-            requestAnimationFrame(animate);
-        }
-        
-        animate();
-        
-        // ============================================================
         // Config
         // ============================================================
         const SUPABASE_URL = 'https://yqwcxushplzodbnqwqxn.supabase.co';
@@ -740,12 +726,26 @@
         // ============================================================
         let cachedState = null;
         let lastTick = -1;
+        let animationTime = 0;
+        
+        // ============================================================
+        // Animation loop
+        // ============================================================
+        function animate() {
+            animationTime++;
+            drawMap(cachedState || {
+                map: { width: MAP_WIDTH, height: MAP_HEIGHT },
+                agents: []
+            });
+            requestAnimationFrame(animate);
+        }
         
         // ============================================================
         // Init
         // ============================================================
         fetchState();
         setInterval(fetchState, REFRESH_INTERVAL);
+        animate();
         
         // ============================================================
         // Fetch from Supabase
