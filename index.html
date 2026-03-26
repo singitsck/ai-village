@@ -68,6 +68,37 @@
         .resource-icon { font-size: 14px; }
         .resource-value { font-weight: bold; color: #ffd700; }
         
+        /* Map Container */
+        #map-container {
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            background: #0f3460;
+            padding: 15px;
+        }
+        
+        #village-map {
+            display: block;
+            background: #1a1a2e;
+            border-radius: 8px;
+        }
+        
+        .map-legend {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
         .events-section {
             margin-bottom: 20px;
             padding: 15px;
@@ -389,6 +420,21 @@
         </div>
     </div>
     
+    <!-- Map Container -->
+    <div id="map-container">
+        <canvas id="village-map" width="600" height="450"></canvas>
+        <div class="map-legend">
+            <span class="legend-item">🏠 建築</span>
+            <span class="legend-item">🌲 樹林</span>
+            <span class="legend-item">🌾 農田</span>
+            <span class="legend-item">💧 水源</span>
+            <span class="legend-item">🪨 石頭</span>
+            <span class="legend-item">⚡ 工作中</span>
+            <span class="legend-item">🚶 移動中</span>
+            <span class="legend-item">💤 休息中</span>
+        </div>
+    </div>
+    
     <div class="events-section" id="events-section" style="display:none">
         <div class="events-title">📜 最近事件</div>
         <div class="event-list" id="event-list"></div>
@@ -407,6 +453,259 @@
     </footer>
     
     <script>
+        // ============================================================
+        // Map Config
+        // ============================================================
+        const CELL_SIZE = 30;
+        const MAP_WIDTH = 20;
+        const MAP_HEIGHT = 15;
+        
+        // Villager colors
+        const VILLAGER_COLORS = {
+            alice: '#4ade80',
+            bob: '#f97316',
+            carol: '#a78bfa'
+        };
+        
+        // Static decorations (pre-generated)
+        const DECORATIONS = generateDecorations();
+        
+        // Animation state
+        let animationTime = 0;
+        let currentVillagers = [];
+        let currentMapSize = { width: MAP_WIDTH, height: MAP_HEIGHT };
+        
+        // Canvas setup
+        const canvas = document.getElementById('village-map');
+        const ctx = canvas.getContext('2d');
+        
+        // ============================================================
+        // Generate static map decorations
+        // ============================================================
+        function generateDecorations() {
+            const decs = [];
+            const rand = seededRandom(42);
+            
+            // Buildings (clustered in center-ish area)
+            for (let i = 0; i < 5; i++) {
+                decs.push({
+                    x: Math.floor(rand() * 12 + 4),
+                    y: Math.floor(rand() * 8 + 3),
+                    emoji: '🏠'
+                });
+            }
+            
+            // Trees (edges)
+            for (let i = 0; i < 8; i++) {
+                let x, y;
+                if (i % 2 === 0) {
+                    x = Math.floor(rand() * 3);
+                    y = Math.floor(rand() * MAP_HEIGHT);
+                } else {
+                    x = MAP_WIDTH - 1 - Math.floor(rand() * 3);
+                    y = Math.floor(rand() * MAP_HEIGHT);
+                }
+                decs.push({ x, y, emoji: '🌲' });
+            }
+            
+            // Farmland (scattered)
+            for (let i = 0; i < 4; i++) {
+                decs.push({
+                    x: Math.floor(rand() * 8 + 2),
+                    y: Math.floor(rand() * 4 + 10),
+                    emoji: '🌾'
+                });
+            }
+            
+            // Water (ponds)
+            for (let i = 0; i < 2; i++) {
+                decs.push({
+                    x: Math.floor(rand() * 4 + 14),
+                    y: Math.floor(rand() * 3 + 1),
+                    emoji: '💧'
+                });
+            }
+            
+            // Rocks
+            for (let i = 0; i < 3; i++) {
+                decs.push({
+                    x: Math.floor(rand() * 6 + 12),
+                    y: Math.floor(rand() * 5 + 9),
+                    emoji: '🪨'
+                });
+            }
+            
+            return decs;
+        }
+        
+        // Seeded random for consistent decorations
+        function seededRandom(seed) {
+            let s = seed;
+            return function() {
+                s = Math.sin(s) * 10000;
+                return s - Math.floor(s);
+            };
+        }
+        
+        // ============================================================
+        // Get villager position
+        // ============================================================
+        function getVillagerPosition(name, mapWidth, mapHeight) {
+            // Try to use position from state if available
+            const v = currentVillagers.find(a => a.name === name);
+            if (v && v.position && typeof v.position.x === 'number') {
+                return { x: v.position.x, y: v.position.y };
+            }
+            // Hash-based position
+            const code = name.charCodeAt(0);
+            const x = code % mapWidth;
+            const y = (code * 7) % mapHeight;
+            return { x, y };
+        }
+        
+        // ============================================================
+        // Draw functions
+        // ============================================================
+        function drawMap(state) {
+            if (!state) return;
+            
+            const mapInfo = state.map || { width: MAP_WIDTH, height: MAP_HEIGHT };
+            const mapW = mapInfo.width || MAP_WIDTH;
+            const mapH = mapInfo.height || MAP_HEIGHT;
+            currentMapSize = { width: mapW, height: mapH };
+            
+            // Clear canvas
+            ctx.fillStyle = '#1a1a2e';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw grid
+            ctx.strokeStyle = '#0f346044';
+            ctx.lineWidth = 0.5;
+            
+            for (let x = 0; x <= mapW; x++) {
+                ctx.beginPath();
+                ctx.moveTo(x * CELL_SIZE, 0);
+                ctx.lineTo(x * CELL_SIZE, mapH * CELL_SIZE);
+                ctx.stroke();
+            }
+            
+            for (let y = 0; y <= mapH; y++) {
+                ctx.beginPath();
+                ctx.moveTo(0, y * CELL_SIZE);
+                ctx.lineTo(mapW * CELL_SIZE, y * CELL_SIZE);
+                ctx.stroke();
+            }
+            
+            // Draw decorations
+            drawDecorations(mapW, mapH);
+            
+            // Draw villagers
+            if (state.agents && Array.isArray(state.agents)) {
+                currentVillagers = state.agents;
+                state.agents.forEach(agent => {
+                    const pos = getVillagerPosition(agent.name, mapW, mapH);
+                    drawVillager(ctx, agent, pos.x, pos.y);
+                });
+            }
+        }
+        
+        function drawDecorations(mapW, mapH) {
+            ctx.font = '16px serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            DECORATIONS.forEach(dec => {
+                if (dec.x < mapW && dec.y < mapH) {
+                    const cx = dec.x * CELL_SIZE + CELL_SIZE / 2;
+                    const cy = dec.y * CELL_SIZE + CELL_SIZE / 2;
+                    ctx.fillText(dec.emoji, cx, cy);
+                }
+            });
+        }
+        
+        function drawVillager(ctx, agent, gridX, gridY) {
+            const cx = gridX * CELL_SIZE + CELL_SIZE / 2;
+            const cy = gridY * CELL_SIZE + CELL_SIZE / 2;
+            const radius = 12;
+            
+            const color = VILLAGER_COLORS[agent.id] || '#60a5fa';
+            const state = agent.state || 'idle';
+            
+            // Draw moving animation offset
+            let offsetX = 0, offsetY = 0;
+            if (state === 'moving') {
+                offsetX = Math.sin(animationTime * 0.1) * 3;
+                offsetY = Math.cos(animationTime * 0.1) * 2;
+            }
+            
+            // Draw circle
+            ctx.beginPath();
+            ctx.arc(cx + offsetX, cy + offsetY, radius, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.fill();
+            
+            // Draw border
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Draw initial
+            ctx.fillStyle = '#000';
+            ctx.font = 'bold 11px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(agent.name.charAt(0), cx + offsetX, cy + offsetY);
+            
+            // Draw status effect
+            drawStatusEffect(ctx, state, cx + offsetX, cy + offsetY);
+        }
+        
+        function drawStatusEffect(ctx, state, x, y) {
+            ctx.font = '12px serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            
+            switch (state) {
+                case 'working':
+                    // Lightning bolt (flashing)
+                    if (Math.floor(animationTime / 30) % 2 === 0) {
+                        ctx.fillText('⚡', x, y - 15);
+                    }
+                    break;
+                case 'talking':
+                    // Speech bubble
+                    ctx.fillText('💬', x, y - 15);
+                    break;
+                case 'moving':
+                    // Walking animation above
+                    ctx.fillText('🚶', x, y - 18);
+                    break;
+                case 'resting':
+                    // ZZZ animation
+                    const zOffset = Math.sin(animationTime * 0.05) * 5;
+                    ctx.fillText('💤', x + zOffset, y - 18);
+                    break;
+                case 'idle':
+                default:
+                    // No effect
+                    break;
+            }
+        }
+        
+        // ============================================================
+        // Animation loop
+        // ============================================================
+        function animate() {
+            animationTime++;
+            drawMap(cachedState || {
+                map: { width: MAP_WIDTH, height: MAP_HEIGHT },
+                agents: []
+            });
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
         // ============================================================
         // Config
         // ============================================================
